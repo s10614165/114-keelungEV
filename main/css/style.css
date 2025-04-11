@@ -277,3 +277,11 @@ body {
     align-self: center;
   }
 }
+
+.button-wrapper a {
+  display: inline-block;
+}
+.button-wrapper a:hover img {
+  filter: brightness(0.9);
+  transition: filter 0.2s ease;
+}

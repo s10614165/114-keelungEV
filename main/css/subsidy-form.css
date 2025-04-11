@@ -1,0 +1,276 @@
+
+/* 內頁按鈕 */
+.tab-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.tab-btn {
+  background-color: #9ddeee;
+  color: #333;
+  border: none;
+  padding: 0.6rem 1.5rem;
+  border-radius: 25px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.tab-btn:hover {
+  background-color: #7fcfdf;
+}
+
+.tab-btn.disabled {
+  background-color: #e0e0e0;
+  color: #999;
+  cursor: not-allowed;
+}
+
+.tab-btn.disabled:hover {
+  background-color: #e0e0e0;
+  color: #999;
+}
+
+.tab-btn.active {
+  font-weight: bold;
+}
+
+/* 內頁容器 */
+.subsidy-page .container {
+  max-width: 900px;
+  margin: 100px auto 3rem;
+  padding: 0 1.5rem;
+}
+
+.page-title {
+  font-size: 1.6rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+/* 導引按鈕區 */
+.tab-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.tab-btn {
+  background-color: #00a0c6;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.5rem;
+  border-radius: 25px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.tab-btn:hover {
+  background-color: #0082a5;
+}
+
+/* 表單區塊 */
+.form-wrapper {
+  background-color: #f4efff;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+}
+
+.form-title {
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.form-tip {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 1.5rem;
+}
+
+
+.form-section {
+  margin-bottom: 2rem;
+}
+
+.form-section h3 {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.subsidy-form label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-weight: 500;
+  color: #333;
+}
+
+.subsidy-form input[type="text"],
+.subsidy-form select {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+.required {
+  color: red;
+}
+
+.form-group {
+  margin-bottom: 2rem;
+}
+
+.checkbox-wrapper {
+  padding-left: 1.5rem; /* ✅ 縮排進來 */
+}
+
+.checkbox-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem 2rem;
+  margin-top: 0.5rem;
+}
+
+.checkbox-grid label {
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+  gap: 0.5rem;
+}
+
+.subsidy-form input[type="text"],
+.subsidy-form input[type="email"],
+.subsidy-form input[type="tel"],
+.subsidy-form input[type="date"],
+.subsidy-form input[type="number"] {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  line-height: 1.4;
+  box-sizing: border-box;
+}
+
+.radio-group {
+  padding-left: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.radio-group label {
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+  gap: 0.5rem;
+}
+
+.form-tip {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 0.8rem;
+}
+
+.subsidy-form textarea {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  line-height: 1.5;
+  resize: vertical;
+  margin-bottom: 1rem;
+  box-sizing: border-box;
+}
+
+.subsidy-form input[type="file"] {
+  display: block;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+.checkbox-agree {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+  margin-top: 0.5rem;
+}
+.file-upload {
+  margin-bottom: 1.5rem;
+}
+
+.file-label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.file-input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.file-btn {
+  background-color: #9ddeee;
+  color: white;
+  padding: 0.4rem 1rem;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+}
+
+.file-btn input[type="file"] {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+}
+
+.file-btn:hover {
+  background-color: #7fcfdf; /* 與 .form-nav button:hover 相同 */
+}
+
+.file-name {
+  font-size: 0.9rem;
+  color: #444;
+}
+
+.form-nav button {
+  background-color: #9ddeee;
+  color: #333;
+  padding: 0.5rem 1.2rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.form-nav button:hover {
+  background-color: #7fcfdf;
+}
