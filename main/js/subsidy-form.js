@@ -92,68 +92,36 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   // 表單驗證
-  form.addEventListener('submit', function (e) {
-    const steps = [step1, step2, step3];
-    let isValid = true;
-    let firstInvalid = null;
-
-    for (const step of steps) {
-      const fields = step.querySelectorAll('input, select, textarea');
-      const checkedGroups = new Set();
-
-      for (const field of fields) {
-        const type = field.type;
-        const tag = field.tagName;
-
-        if (
-          (type === 'text' || type === 'email' || type === 'tel' || type === 'number' || tag === 'TEXTAREA') &&
-          !field.value.trim()
-        ) {
-          isValid = false;
-          if (!firstInvalid) firstInvalid = field;
-          break;
-        }
-
-        if (type === 'file' && field.files.length === 0) {
-          isValid = false;
-          if (!firstInvalid) firstInvalid = field;
-          break;
-        }
-
-        if ((type === 'radio' || type === 'checkbox') && !checkedGroups.has(field.name)) {
-          const group = step.querySelectorAll(`input[name="${field.name}"]`);
-          const anyChecked = Array.from(group).some(f => f.checked);
-          if (!anyChecked) {
-            isValid = false;
-            if (!firstInvalid) firstInvalid = group[0];
-            break;
-          }
-          checkedGroups.add(field.name);
-        }
-
-        if (tag === 'SELECT' && !field.value) {
-          isValid = false;
-          if (!firstInvalid) firstInvalid = field;
-          break;
-        }
-      }
-
-      if (!isValid) {
+  const url = "https://script.google.com/macros/s/AKfycbwkaKarQIKLnGE01GSuX74qQwWuSnr7_iTA47Z2B8HdatcD1g9I4HtWHGk7emMSypOg/exec"; // 替換為你的 Apps Script Web App URL
+    document.getElementById("subsidyForm").addEventListener("submit", async function (e) {
         e.preventDefault();
-        step1.style.display = 'none';
-        step2.style.display = 'none';
-        step3.style.display = 'none';
-        step.style.display = 'block';
+    
+        const form = e.target;
+        const file = document.getElementById("file-id").files[0];
+        const reader = new FileReader();
+    
+        reader.onload = async function (event) {
+            const base64Data = event.target.result.split(',')[1]; // 去除 data:mime/type;base64, 前綴
+    
+            const payload = {
+                company: form.company.value,
+                shop: form.shop.value,
+                subsidyHistory: form.subsidyHistory.value,
+                fileName: file.name,
+                mimeType: file.type,
+                fileData: base64Data,
+            };
 
-        alert('請確認所有欄位皆已完整填寫。');
-        if (typeof firstInvalid.scrollIntoView === 'function') {
-          firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          firstInvalid.focus();
-        }
-        return;
-      }
-    }
-
-    // 若全部通過驗證，允許送出
-  });
+            const response = await fetch(url, {
+                method: "POST",
+                contentType: "application/json",
+                body: JSON.stringify(payload),
+            });
+    
+            const text = await response.text();
+            alert(text); // 顯示成功或錯誤訊息
+        };
+    
+        reader.readAsDataURL(file);
+    });
 });
