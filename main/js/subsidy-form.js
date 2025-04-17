@@ -92,11 +92,16 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   // 表單驗證
-  const url = "https://script.google.com/macros/s/AKfycbwkaKarQIKLnGE01GSuX74qQwWuSnr7_iTA47Z2B8HdatcD1g9I4HtWHGk7emMSypOg/exec"; // 替換為你的 Apps Script Web App URL
+  const url = "https://script.google.com/macros/s/AKfycbwq_S6hZg-WLIUWGlQ8frX4kCD5K4pRzflYRVoZBydkdddHgCXsdMSKBsRGselwdxU/exec"; // 替換為你的 Apps Script Web App URL
     document.getElementById("subsidyForm").addEventListener("submit", async function (e) {
         e.preventDefault();
     
         const form = e.target;
+        const selectedBrands = Array.from(document.querySelectorAll('input[name="brand[]"]:checked'))
+                            .map(checkbox => checkbox.value);
+
+        console.log(selectedBrands); // 例如：["SANYANG 三陽", "KYMCO 光陽"]
+
         const file = document.getElementById("file-id").files[0];
         const reader = new FileReader();
     
@@ -107,6 +112,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 company: form.company.value,
                 shop: form.shop.value,
                 subsidyHistory: form.subsidyHistory.value,
+                brands: selectedBrands,
                 fileName: file.name,
                 mimeType: file.type,
                 fileData: base64Data,
