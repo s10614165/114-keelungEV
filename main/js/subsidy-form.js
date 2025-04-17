@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   // 表單驗證
-  const url = "https://script.google.com/macros/s/AKfycbwq_S6hZg-WLIUWGlQ8frX4kCD5K4pRzflYRVoZBydkdddHgCXsdMSKBsRGselwdxU/exec"; // 替換為你的 Apps Script Web App URL
+  const url = "https://script.google.com/macros/s/AKfycbyKrL49e0uXMF1aEh1ybsoyHUp_RRAMM9VgD64PF2iLpIf0mheTm3myGOYnRADkYnb3/exec"; // 替換為你的 Apps Script Web App URL
     document.getElementById("subsidyForm").addEventListener("submit", async function (e) {
         e.preventDefault();
     
@@ -113,6 +113,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 shop: form.shop.value,
                 subsidyHistory: form.subsidyHistory.value,
                 brands: selectedBrands,
+                benefitEv: form.benefitEv.value,
                 fileName: file.name,
                 mimeType: file.type,
                 fileData: base64Data,
