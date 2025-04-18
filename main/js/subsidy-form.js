@@ -48,8 +48,99 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   // 表單驗證
-  const url = "https://script.google.com/macros/s/AKfycbyKrL49e0uXMF1aEh1ybsoyHUp_RRAMM9VgD64PF2iLpIf0mheTm3myGOYnRADkYnb3/exec"; // 替換為你的 Apps Script Web App URL
+  const url = "https://script.google.com/macros/s/AKfycbzOWeOKdJcmmS5eVdNTNhtuoq_EvDmQm1S_EeqbpG68TOo83a64Cq_KvV4PEfD6o76y/exec"; // 替換為你的 Apps Script Web App URL
   document.getElementById("subsidyForm").addEventListener("submit", async function (e) {
+    const steps = [step1, step2, step3];
+    let isValid = true;
+    let isEmail = true;
+    let firstInvalid = null;
+    let firstEmailErr = null;
+
+    for (const step of steps) {
+      const fields = step.querySelectorAll('input, select, textarea');
+      const checkedGroups = new Set();
+
+      for (const field of fields) {
+        const type = field.type;
+        const tag = field.tagName;
+
+        if (
+          (type === 'text' || type === 'email' || type === 'tel' || type === 'number' || tag === 'TEXTAREA') &&
+          !field.value.trim()
+        ) {
+          isValid = false;
+          if (!firstInvalid) firstInvalid = field;
+          break;
+        }
+
+        if (type === 'email') {
+          const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          if (!emailPattern.test(field.value.trim())) {
+            isEmail = false;
+            if (!firstEmailErr) firstEmailErr = field;
+            break;
+          }
+        }
+
+        if (type === 'file' && field.files.length === 0) {
+          isValid = false;
+          if (!firstInvalid) firstInvalid = field;
+          break;
+        }
+
+        if ((type === 'radio' || type === 'checkbox') && !checkedGroups.has(field.name)) {
+          const group = step.querySelectorAll(`input[name="${field.name}"]`);
+          const anyChecked = Array.from(group).some(f => f.checked);
+          if (!anyChecked) {
+            isValid = false;
+            if (!firstInvalid) firstInvalid = group[0];
+            break;
+          }
+          checkedGroups.add(field.name);
+        }
+
+        if (tag === 'SELECT' && !field.value) {
+          isValid = false;
+          if (!firstInvalid) firstInvalid = field;
+          break;
+        }
+      }
+
+      if (!isValid) {
+        e.preventDefault();
+        step1.style.display = 'none';
+        step2.style.display = 'none';
+        step3.style.display = 'none';
+        step.style.display = 'block';
+
+        alert('請確認所有欄位皆已完整填寫。');
+        if (typeof firstInvalid.scrollIntoView === 'function') {
+          firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          firstInvalid.focus();
+        }
+        return;
+      }
+
+      if(!isEmail) {
+        e.preventDefault();
+        step1.style.display = 'none';
+        step2.style.display = 'none';
+        step3.style.display = 'none';
+        step.style.display = 'block';
+
+        alert('請確認Email格式填寫正確。');
+        if (typeof firstEmailErr.scrollIntoView === 'function') {
+          firstEmailErr.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          firstEmailErr.focus();
+        }
+        return;
+
+      }
+    }
+
+    // 若全部通過驗證，允許送出
+
+
     e.preventDefault();
 
     const form = e.target;
@@ -66,9 +157,20 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const payload = {
             company: form.company.value,
+            taxId: form.taxId.value,
+            district: form.district.value,
             shop: form.shop.value,
             subsidyHistory: form.subsidyHistory.value,
             brands: selectedBrands,
+            regAddress: form.regAddress.value,
+            commAddress: form.commAddress.value,
+            estDate: form.estDate.value,
+            ownerName: form.ownerName.value,
+            ownerPhone: form.ownerPhone.value,
+            ownerEmail: form.ownerEmail.value,
+            contactName: form.contactName.value,
+            contactPhone: form.contactPhone.value,
+            contactEmail: form.contactEmail.value,
             benefitEv: form.benefitEv.value,
             fileName: file.name,
             mimeType: file.type,
@@ -83,6 +185,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const text = await response.text();
         alert(text); // 顯示成功或錯誤訊息
+
+        // 成功送出後清除表單資料
+        form.reset();
+
+        // 清除顯示的檔案名稱
+        document.querySelectorAll('span[id$="-name"]').forEach(span => {
+          span.textContent = '尚未選擇檔案';
+        });
+
+        window.location.href = 'subsidy.html';
     };
 
     reader.readAsDataURL(file);
