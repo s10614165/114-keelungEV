@@ -259,6 +259,26 @@
   color: #444;
 }
 
+.form-nav {
+  display: flex;
+  justify-content: space-between; /* 左右各一顆按鈕 */
+  width: 100%;
+  max-width: 600px;
+  margin: 2rem auto;
+}
+
+.btn-wrapper {
+  flex: 1;
+}
+
+.btn-wrapper.left {
+  text-align: left;
+}
+
+.btn-wrapper.right {
+  text-align: right;
+}
+
 .form-nav button {
   background-color: #9ddeee;
   color: #333;
@@ -274,3 +294,120 @@
 .form-nav button:hover {
   background-color: #7fcfdf;
 }
+
+.step-progress-wrapper {
+  background: url('../asset/img/step-bar-background.png') no-repeat center bottom;
+  background-size: cover;
+  margin-top: 65px;
+  padding: 2rem 1rem 4rem;
+  text-align: center;
+  position: relative;
+  height: 250px;
+}
+
+.step-progress {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  z-index: 1;
+}
+
+
+.step {
+  flex: 1;
+  position: relative;
+  text-align: center;
+}
+
+.step-bar {
+  width: 100%;
+  height: 26px;/* 根據你圖片的實際高度再微調 */
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  display: block;
+  line-height: 0;
+  margin-bottom: -10px; /* ✨ 關鍵：讓圖片「貼到底」 */
+}
+
+.step-label {
+  margin-top: 1rem;
+  font-weight: 600;
+  font-size: 1rem;
+  color: #77a8c2;
+}
+
+/* 狀態樣式 */
+.step.finished .step-bar {
+  background-image: url('../asset/img/finished-step.png');
+  transform: translateY(-17px);
+}
+
+.step.upcoming .step-bar {
+  background-image: none;
+}
+
+.step.finished .step-label {
+  color: #4CAF50;
+}
+
+.step.current .step-label {
+  color: #4CAF50;
+}
+
+.step.upcoming .step-label {
+  color: #77a8c2;
+}
+
+.step-bar-wrapper {
+  position: relative;
+  width: 100%;
+  height: 80px;
+}
+
+.step-bar,
+.step-road {
+  height: 30px;
+}
+
+.step.current .step-road {
+  background: url('../asset/img/recently-step.png') no-repeat center bottom;
+  background-size: contain;
+  width: 100%;
+  height: 100%;
+  transform: translateY(0px);
+}
+
+.step-rider {
+  position: absolute;
+  bottom: 10px; /* 可調整讓輪子落在地上 */
+  left: 50%;
+  transform: translateX(-50%);
+  height: 96px; /* 或依實際圖片尺寸微調 */
+  display: block;
+  pointer-events: none;
+}
+
+.step-track {
+  position: relative;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.track-line {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 26px;
+  background: #72c4d3;
+  border-radius: 40px;
+  transform: translateY(-50%);
+  z-index: 0;
+}
+
+

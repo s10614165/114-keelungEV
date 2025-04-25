@@ -5,54 +5,55 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>產業轉型申請補助專區</title>
   <!-- 共用樣式 -->
-  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/navbar.css" />
 
   <!-- 專頁樣式：申請補助表單 -->
   <link rel="stylesheet" href="../css/subsidy-form.css" />
+ 
 
 </head>
 
 <body>
   <!-- 導覽列 -->
-  <header class="navbar">
-    <a href="index.html" class="logo">
-      <img src="../asset/img/ev-logo.png" alt="EV Logo" class="logo-icon" />
-      <div class="logo-text">
-        <span class="logo-title">基隆友善車行一點通</span>
-        <span class="logo-subtitle">KEELUNG EV FRIENDLY SHOP</span>
-      </div>
-    </a>
-  
-    <nav class="nav-links">
-      <ul>
-        <li><a href="#">友善車行地圖</a></li>
-
-        <li><a href="#">申請補助專區</a></li>
-        <li><a href="#">申請補助規則</a></li>
-        <li><a href="#">活動快訊</a></li>
-        <li><a href="#">政策成效</a></li>
-      </ul>
-    </nav>
-
-    <!-- 漢堡圖示 -->
-    <img src="../asset/img/Vector.png" class="menu-toggle" id="menuIcon" alt="menu" />
-  </header>
-
-    <!-- 側邊滑出選單 -->
-    <div class="side-menu" id="sideMenu">
-      <ul>
-        <li><a href="#">友善車行地圖</a></li>
-        <li><a href="#">申請補助專區</a></li>
-        <li><a href="#">申請補助規則</a></li>
-        <li><a href="#">活動快訊</a></li>
-        <li><a href="#">政策成效</a></li>
-      </ul>
-    </div>
+<!-- 共用 Navbar 載入位置 -->
+<div id="navbar-placeholder"></div>
 
   <!-- 頁面主體 -->
   <main class="subsidy-page">
-    <div class="container">
+    <!-- 進度條區塊 -->
+    <div class="step-progress-wrapper">
       <h1 class="page-title">產業轉型申請補助專區</h1>
+
+      <div class="step-track">
+        <div class="track-line"></div>
+        <div class="track-line-finished"></div> <!-- ✅ 新增這條覆蓋的綠色線 -->
+        <ul class="step-progress">
+          <li class="step" data-step="1">
+            <div class="step-bar"></div>
+            <div class="step-label">1.填寫資料</div>
+          </li>
+          <li class="step" data-step="2">
+            <div class="step-bar"></div>
+            <div class="step-label">2.申請條件</div>
+          </li>
+          <li class="step" data-step="3">
+            <div class="step-bar"></div>
+            <div class="step-label">3.試算金額</div>
+          </li>
+          <li class="step" data-step="4">
+            <div class="step-bar"></div>
+            <div class="step-label">4.檢附文件</div>
+          </li>
+          <li class="step" data-step="5">
+            <div class="step-bar"></div>
+            <div class="step-label">5.送出申請</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="container">
+
 
       <!-- 按鈕列 -->
       <div class="tab-buttons">
@@ -153,9 +154,10 @@
                 <input type="email" id="contactEmail" name="contactEmail" required>
               </div>
 
-             
               <div class="form-nav">
-                <button type="button" id="nextBtn">下一步</button>
+                <div class="btn-wrapper right">
+                  <button type="button" id="nextBtn">下一步</button>
+                </div>
               </div>
             </div>
           </div>
@@ -182,7 +184,12 @@
 
 
             <div class="form-nav">
-              <button type="button" id="prevBtn">上一步</button>
+              <div class="btn-wrapper left">
+                <button type="button" id="prevBtn">上一步</button>
+              </div>
+              <div class="btn-wrapper right">
+                <button type="button" id="nextBtn">下一步</button>
+              </div>
             </div>
           </div>
 
@@ -201,19 +208,17 @@
                   <span class="file-name" id="file-id-name">尚未選擇檔案</span>
                 </div>
               </div>
-          
-
             </div>
-
-
-           
 
             <div class="form-nav">
-              <button type="button" id="prevStep3">上一步</button>
-              <button type="submit">送出申請</button>
+              <div class="btn-wrapper left">
+                <button type="button" id="prevStep3">上一步</button>
+              </div>
+              <div class="btn-wrapper right"></div>
+                <button type="submit">送出申請</button>
+              </div>
             </div>
           </div>
-
          </form>
       </section>
     </div>
@@ -237,7 +242,7 @@
       <img src="../asset/img/icon-ig.png" alt="Instagram" class="footer-icon" />
     </div>
   </footer>
-
+  <script src="../js/navbar.js"></script>
 </body>
 
 <script src="../js/subsidy-form.js"></script>

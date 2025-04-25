@@ -1,38 +1,44 @@
 document.addEventListener('DOMContentLoaded', function () {
-  const step1 = document.getElementById('step1');
-  const step2 = document.getElementById('step2');
-  const step3 = document.getElementById('step3');
-  const nextBtn = document.getElementById('nextBtn');
-  const prevBtn = document.getElementById('prevBtn');
-  const prevStep3 = document.getElementById('prevStep3');
+  const step1 = document.getElementById("step1");
+  const step2 = document.getElementById("step2");
+  const step3 = document.getElementById("step3");
 
-  // 第一步 → 第二步
-  nextBtn.addEventListener('click', function () {
-    step1.style.display = 'none';
-    step2.style.display = 'block';
+  const nextBtn = document.getElementById("nextBtn");
+  const prevBtn = document.getElementById("prevBtn");
+  const prevStep3 = document.getElementById("prevStep3");
+
+  let currentStep = 1;
+  updateProgressUI(currentStep);
+
+  nextBtn?.addEventListener("click", () => {
+    step1.style.display = "none";
+    step2.style.display = "block";
+    currentStep = 2;
+    updateProgressUI(currentStep);
   });
 
-  // 第二步 → 第一步
-  prevBtn.addEventListener('click', function () {
-    step2.style.display = 'none';
-    step1.style.display = 'block';
+  prevBtn?.addEventListener("click", () => {
+    step2.style.display = "none";
+    step1.style.display = "block";
+    currentStep = 1;
+    updateProgressUI(currentStep);
   });
 
-  // 第二步 → 第三步
-  const nextToStep3 = document.createElement('button');
-  nextToStep3.textContent = '下一步';
-  nextToStep3.type = 'button';
-  nextToStep3.addEventListener('click', function () {
-    step2.style.display = 'none';
-    step3.style.display = 'block';
+  const nextToStep3 = document.querySelector(
+    "#step2 .form-nav button[type='button']:not(#prevBtn)"
+  );
+  nextToStep3?.addEventListener("click", () => {
+    step2.style.display = "none";
+    step3.style.display = "block";
+    currentStep = 3;
+    updateProgressUI(currentStep);
   });
-  // 插入第二步按鈕列中
-  document.querySelector('#step2 .form-nav').insertBefore(nextToStep3, document.querySelector('#step2 .form-nav button[type="submit"]'));
 
-  // 上一步 Step 3 → Step 2
-  prevStep3.addEventListener('click', function () {
-    step3.style.display = 'none';
-    step2.style.display = 'block';
+  prevStep3?.addEventListener("click", () => {
+    step3.style.display = "none";
+    step2.style.display = "block";
+    currentStep = 2;
+    updateProgressUI(currentStep);
   });
 
   // 顯示上傳檔案名稱
@@ -202,4 +208,54 @@ document.addEventListener('DOMContentLoaded', function () {
   
 });
 
+// =======================
+// 🔹 進度條狀態切換控制
+// =======================
+function updateProgressUI(currentStep) {
+  const steps = document.querySelectorAll(".step-progress .step");
+
+  steps.forEach((step, index) => {
+    const stepNum = index + 1;
+    step.classList.remove("finished", "current", "upcoming");
+
+    // 移除舊的 .step-bar 或 .step-bar-wrapper（保險）
+    const oldBar = step.querySelector(".step-bar, .step-bar-wrapper");
+    if (oldBar) oldBar.remove();
+
+    if (stepNum < currentStep) {
+      step.classList.add("finished");
+
+      // 加入已完成的 bar
+      const finishedBar = document.createElement("div");
+      finishedBar.classList.add("step-bar");
+      step.insertBefore(finishedBar, step.querySelector(".step-label"));
+    } else if (stepNum === currentStep) {
+      step.classList.add("current");
+
+      // 加入帶有騎士的 bar-wrapper
+      const wrapper = document.createElement("div");
+      wrapper.classList.add("step-bar-wrapper");
+
+      const road = document.createElement("div");
+      road.classList.add("step-road");
+
+      const rider = document.createElement("img");
+      rider.classList.add("step-rider");
+      rider.src = "../asset/img/rider.png";
+      rider.alt = "rider";
+
+      wrapper.appendChild(road);
+      wrapper.appendChild(rider);
+
+      step.insertBefore(wrapper, step.querySelector(".step-label"));
+    } else {
+      step.classList.add("upcoming");
+
+      // 加入尚未完成的 bar
+      const upcomingBar = document.createElement("div");
+      upcomingBar.classList.add("step-bar");
+      step.insertBefore(upcomingBar, step.querySelector(".step-label"));
+    }
+  });
+}
 
