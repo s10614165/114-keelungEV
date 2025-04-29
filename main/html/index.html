@@ -4,47 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>基隆友善車行一點通</title>
-  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/index.css" />
+  <link rel="stylesheet" href="../css/navbar.css" />
 </head>
 <body>
-  <!-- 導覽列 -->
-  <header class="navbar">
-    <a href="index.html" class="logo">
-      <img src="../asset/img/ev-logo.png" alt="EV Logo" class="logo-icon" />
-      <div class="logo-text">
-        <span class="logo-title">基隆友善車行一點通</span>
-        <span class="logo-subtitle">KEELUNG EV FRIENDLY SHOP</span>
-      </div>
-    </a>
-  
-    <nav class="nav-links">
-      <ul>
-        <li><a href="#">友善車行地圖</a></li>
-
-        <li><a href="subsidy.html">申請補助專區</a></li>
-        <li><a href="#">申請補助規則</a></li>
-        <li><a href="#">活動快訊</a></li>
-        <li><a href="#">政策成效</a></li>
-      </ul>
-    </nav>
-
-    <!-- 漢堡圖示 -->
-    <img src="../asset/img/Vector.png" class="menu-toggle" id="menuIcon" alt="menu" />
-  </header>
-
-    <!-- 側邊滑出選單 -->
-    <div class="side-menu" id="sideMenu">
-      <ul>
-        <li><a href="#">友善車行地圖</a></li>
-        <li><a href="subsidy.html">申請補助專區</a></li>
-        <li><a href="#">申請補助規則</a></li>
-        <li><a href="#">活動快訊</a></li>
-        <li><a href="#">政策成效</a></li>
-      </ul>
-    </div>
-
-
-  <div id="overlay" class="overlay"></div>
+  <!-- 共用 Navbar 載入位置 -->
+  <div id="navbar-placeholder"></div>
 
   <!-- 內容區塊 -->
   <main class="main-content">
@@ -77,8 +42,9 @@
       <img src="../asset/img/icon-ig.png" alt="Instagram" class="footer-icon" />
     </div>
   </footer>
+  <script src="../js/navbar.js"></script>
 </body>
 
-<script src="../js/script.js"></script>
+
 
 </html>
