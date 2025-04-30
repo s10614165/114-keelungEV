@@ -73,16 +73,16 @@
             <h3>車行基本資料</h3>
 
               <!-- 申請單位全名 -->
-              <label for="company">申請單位全名 <span class="required">*</span></label>
+              <label for="company">申請單位全名<span class="required">*</span></label>
               <input type="text" id="company" name="company" required>
 
                <!-- 營利事業統一編碼 -->
-               <label for="taxId">營利事業統一編碼 <span class="required">*</span></label>
+               <label for="taxId">營利事業統一編碼<span class="required">*</span></label>
                <input type="text" id="taxId" name="taxId" required>
  
                <!-- 所屬行政區 -->
-               <label for="district">所屬行政區</label>
-               <select id="district" name="district">
+               <label for="district">所屬行政區<span class="required">*</span></label>
+               <select id="district" name="district" required>
                  <option value="">請選擇</option>
                  <option>信義區</option>
                  <option>仁愛區</option>
@@ -94,8 +94,8 @@
                </select>
 
               <!-- 車行類型 -->
-              <label for="shop">車行類型</label>
-              <select id="shop" name="shop">
+              <label for="shop">車行類型<span class="required">*</span></label>
+              <select id="shop" name="shop" required>
                 <option value="">請選擇</option>
                 <option>純油車行</option>
                 <option>油電合一</option>
@@ -105,10 +105,10 @@
 
               <!-- 車廠品牌 -->
               <div class="form-group">
-                <label>車廠品牌（可複選）</label>
+                <label>車廠品牌 (可複選)<span class="required">*</span></label>
                 <div class="checkbox-wrapper">
                   <div class="checkbox-grid">
-                      <label><input type="checkbox" name="brand[]" value="SANYANG 三陽"> SANYANG 三陽</label>
+                      <label><input type="checkbox" name="brand[]" value="SANYANG 三陽" required> SANYANG 三陽</label>
                       <label><input type="checkbox" name="brand[]" value="YAMAHA 山葉"> YAMAHA 山葉</label>
                       <label><input type="checkbox" name="brand[]" value="emoving 中華電動二輪車"> emoving 中華電動二輪車</label>
                       <label><input type="checkbox" name="brand[]" value="eReady 台鈴智慧電車"> eReady 台鈴智慧電車</label>
@@ -126,31 +126,31 @@
               <div class="form-section">
                 <h3>詳細資料</h3>
 
-                <label for="regAddress">車行登記地址</label>
+                <label for="regAddress">車行登記地址<span class="required">*</span></label>
                 <input type="text" id="regAddress" name="regAddress" required>
 
-                <label for="commAddress">車行通訊地址</label>
+                <label for="commAddress">車行通訊地址<span class="required">*</span></label>
                 <input type="text" id="commAddress" name="commAddress" required>
 
-                <label for="estDate">車行設立日期</label>
+                <label for="estDate">車行設立日期<span class="required">*</span></label>
                 <input type="date" id="estDate" name="estDate" placeholder="例：2020/01/01" required>
 
-                <label for="ownerName">負責人姓名</label>
+                <label for="ownerName">負責人姓名<span class="required">*</span></label>
                 <input type="text" id="ownerName" name="ownerName" required>
 
-                <label for="ownerPhone">負責人連絡手機/市話</label>
+                <label for="ownerPhone">負責人連絡手機/市話<span class="required">*</span></label>
                 <input type="tel" id="ownerPhone" name="ownerPhone" required>
 
-                <label for="ownerEmail">負責人Email</label>
+                <label for="ownerEmail">負責人Email<span class="required">*</span></label>
                 <input type="email" id="ownerEmail" name="ownerEmail" required>
 
-                <label for="contactName">聯絡人姓名</label>
+                <label for="contactName">聯絡人姓名<span class="required">*</span></label>
                 <input type="text" id="contactName" name="contactName" required>
 
-                <label for="contactPhone">聯絡人連絡手機/市話</label>
+                <label for="contactPhone">聯絡人連絡手機/市話<span class="required">*</span></label>
                 <input type="tel" id="contactPhone" name="contactPhone" required>
 
-                <label for="contactEmail">聯絡人Email</label>
+                <label for="contactEmail">聯絡人Email<span class="required">*</span></label>
                 <input type="email" id="contactEmail" name="contactEmail" required>
               </div>
 
@@ -165,9 +165,9 @@
           <div class="form-step" id="step2" style="display: none;">
             <!-- 相關計畫補助情形 -->
             <div class="form-section">
-              <h3>相關計畫補助情形</h3>
+              <h3>相關計畫補助情形<span class="required">*</span></h3>
               <div class="radio-group">
-                <label><input type="radio" name="subsidyHistory" value="曾向其他機關提出補助申請"> 曾向其他機關提出補助申請</label>
+                <label><input type="radio" name="subsidyHistory" value="曾向其他機關提出補助申請" required> 曾向其他機關提出補助申請</label>
                 <label><input type="radio" name="subsidyHistory" value="不曾向其他機關申請補助"> 不曾向其他機關申請補助</label>
               </div>
             </div>
@@ -219,26 +219,26 @@
 
             <!-- 優先項目 -->
             <div class="form-section">
-              <h3>優先項目</h3>
+              <h3>優先項目<span class="required">*</span></h3>
               <p class="form-tip">
                 是否通過「經濟部主辦機車行升級轉型輔導－機車維修訓練課程」並檢附經濟部、勞動部、環境部共同頒予之第一階段機車維修技術課程結訓證書
               </p>
               <div class="radio-group">
-                <label><input type="radio" name="priority" value="已通過，並持有結訓證書">已通過，並持有結訓證書</label>
+                <label><input type="radio" name="priority" value="已通過，並持有結訓證書" required>已通過，並持有結訓證書</label>
                 <label><input type="radio" name="priority" value="未通過，未持有結訓證書">未通過，未持有結訓證書</label>
               </div>
             </div>
 
             <!-- 申請補助類別 -->
             <div class="form-section">
-              <h3>申請補助類別</h3>
+              <h3>申請補助類別<span class="required">*</span></h3>
               <div>
                 <div class="checkbox-grid">
                   <div>  
                     <p class="form-tip">
                       產業轉型支援補助(勾選所需補助項目)
                     </p>
-                    <label><input type="checkbox" name="tranSupport[]" value="綠能轉型"> 綠能轉型</label>
+                    <label><input type="checkbox" name="tranSupport[]" value="綠能轉型" required> 綠能轉型</label>
                     <label><input type="checkbox" name="tranSupport[]" value="留才獎勵"> 留才獎勵</label>
                     <label><input type="checkbox" name="tranSupport[]" value="設備補助"> 設備補助</label>
                   </div>
@@ -247,7 +247,7 @@
                       綠能交通產業推廣(勾選所需補助項目)
                     </p>
                     <div class="radio-group">
-                      <label><input type="radio" name="greenMobile" value="公益青年機車推廣"> 公益青年機車推廣</label>
+                      <label><input type="radio" name="greenMobile" value="公益青年機車推廣" checked> 公益青年機車推廣</label>
                     </div>
                   </div>
                 </div>
@@ -256,10 +256,10 @@
 
             <!-- 申請品牌車廠輔導 -->
             <div class="form-section">
-              <h3>申請品牌車廠輔導（可複選）</h3>
+              <h3>申請品牌車廠輔導 (可複選)<span class="required">*</span></h3>
               <div class="checkbox-wrapper">
                 <div class="checkbox-grid">
-                  <label><input type="checkbox" name="applyBrand[]" value="三陽"> 三陽</label>
+                  <label><input type="checkbox" name="applyBrand[]" value="三陽" required> 三陽</label>
                   <label><input type="checkbox" name="applyBrand[]" value="山葉"> 山葉</label>
                   <label><input type="checkbox" name="applyBrand[]" value="中華汽車"> 中華汽車</label>
                   <label><input type="checkbox" name="applyBrand[]" value="台鈴"> 台鈴</label>
@@ -287,8 +287,8 @@
             <!-- 補助經費概算 -->
             <div class="form-section">
               <h3>補助總經費概算</h3>
-              <label for="totalBudget">「產業轉型支援補助」申請案總經費</label>
-              <input type="text" id="totalBudget" name="totalBudget">
+              <label for="totalBudget">「產業轉型支援補助」申請案總經費<span class="required">*</span></label>
+              <input type="text" id="totalBudget" name="totalBudget" required>
 
             </div>
 
@@ -334,26 +334,26 @@
             <!-- 預期效益：經營效益 -->
             <div class="form-section">
               <h3>預期效益</h3>
-              <label for="askCustomers">目前「每月來詢問電動機車為修相關問題」之客人預估為幾位？</label>
-              <input type="text" id="askCustomers" name="askCustomers">
+              <label for="askCustomers">目前「每月來詢問電動機車為修相關問題」之客人預估為幾位？<span class="required">*</span></label>
+              <input type="text" id="askCustomers" name="askCustomers" required>
 
-              <label for="fixEvNum">目前「每月前來維修電動機車」之車輛為幾台？</label>
-              <input type="text" id="fixEvNum" name="fixEvNum">
+              <label for="fixEvNum">目前「每月前來維修電動機車」之車輛為幾台？<span class="required">*</span></label>
+              <input type="text" id="fixEvNum" name="fixEvNum" required>
 
-              <label for="evTrainees">車行內曾受過「電動機車維修技術培訓」員工為幾位？</label>
-              <input type="text" id="evTrainees" name="evTrainees">
+              <label for="evTrainees">車行內曾受過「電動機車維修技術培訓」員工為幾位？<span class="required">*</span></label>
+              <input type="text" id="evTrainees" name="evTrainees" required>
 
-              <label for="evStaffs">車行內目前會「維修電動機車」之員工為幾位？</label>
-              <input type="text" id="evStaffs" name="evStaffs">
+              <label for="evStaffs">車行內目前會「維修電動機車」之員工為幾位？<span class="required">*</span></label>
+              <input type="text" id="evStaffs" name="evStaffs" required>
 
-              <label for="benefitEv">期望「未來每月前來維修電動機車」之車輛能增加幾台？</label>
-              <input type="text" id="benefitEv" name="benefitEv">
+              <label for="benefitEv">期望「未來每月前來維修電動機車」之車輛能增加幾台？<span class="required">*</span></label>
+              <input type="text" id="benefitEv" name="benefitEv" required>
 
-              <label for="evHardware">目前車行內有「維修電動機車之硬體設備」為幾項？</label>
-              <input type="text" id="evHardware" name="evHardware">
+              <label for="evHardware">目前車行內有「維修電動機車之硬體設備」為幾項？<span class="required">*</span></label>
+              <input type="text" id="evHardware" name="evHardware" required>
 
-              <label for="evSoftware">目前車行內有「維修電動機車之軟體設備」為幾項？</label>
-              <input type="text" id="evSoftware" name="evSoftware">
+              <label for="evSoftware">目前車行內有「維修電動機車之軟體設備」為幾項？<span class="required">*</span></label>
+              <input type="text" id="evSoftware" name="evSoftware" required>
              
             </div>
             
@@ -371,35 +371,36 @@
               <h3>基本文件</h3>
 
               <div class="file-upload">
-                <label class="file-label">切結書(附件5)
-                  ※請點選<a href="https://drive.google.com/file/d/1GgBVrOggtvCctlJQziAs5ey9YEW7Qxvu/view?usp=sharing" target="_blank">連結</a>下載檔案，並填寫簽章後掃描/拍照上傳
-                  ※正本文件請自行留存，並於審核通過通知請領時需攜帶檢附</label>
+                <label class="file-label">
+                  <p>切結書(附件5)<span class="required">*</span></p>
+                  <p>※請點選<a href="https://drive.google.com/file/d/1GgBVrOggtvCctlJQziAs5ey9YEW7Qxvu/view?usp=sharing" target="_blank">連結</a>下載檔案，並填寫簽章後掃描/拍照上傳</p>
+                  <p>※正本文件請自行留存，並於審核通過通知請領時需攜帶檢附</p></label>
                 <div class="file-input-wrapper">
                   <label class="file-btn">
                      選擇檔案
-                    <input type="file" id="file-affidavit" name="file-affidavit" accept=".pdf,.jpg,.png">
+                    <input type="file" id="file-affidavit" name="file-affidavit" accept=".pdf,.jpg,.png" required>
                   </label>
                   <span class="file-name" id="file-affidavit-name">尚未選擇檔案</span>
                 </div>
               </div>
 
               <div class="file-upload">
-                <label class="file-label">車行設立登記證明文件</label>
+                <label class="file-label">車行設立登記證明文件<span class="required">*</span></label>
                 <div class="file-input-wrapper">
                   <label class="file-btn">
                      選擇檔案
-                    <input type="file" id="file-license" name="file-license" accept=".pdf,.jpg,.png">
+                    <input type="file" id="file-license" name="file-license" accept=".pdf,.jpg,.png" required>
                   </label>
                   <span class="file-name" id="file-license-name">尚未選擇檔案</span>
                 </div>
               </div>
           
               <div class="file-upload">
-                <label class="file-label">營業人銷售額</label>
+                <label class="file-label">營業人銷售額<span class="required">*</span></label>
                 <div class="file-input-wrapper">
                   <label class="file-btn">
                      選擇檔案
-                    <input type="file" id="file-revenue" name="file-revenue" accept=".pdf,.jpg,.png">
+                    <input type="file" id="file-revenue" name="file-revenue" accept=".pdf,.jpg,.png" required>
                   </label>
                   <span class="file-name" id="file-revenue-name">尚未選擇檔案</span>
                 </div>
@@ -407,22 +408,22 @@
 
 
               <div class="file-upload">
-                <label class="file-label">稅額申報書</label>
+                <label class="file-label">稅額申報書<span class="required">*</span></label>
                 <div class="file-input-wrapper">
                   <label class="file-btn">
                      選擇檔案
-                    <input type="file" id="file-tax" name="file-tax" accept=".pdf,.jpg,.png">
+                    <input type="file" id="file-tax" name="file-tax" accept=".pdf,.jpg,.png" required>
                   </label>
                   <span class="file-name" id="file-tax-name">尚未選擇檔案</span>
                 </div>
               </div>
 
               <div class="file-upload">
-                <label class="file-label">車行銀行存簿封面</label>
+                <label class="file-label">車行銀行存簿封面<span class="required">*</span></label>
                 <div class="file-input-wrapper">
                   <label class="file-btn">
                      選擇檔案
-                    <input type="file" id="file-bank" name="file-bank" accept=".pdf,.jpg,.png">
+                    <input type="file" id="file-bank" name="file-bank" accept=".pdf,.jpg,.png" required>
                   </label>
                   <span class="file-name" id="file-bank-name">尚未選擇檔案</span>
                 </div>
@@ -535,9 +536,10 @@
 
             <div class="form-nav">
               <button type="button" id="prevStep4">上一步</button>
-              <button type="submit">送出申請</button>
+              <button id="submitBtn" type="submit">送出申請</button>
 
             </div>
+            <div id="loading" style="display: none; color: red; text-align: center;">資料送出中，請稍候...</div>
 
           </div>
          </form>

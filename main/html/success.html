@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>產業轉型申請補助專區</title>
+  <!-- 共用樣式 -->
+  <link rel="stylesheet" href="../css/navbar.css" />
+
+  <!-- 專頁樣式：申請補助表單 -->
+  <link rel="stylesheet" href="../css/subsidy-form.css" />
+ 
+
+</head>
+
+<body>
+  <!-- 導覽列 -->
+<!-- 共用 Navbar 載入位置 -->
+<div id="navbar-placeholder"></div>
+
+  <!-- 頁面主體 -->
+  <main class="subsidy-page">
+    <!-- 進度條區塊 -->
+    <div class="step-progress-wrapper">
+      <h1 class="page-title">產業轉型申請補助專區</h1>
+
+      <div class="step-track">
+        <div class="track-line"></div>
+        <div class="track-line-finished"></div> <!-- ✅ 新增這條覆蓋的綠色線 -->
+        <ul class="step-progress">
+          <li class="step" data-step="1">
+            <div class="step-bar"></div>
+            <div class="step-label">1.填寫資料</div>
+          </li>
+          <li class="step" data-step="2">
+            <div class="step-bar"></div>
+            <div class="step-label">2.申請條件</div>
+          </li>
+          <li class="step" data-step="3">
+            <div class="step-bar"></div>
+            <div class="step-label">3.試算金額</div>
+          </li>
+          <li class="step" data-step="4">
+            <div class="step-bar"></div>
+            <div class="step-label">4.檢附文件</div>
+          </li>
+          <li class="step" data-step="5">
+            <div class="step-bar"></div>
+            <div class="step-label">5.送出申請</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="container">
+
+      <!-- 表單外框 -->
+      <section class="form-wrapper">
+        <p>申請成功！</p>
+        <p>感謝您的填寫，申請結果將會由專人與您聯繫</p>
+        <p>有任何問題歡聯絡申辦諮詢窗口</p>
+        <p>主辦單位｜基隆市政府－產業發展處</p>
+        <p>服務電話｜02-2428-9225 廖小姐</p>
+        <p>LINE@｜基隆綠能車行補助通https://lin.ee/FJQBx8O</p>
+     
+      </section>
+    </div>
+  </main>
+
+  <!-- Footer（沿用首頁） -->
+
+  <!-- 頁腳 -->
+  <footer class="footer">
+    <div class="footer-left">
+      <img src="../asset/img/logo.png" alt="基隆市府 logo" class="footer-logo" />
+      <div class="footer-text">
+        <p>基隆市政府產業發展處</p>
+        <p>地址｜202091 基隆市中正區信三路301號3樓</p>
+        <p>電話｜(02) 2425-8389</p>
+      </div>
+    </div>
+    <div class="footer-right">
+      <img src="../asset/img/icon-fb.png" alt="Facebook" class="footer-icon" />
+      <img src="../asset/img/icon-line.png" alt="網站" class="footer-icon" />
+      <img src="../asset/img/icon-ig.png" alt="Instagram" class="footer-icon" />
+    </div>
+  </footer>
+  <script src="../js/navbar.js"></script>
+</body>
+
+<script>
+updateProgressUI(5);    
+
+function updateProgressUI(currentStep) {
+  const steps = document.querySelectorAll(".step-progress .step");
+
+  steps.forEach((step, index) => {
+    const stepNum = index + 1;
+    step.classList.remove("finished", "current", "upcoming");
+
+    // 移除舊的 .step-bar 或 .step-bar-wrapper（保險）
+    const oldBar = step.querySelector(".step-bar, .step-bar-wrapper");
+    if (oldBar) oldBar.remove();
+
+    if (stepNum < currentStep) {
+      step.classList.add("finished");
+
+      // 加入已完成的 bar
+      const finishedBar = document.createElement("div");
+      finishedBar.classList.add("step-bar");
+      step.insertBefore(finishedBar, step.querySelector(".step-label"));
+    } else if (stepNum === currentStep) {
+      step.classList.add("current");
+
+      // 加入帶有騎士的 bar-wrapper
+      const wrapper = document.createElement("div");
+      wrapper.classList.add("step-bar-wrapper");
+
+      const road = document.createElement("div");
+      road.classList.add("step-road");
+
+      const rider = document.createElement("img");
+      rider.classList.add("step-rider");
+      rider.src = "../asset/img/rider.png";
+      rider.alt = "rider";
+
+      wrapper.appendChild(road);
+      wrapper.appendChild(rider);
+
+      step.insertBefore(wrapper, step.querySelector(".step-label"));
+    } else {
+      step.classList.add("upcoming");
+
+      // 加入尚未完成的 bar
+      const upcomingBar = document.createElement("div");
+      upcomingBar.classList.add("step-bar");
+      step.insertBefore(upcomingBar, step.querySelector(".step-label"));
+    }
+  });
+}
+</script>
+
+</html>
