@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>產業轉型申請補助專區</title>
+  <!-- 共用樣式 -->
+  <link rel="stylesheet" href="../css/navbar.css" />
+
+  <!-- 專頁樣式：申請補助表單 -->
+  <link rel="stylesheet" href="../css/subsidy-form.css" />
+  <!--字體-->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+
+
+</head>
+
+<body>
+  <!-- 導覽列 -->
+<!-- 共用 Navbar 載入位置 -->
+<div id="navbar-placeholder"></div>
+
+  <!-- 頁面主體 -->
+  <main class="subsidy-page">
+    <!-- 進度條區塊 -->
+    <div class="step-progress-wrapper">
+      <nav class="breadcrumb" aria-label="breadcrumb">
+        <ul>
+          <li>首頁</li>
+          <li>申請補助專區</li>
+          <li>產業轉型申請補助專區</li>
+        </ul>
+      </nav>
+      <h1 class="page-title">產業轉型申請補助專區</h1>
+      <div class="step-track">
+        <div class="track-line"></div>
+        <div class="track-line-finished"></div> <!-- ✅ 新增這條覆蓋的綠色線 -->
+        <ul class="step-progress">
+          <li class="step" data-step="1">
+            <div class="step-bar"></div>
+            <div class="step-label">1.填寫資料</div>
+          </li>
+          <li class="step" data-step="2">
+            <div class="step-bar"></div>
+            <div class="step-label">2.申請條件</div>
+          </li>
+          <li class="step" data-step="3">
+            <div class="step-bar"></div>
+            <div class="step-label">3.試算金額</div>
+          </li>
+          <li class="step" data-step="4">
+            <div class="step-bar"></div>
+            <div class="step-label">4.檢附文件</div>
+          </li>
+          <li class="step" data-step="5">
+            <div class="step-bar"></div>
+            <div class="step-label">5.送出申請</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="container">
+
+
+
+
+      <!-- 表單外框 -->
+        <form class="subsidy-form" id="subsidyForm" novalidate>
+          <!-- Step 1：基本資料 + 詳細資料 -->
+          <div class="form-step" id="step1">
+            <section class="form-section">
+              <h2 class="form-title">填寫車行基本資料</h2>
+              <!-- 基本資料區塊 -->
+              <h3 class="form-subtitle">車行基本資料</h3>
+
+              <!-- 申請單位全名 -->
+              <label for="company">申請單位全名<span class="required">*</span></label>
+              <input type="text" id="company" name="company" required>
+
+              <!-- 營利事業統一編碼 -->
+              <label for="taxId">營利事業統一編碼<span class="required">*</span></label>
+              <input type="text" id="taxId" name="taxId" required>
+
+              <!-- 所屬行政區 -->
+              <label for="district">所屬行政區<span class="required">*</span></label>
+              <select id="district" name="district" required>
+                <option value="">請選擇</option>
+                <option>信義區</option>
+                <option>仁愛區</option>
+                <option>中正區</option>
+                <option>安樂區</option>
+                <option>中山區</option>
+                <option>七堵區</option>
+                <option>暖暖區</option>
+              </select>
+
+              <!-- 車行類型 -->
+              <label for="shop">車行類型<span class="required">*</span></label>
+              <select id="shop" name="shop" required>
+                <option value="">請選擇</option>
+                <option>純油車行</option>
+                <option>油電合一</option>
+                <option>純電車行</option>
+              </select>
+
+
+              <!-- 車廠品牌 -->
+              <div class="form-group">
+                <label>車廠品牌 (可複選)<span class="required">*</span></label>
+                <div class="checkbox-wrapper">
+                  <div class="checkbox-grid">
+                      <label><input type="checkbox" name="brand[]" value="SANYANG 三陽" required> SANYANG 三陽</label>
+                      <label><input type="checkbox" name="brand[]" value="YAMAHA 山葉"> YAMAHA 山葉</label>
+                      <label><input type="checkbox" name="brand[]" value="emoving 中華電動二輪車"> emoving 中華電動二輪車</label>
+                      <label><input type="checkbox" name="brand[]" value="eReady 台鈴智慧電車"> eReady 台鈴智慧電車</label>
+                      <label><input type="checkbox" name="brand[]" value="ionex 光陽"> 光陽電動車 ionex (光陽)</label>
+                      <label><input type="checkbox" name="brand[]" value="KYMCO 光陽"> KYMCO 光陽</label>
+                      <label><input type="checkbox" name="brand[]" value="gogoro"> 睿能 gogoro</label>
+                      <label><input type="checkbox" name="brand[]" value="PGO 摩特動力"> PGO 摩特動力</label>
+                      <label><input type="checkbox" name="brand[]" value="宏佳騰"> 宏佳騰機車</label>
+                      <label><input type="checkbox" name="brand[]" value="Zau 泓創綠能"> Zau 泓創綠能</label>
+                  </div>
+                </div>
+              </div>
+
+              <label for="regAddress">車行登記地址<span class="required">*</span></label>
+              <input type="text" id="regAddress" name="regAddress" required>
+
+              <label for="commAddress">車行通訊地址<span class="required">*</span></label>
+              <input type="text" id="commAddress" name="commAddress" required>
+
+              <label for="estDate">車行設立日期<span class="required">*</span></label>
+              <input type="date" id="estDate" name="estDate" placeholder="例：2020/01/01" required>
+
+            </section>
+            
+            <!-- 詳細資料區塊 -->
+            <section class="form-section">
+              <h2 class="form-title">人員基本資料</h2>
+              <label for="ownerName">負責人姓名<span class="required">*</span></label>
+              <input type="text" id="ownerName" name="ownerName" required>
+
+              <label for="ownerPhone">負責人連絡手機/市話<span class="required">*</span></label>
+              <input type="tel" id="ownerPhone" name="ownerPhone" required>
+
+              <label for="ownerEmail">負責人Email<span class="required">*</span></label>
+              <input type="email" id="ownerEmail" name="ownerEmail" required>
+
+              <label for="contactName">聯絡人姓名<span class="required">*</span></label>
+              <input type="text" id="contactName" name="contactName" required>
+
+              <label for="contactPhone">聯絡人連絡手機/市話<span class="required">*</span></label>
+              <input type="tel" id="contactPhone" name="contactPhone" required>
+
+              <label for="contactEmail">聯絡人Email<span class="required">*</span></label>
+              <input type="email" id="contactEmail" name="contactEmail" required>
+            </section>
+
+            <div class="form-nav">
+              <div class="btn-wrapper right">
+                <button type="button" id="nextBtn">下一步</button>
+              </div>
+            </div>
+              
+          </div>
+
+          <!-- Step 2：第二頁 -->
+          <div class="form-step" id="step2" style="display: none;">
+            <!-- 相關計畫補助情形 -->
+           <section class="form-section">
+              <h2 class="form-title">相關補助計畫<br>及補助類別調查</h2>
+              <h3 class="form-subtitle">相關計畫補助情形<span class="required">*</span></h3>
+              <div class="radio-group">
+                <label><input type="radio" name="subsidyHistory" value="曾向其他機關提出補助申請" required> 曾向其他機關提出補助申請</label>
+                <label><input type="radio" name="subsidyHistory" value="不曾向其他機關申請補助"> 不曾向其他機關申請補助</label>
+              </div>
+
+
+
+               <!-- 相關計計畫補助細節 -->
+
+              <h3 class="form-subtitle">承上題 請說明向其他機關提出補助申請情形 (曾申請者選填)</h3>
+              <div class="checkbox-wrapper">
+                <div class="checkbox-grid">
+                  <div>
+                    <label>
+                      <input type="checkbox" name="applied[]" value="曾申請且核定通過" onchange="toggleApproved(this)">
+                      曾申請且核定通過
+                    </label>
+                    <div id="approvedFields" style="display:none; margin-left: 1em;">
+                      <label>申請年度：
+                        <input type="text" name="approvedYear" placeholder="例如：2023">
+                      </label><br>
+                      <label>申請計畫主辦單位：
+                        <input type="text" name="approvedAgency">
+                      </label><br>
+                      <label>申請計畫名稱：
+                        <input type="text" name="approvedProject">
+                      </label>
+                    </div>
+                  </div>
+                  <div>
+                    <label>
+                      <input type="checkbox" name="applied[]" value="曾申請但未通過" onchange="toggleNotApproved(this)">
+                      曾申請但未通過
+                    </label>
+                    <div id="notApprovedFields" style="display:none; margin-left: 1em;">
+                      <label>申請年度：
+                        <input type="text" name="notApprovedYear" placeholder="例如：2022">
+                      </label><br>
+                      <label>申請計畫主辦單位：
+                        <input type="text" name="notApprovedAgency">
+                      </label><br>
+                      <label>申請計畫名稱：
+                        <input type="text" name="notApprovedProject">
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+              <!-- 優先項目 -->
+              <h3 class="form-subtitle">優先項目<span class="required">*</span></h3>
+              <p class="form-tip">
+                是否通過「經濟部主辦機車行升級轉型輔導－機車維修訓練課程」並檢附經濟部、勞動部、環境部共同頒予之第一階段機車維修技術課程結訓證書
+              </p>
+              <div class="radio-group">
+                <label><input type="radio" name="priority" value="已通過，並持有結訓證書" required>已通過，並持有結訓證書</label>
+                <label><input type="radio" name="priority" value="未通過，未持有結訓證書">未通過，未持有結訓證書</label>
+              </div>
+
+
+              <!-- 申請補助類別 -->
+
+              <h3 class="form-subtitle">申請補助類別<span class="required">*</span></h3>
+              <div>
+                <div class="checkbox-grid">
+                  <div>  
+                    <p class="form-tip">
+                      產業轉型支援補助(勾選所需補助項目)
+                    </p>
+                    <label><input type="checkbox" name="tranSupport[]" value="綠能轉型" required> 綠能轉型</label>
+                    <label><input type="checkbox" name="tranSupport[]" value="留才獎勵"> 留才獎勵</label>
+                    <label><input type="checkbox" name="tranSupport[]" value="設備補助"> 設備補助</label>
+                  </div>
+                  <div>  
+                    <p class="form-tip">
+                      綠能交通產業推廣(勾選所需補助項目)
+                    </p>
+                    <div class="radio-group">
+                      <label><input type="radio" name="greenMobile" value="公益青年機車推廣" checked> 公益青年機車推廣</label>
+                    </div>
+                  </div>
+                </div>
+              </div>  
+
+
+              <!-- 申請品牌車廠輔導 -->
+              <h3 class="form-subtitle">申請品牌車廠輔導 (可複選)<span class="required">*</span></h3>
+              <div class="checkbox-wrapper">
+                <div class="checkbox-grid">
+                  <label><input type="checkbox" name="applyBrand[]" value="三陽" required> 三陽</label>
+                  <label><input type="checkbox" name="applyBrand[]" value="山葉"> 山葉</label>
+                  <label><input type="checkbox" name="applyBrand[]" value="中華汽車"> 中華汽車</label>
+                  <label><input type="checkbox" name="applyBrand[]" value="台鈴"> 台鈴</label>
+                  <label><input type="checkbox" name="applyBrand[]" value="光陽"> 光陽</label>
+                  <label><input type="checkbox" name="applyBrand[]" value="宏佳騰"> 宏佳騰</label>
+                  <label><input type="checkbox" name="applyBrand[]" value="睿能"> 睿能</label>
+                  <label><input type="checkbox" name="applyBrand[]" value="摩特動力"> 摩特動力</label>
+                </div>
+              </div>
+            </section>
+
+            <div class="form-nav">
+              <div class="btn-wrapper left">
+                <button type="button" id="prevBtn">上一步</button>
+              </div>
+              <div class="btn-wrapper right">
+                <button type="button" id="nextToStep3">下一步</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 3：第三頁 -->     
+          <div class="form-step" id="step3" style="display: none;">
+            <!-- 補助經費概算 -->
+            <section class="form-section">
+              <h2 class="form-title">申請補助經費概算<br>及相關預期效益</h2>
+              <h3 class="form-subtitle">補助總經費概算</h3>
+              <label for="totalBudget">「產業轉型支援補助」申請案總經費<span class="required">*</span></label>
+              <input type="text" id="totalBudget" name="totalBudget" required>
+
+
+              <!-- 綠能轉型費用概算 -->
+
+              <h3 class="form-subtitle">「產業轉型支援補助-綠能轉型」補助申請費用概算</h3>
+              <label for="greenDesc">內容說明</label>
+              <textarea id="greenDesc" name="greenDesc" rows="4"></textarea>
+              <label for="greenApply">申請補助金額</label>
+              <input type="text" id="greenApply" name="greenApply">
+
+              <label for="greenOther">其他機關補助金額</label>
+              <input type="text" id="greenOther" name="greenOther">
+
+
+              <!-- 留才獎勵費用概算 -->
+
+              <h3 class="form-subtitle">「產業轉型支援補助-留才獎勵」補助申請費用概算</h3>
+              <label for="retainDesc">內容說明</label>
+              <textarea id="retainDesc" name="retainDesc" rows="4"></textarea>
+              <label for="retainApply">申請補助金額</label>
+              <input type="text" id="retainApply" name="retainApply">
+
+              <label for="retainOther">其他機關補助金額</label>
+              <input type="text" id="retainOther" name="retainOther">
+              
+
+
+              <!-- 設備補助費用概算 -->
+
+              <h3 class="form-subtitle">「產業轉型支援補助-設備補助」補助申請費用概算</h3>
+              <label for="equipDesc">內容說明</label>
+              <textarea id="equipDesc" name="equipDesc" rows="4"></textarea>
+              <label for="equipApply">申請補助金額</label>
+              <input type="text" id="equipApply" name="equipApply">
+
+              <label for="equipOther">其他機關補助金額</label>
+              <input type="text" id="equipOther" name="equipOther">
+               
+
+
+              <!-- 預期效益：經營效益 -->
+
+              <h3 class="form-subtitle">預期效益</h3>
+              <label for="askCustomers">目前「每月來詢問電動機車為修相關問題」之客人預估為幾位？<span class="required">*</span></label>
+              <input type="text" id="askCustomers" name="askCustomers" required>
+
+              <label for="fixEvNum">目前「每月前來維修電動機車」之車輛為幾台？<span class="required">*</span></label>
+              <input type="text" id="fixEvNum" name="fixEvNum" required>
+
+              <label for="evTrainees">車行內曾受過「電動機車維修技術培訓」員工為幾位？<span class="required">*</span></label>
+              <input type="text" id="evTrainees" name="evTrainees" required>
+
+              <label for="evStaffs">車行內目前會「維修電動機車」之員工為幾位？<span class="required">*</span></label>
+              <input type="text" id="evStaffs" name="evStaffs" required>
+
+              <label for="benefitEv">期望「未來每月前來維修電動機車」之車輛能增加幾台？<span class="required">*</span></label>
+              <input type="text" id="benefitEv" name="benefitEv" required>
+
+              <label for="evHardware">目前車行內有「維修電動機車之硬體設備」為幾項？<span class="required">*</span></label>
+              <input type="text" id="evHardware" name="evHardware" required>
+
+              <label for="evSoftware">目前車行內有「維修電動機車之軟體設備」為幾項？<span class="required">*</span></label>
+              <input type="text" id="evSoftware" name="evSoftware" required>
+            </section>
+
+            <div class="form-nav">
+              <div class="btn-wrapper left">
+                <button type="button" id="prevStep3">上一步</button>
+              </div>
+            </div>
+          
+          </div>
+
+          <!-- Step 4：第四頁 -->     
+          <div class="form-step" id="step4" style="display: none;">
+
+            <!-- 基本文件 -->
+            <section class="form-section">
+              <h2 class="form-title">上傳基本文件</h2>
+              <div class="file-upload">
+                <label class="file-label">
+                  <p>切結書(附件5)<span class="required">*</span></p>
+                  <p>※請點選<a href="https://drive.google.com/file/d/1GgBVrOggtvCctlJQziAs5ey9YEW7Qxvu/view?usp=sharing" target="_blank">連結</a>下載檔案，並填寫簽章後掃描/拍照上傳</p>
+                  <p>※正本文件請自行留存，並於審核通過通知請領時需攜帶檢附</p></label>
+                <div class="file-input-wrapper">
+                  <label class="file-btn">
+                     選擇檔案
+                    <input type="file" id="file-affidavit" name="file-affidavit" accept=".pdf,.jpg,.png" required>
+                  </label>
+                  <span class="file-name" id="file-affidavit-name">尚未選擇檔案</span>
+                </div>
+              </div>
+
+              <div class="file-upload">
+                <label class="file-label">車行設立登記證明文件<span class="required">*</span></label>
+                <div class="file-input-wrapper">
+                  <label class="file-btn">
+                     選擇檔案
+                    <input type="file" id="file-license" name="file-license" accept=".pdf,.jpg,.png" required>
+                  </label>
+                  <span class="file-name" id="file-license-name">尚未選擇檔案</span>
+                </div>
+              </div>
+          
+              <div class="file-upload">
+                <label class="file-label">營業人銷售額<span class="required">*</span></label>
+                <div class="file-input-wrapper">
+                  <label class="file-btn">
+                     選擇檔案
+                    <input type="file" id="file-revenue" name="file-revenue" accept=".pdf,.jpg,.png" required>
+                  </label>
+                  <span class="file-name" id="file-revenue-name">尚未選擇檔案</span>
+                </div>
+              </div>
+
+
+              <div class="file-upload">
+                <label class="file-label">稅額申報書<span class="required">*</span></label>
+                <div class="file-input-wrapper">
+                  <label class="file-btn">
+                     選擇檔案
+                    <input type="file" id="file-tax" name="file-tax" accept=".pdf,.jpg,.png" required>
+                  </label>
+                  <span class="file-name" id="file-tax-name">尚未選擇檔案</span>
+                </div>
+              </div>
+
+              <div class="file-upload">
+                <label class="file-label">車行銀行存簿封面<span class="required">*</span></label>
+                <div class="file-input-wrapper">
+                  <label class="file-btn">
+                     選擇檔案
+                    <input type="file" id="file-bank" name="file-bank" accept=".pdf,.jpg,.png" required>
+                  </label>
+                  <span class="file-name" id="file-bank-name">尚未選擇檔案</span>
+                </div>
+              </div>
+            </section>
+
+            <!-- 綠能轉型 -->
+            <section class="form-section">
+              <h2 class="form-title">上傳綠能轉型所需文件</h2>
+          
+              <div class="file-upload">
+                <label class="file-label">中央完訓證書</label>
+                <div class="file-input-wrapper">
+                  <label class="file-btn">
+                      選擇檔案
+                    <input type="file" id="file-green-train" name="file-green-train" accept=".pdf,.jpg,.png">
+                  </label>
+                  <span class="file-name" id="file-green-train-name">尚未選擇檔案</span>
+                </div>
+              </div>
+          
+              <div class="file-upload">
+                <label class="file-label">車廠授權維修證明</label>
+                <div class="file-input-wrapper">
+                  <label class="file-btn">
+                      選擇檔案
+                    <input type="file" id="file-green-auth" name="file-green-auth" accept=".pdf,.jpg,.png">
+                  </label>
+                  <span class="file-name" id="file-green-auth-name">尚未選擇檔案</span>
+                </div>
+              </div>
+            </section>
+
+            <!-- 留才獎勵 -->
+            <section class="form-section">
+              <h2 class="form-title">上傳留才獎勵所需文件</h2>
+              <div class="file-upload">
+                <label class="file-label">人員中央完訓證書</label>
+                <div class="file-input-wrapper">
+                  <label class="file-btn">
+                     選擇檔案
+                    <input type="file" id="file-retain-train" name="file-retain-train" accept=".pdf,.jpg,.png">
+                  </label>
+                  <span class="file-name" id="file-retain-train-name">尚未選擇檔案</span>
+                </div>
+              </div>
+
+              <div class="file-upload">
+                <label class="file-label">維修技術證書</label>
+                <div class="file-input-wrapper">
+                  <label class="file-btn">
+                     選擇檔案
+                    <input type="file" id="file-retain-skill" name="file-retain-skill" accept=".pdf,.jpg,.png">
+                  </label>
+                  <span class="file-name" id="file-retain-skill-name">尚未選擇檔案</span>
+                </div>
+              </div>
+
+              <div class="file-upload">
+                <label class="file-label">任職就業證明</label>
+                <div class="file-input-wrapper">
+                  <label class="file-btn">
+                     選擇檔案
+                    <input type="file" id="file-retain-job" name="file-retain-job" accept=".pdf,.jpg,.png">
+                  </label>
+                  <span class="file-name" id="file-retain-job-name">尚未選擇檔案</span>
+                </div>
+              </div>
+            </section>
+
+            <!-- 設備補助 -->
+            <section class="form-section">
+              <h2 class="form-title">上傳設備補助所需文件</h2>
+
+              <div class="file-upload">
+                <label class="file-label">發票+工具證明照片</label>
+                <div class="file-input-wrapper">
+                  <label class="file-btn">
+                     選擇檔案
+                    <input type="file" id="file-equip-invoice" name="file-equip-invoice" accept=".pdf,.jpg,.png">
+                  </label>
+                  <span class="file-name" id="file-equip-invoice-name">尚未選擇檔案</span>
+                </div>
+              </div>
+
+              <div class="file-upload">
+                <label class="file-label">廠牌認證維修系統租賃繳費證明</label>
+                <div class="file-input-wrapper">
+                  <label class="file-btn">
+                     選擇檔案
+                    <input type="file" id="file-equip-cert" name="file-equip-cert" accept=".pdf,.jpg,.png">
+                  </label>
+                  <span class="file-name" id="file-equip-cert-name">尚未選擇檔案</span>
+                </div>
+              </div>
+
+              <div class="file-upload">
+                <label class="file-label">發票+相關證明照片</label>
+                <div class="file-input-wrapper">
+                  <label class="file-btn">
+                     選擇檔案
+                    <input type="file" id="file-equip-pic" name="file-equip-pic" accept=".pdf,.jpg,.png">
+                  </label>
+                  <span class="file-name" id="file-equip-pic-name">尚未選擇檔案</span>
+                </div>
+              </div>
+            </section>
+
+
+            <div class="form-nav">
+              <div class="btn-wrapper left">
+                <button type="button" id="prevStep4">上一步</button>
+              </div>
+              <div class="btn-wrapper right">
+                <button id="submitBtn" type="submit">送出申請</button>
+              </div>
+              
+            </div>
+            <div id="loading" style="display: none; color: red; text-align: center;">資料送出中，請稍候...</div>
+
+          </div>
+         </form>
+      </section>
+    </div>
+  </main>
+
+  <!-- Footer（沿用首頁） -->
+
+  <!-- 頁腳 -->
+  <footer class="footer">
+    <div class="footer-left">
+      <img src="../asset/img/logo.png" alt="基隆市府 logo" class="footer-logo" />
+      <div class="footer-text">
+        <p>基隆市政府產業發展處</p>
+        <p>地址｜202091 基隆市中正區信三路301號3樓</p>
+        <p>電話｜(02) 2425-8389</p>
+      </div>
+    </div>
+    <div class="footer-right">
+      <img src="../asset/img/icon-fb.png" alt="Facebook" class="footer-icon" />
+      <img src="../asset/img/icon-line.png" alt="網站" class="footer-icon" />
+      <img src="../asset/img/icon-ig.png" alt="Instagram" class="footer-icon" />
+    </div>
+  </footer>
+  <script src="../js/navbar.js"></script>
+</body>
+
+<script src="../js/subsidy-form.js"></script>
+
+</html>

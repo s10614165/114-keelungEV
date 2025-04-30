@@ -1,0 +1,159 @@
+.step-progress-wrapper {
+    background: url('../asset/img/step-bar-background.png') no-repeat center bottom;
+    background-size: cover;
+    margin-top: 65px;
+    padding: 4rem;
+    text-align: center;
+    position: relative;
+    height: 300px;
+}
+
+/* 內頁容器 */
+.subsidy-page .container {
+    max-width: 900px;
+    margin: 20px auto 3rem;
+    padding: 0 40px;
+}
+
+.page-title {
+    font-size: 1.6rem;
+    font-weight: bold;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+/* 內頁按鈕 */
+.tab-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    padding-top: 2rem;
+}
+  
+.tab-btn {
+    background-color: #9ddeee;
+    color: #333;
+    border: none;
+    padding: 0.6rem 3rem;
+    border-radius: 25px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.tab-btn:hover {
+    background-color: #7fcfdf;
+}
+
+.tab-btn.disabled {
+    background-color: #e0e0e0;
+    color: #999;
+    cursor: not-allowed;
+}
+
+.tab-btn.disabled:hover {
+    background-color: #e0e0e0;
+    color: #999;
+}
+
+.tab-btn.active {
+    font-weight: bold;
+}
+
+.subsidy-intro{
+    background-color: #ffffff;
+    padding: 3rem 5rem;
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+}
+
+.section-title{
+    position: relative;
+    display: inline-block;
+    font-size: 32px;
+    font-weight: bold;
+    color: #49899A;
+    padding-top: 10px;
+    text-align: center; /* 只讓自己置中 */
+    left: 50%;
+    transform: translateX(-50%);
+    line-height: 1.7;
+    padding-bottom: 20px;
+}
+
+.section-title::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 6px;
+    background-color: #49899A;
+    border-radius: 3px;
+}
+.intro-contain {
+    font-weight: bold;        /* ✅ 還原正常文字粗細 */
+    font-size: 1rem;
+    line-height: 1.8;
+    text-align: left;           /* ✅ 確保靠左對齊 */
+}
+  
+.intro-contain p,
+.intro-contain ul,
+.intro-contain ol,
+.intro-contain li {
+    margin-bottom: 1rem;
+    padding: 0;
+}
+
+.intro-contain > *:last-child {
+    margin-bottom: 0;
+}
+
+.intro-contain p {
+    margin-left: 0;             
+    text-indent: 0;             /* 若需縮排可設這裡 */
+}
+
+.intro-contain ul,
+.intro-contain ol {
+    padding-left: 1.5rem;       /* ✅ 讓清單項目與段落齊頭 */
+}
+
+.intro-contain li {
+    line-height: 1.6;
+}
+
+.intro-contain strong {
+    color: #2c7c92;
+    font-size: 1.05rem;
+    font-weight: 600;
+}
+
+.cta-wrapper {
+    text-align: center;
+    margin-top: 2rem; /* 可調整上下留白 */
+}
+
+.cta-btn{
+    background-color: #e69b06;
+    font-size: 15px;
+    overflow: hidden;
+    color: #ffffff;
+    padding: 0.5rem 1.2rem;
+    border: none;
+    border-radius: 100px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    padding: 0.6rem 2.4rem;
+    display: inline-block;        /* 讓 a behave like button */
+    text-align: center;
+    text-decoration: none;        /* 移除底線 */
+    margin: 0 auto;               /* 搭配外層 text-align 才會置中 */
+}

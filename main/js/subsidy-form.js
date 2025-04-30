@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
   // 插入第二步按鈕列中
-  document.querySelector('#step2 .form-nav').insertBefore(nextToStep3, document.querySelector('#step2 .form-nav button[type="submit"]'));
+  //document.querySelector('#step2 .form-nav').insertBefore(nextToStep3, document.querySelector('#step2 .form-nav button[type="submit"]'));
 
 
   prevStep3?.addEventListener("click", () => {
@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // 第三步 → 第四步
   const nextToStep4 = document.createElement('button');
-  nextToStep4.textContent = '下一步';
+  nextToStep4.textContent = '下一步，檢附文件';
   nextToStep4.type = 'button';
   nextToStep4?.addEventListener('click', function () {
     step3.style.display = 'none';
@@ -61,8 +61,16 @@ document.addEventListener('DOMContentLoaded', function () {
     updateProgressUI(currentStep);
   });
 
+  // 包裝進一個 .btn-wrapper.right 容器
+  const wrapperDiv = document.createElement('div');
+  wrapperDiv.classList.add('btn-wrapper', 'right');
+  wrapperDiv.appendChild(nextToStep4);
+
   // 插入第三步按鈕列中
-  document.querySelector('#step3 .form-nav').insertBefore(nextToStep4, document.querySelector('#step3 .form-nav button[type="submit"]'));
+  document.querySelector('#step3 .form-nav').insertBefore(
+    wrapperDiv,
+    document.querySelector('#step3 .form-nav button[type="submit"]')
+  );
 
   // 上一步 Step 4 → Step 3
   prevStep4?.addEventListener('click', function () {
@@ -382,15 +390,6 @@ function toggleApproved(checkbox) {
 }
 function toggleNotApproved(checkbox) {
   document.getElementById("notApprovedFields").style.display = checkbox.checked ? "block" : "none";
-}
-
-
-function prepareForPrint() {
-  // 顯示所有步驟區塊
-  document.querySelectorAll('.form-step').forEach(el => el.style.display = 'block');
-
-  // 然後列印
-  window.print();
 }
 
 
