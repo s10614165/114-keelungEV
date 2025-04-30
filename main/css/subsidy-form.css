@@ -410,4 +410,51 @@
   z-index: 0;
 }
 
+.form-label {
+  font-weight: bold;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  font-family: sans-serif;
+}
 
+.help-icon-wrapper {
+  position: relative;
+  display: inline-block;
+  margin-left: 6px;
+  cursor: pointer;
+  color: #007bff;
+}
+
+.help-icon-wrapper:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+
+.tooltip-text {
+  visibility: hidden;
+  opacity: 0;
+  white-space: nowrap;
+  background-color: #f1f1f1;
+  color: #333;
+  padding: 8px 12px;
+  border-radius: 6px;
+  position: absolute;
+  left: 26px;
+  top: 50%;
+  transform: translateY(-50%);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  font-size: 13px;
+  transition: opacity 0.3s ease;
+  z-index: 100;
+  border-left: 4px solid #007bff;
+}
+
+.help-icon-wrapper i {
+  font-size: 16px;
+  transition: transform 0.2s;
+}
+
+.help-icon-wrapper:hover i {
+  transform: scale(1.1);
+}

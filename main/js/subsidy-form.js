@@ -385,4 +385,13 @@ function toggleNotApproved(checkbox) {
 }
 
 
+function prepareForPrint() {
+  // 顯示所有步驟區塊
+  document.querySelectorAll('.form-step').forEach(el => el.style.display = 'block');
+
+  // 然後列印
+  window.print();
+}
+
+
 
