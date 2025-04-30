@@ -9,7 +9,9 @@
 
   <!-- 專頁樣式：申請補助表單 -->
   <link rel="stylesheet" href="../css/subsidy-form.css" />
- 
+  <!--  Font Awesome CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
 
 </head>
 
@@ -76,22 +78,22 @@
               <label for="company">申請單位全名<span class="required">*</span></label>
               <input type="text" id="company" name="company" required>
 
-               <!-- 營利事業統一編碼 -->
-               <label for="taxId">營利事業統一編碼<span class="required">*</span></label>
-               <input type="text" id="taxId" name="taxId" required>
- 
-               <!-- 所屬行政區 -->
-               <label for="district">所屬行政區<span class="required">*</span></label>
-               <select id="district" name="district" required>
-                 <option value="">請選擇</option>
-                 <option>信義區</option>
-                 <option>仁愛區</option>
-                 <option>中正區</option>
-                 <option>安樂區</option>
-                 <option>中山區</option>
-                 <option>七堵區</option>
-                 <option>暖暖區</option>
-               </select>
+              <!-- 營利事業統一編碼 -->
+              <label for="taxId">營利事業統一編碼<span class="required">*</span></label>
+              <input type="text" id="taxId" name="taxId" required>
+
+              <!-- 所屬行政區 -->
+              <label for="district">所屬行政區<span class="required">*</span></label>
+              <select id="district" name="district" required>
+                <option value="">請選擇</option>
+                <option>信義區</option>
+                <option>仁愛區</option>
+                <option>中正區</option>
+                <option>安樂區</option>
+                <option>中山區</option>
+                <option>七堵區</option>
+                <option>暖暖區</option>
+              </select>
 
               <!-- 車行類型 -->
               <label for="shop">車行類型<span class="required">*</span></label>
@@ -122,7 +124,7 @@
                 </div>
               </div>
 
-               <!-- 詳細資料區塊 -->
+              <!-- 詳細資料區塊 -->
               <div class="form-section">
                 <h3>詳細資料</h3>
 
@@ -182,7 +184,19 @@
                     <label>
                       <input type="checkbox" name="applied[]" value="曾申請且核定通過" onchange="toggleApproved(this)">
                       曾申請且核定通過
+                      <span class="help-icon-wrapper">
+                        <i class="fas fa-circle-question"></i>
+                        <span class="tooltip-text">
+                          <p>【填寫範例】</p>
+                          <p>112年有申請且核定通過</p>
+                          <p>申請計畫主辦單位：經濟部</p>
+                          <p>申請計畫名稱：OOOOO</p>
+                        </span>
+                      </span>
                     </label>
+                    <div id="help-email" class="tooltip-text">
+                      請填寫有效的 Email，未來將用於身份驗證與通知。
+                    </div>
                     <div id="approvedFields" style="display:none; margin-left: 1em;">
                       <label>申請年度：
                         <input type="text" name="approvedYear" placeholder="例如：2023">
@@ -199,6 +213,15 @@
                     <label>
                       <input type="checkbox" name="applied[]" value="曾申請但未通過" onchange="toggleNotApproved(this)">
                       曾申請但未通過
+                      <span class="help-icon-wrapper">
+                        <i class="fas fa-circle-question"></i>
+                        <span class="tooltip-text">
+                          <p>【填寫範例】</p>
+                          <p>112年有申請但核定未通過</p>
+                          <p>申請計畫主辦單位：經濟部</p>
+                          <p>申請計畫名稱：OOOOO</p>
+                        </span>
+                      </span>
                     </label>
                     <div id="notApprovedFields" style="display:none; margin-left: 1em;">
                       <label>申請年度：
@@ -220,9 +243,16 @@
             <!-- 優先項目 -->
             <div class="form-section">
               <h3>優先項目<span class="required">*</span></h3>
-              <p class="form-tip">
+              <div class="form-tip">
                 是否通過「經濟部主辦機車行升級轉型輔導－機車維修訓練課程」並檢附經濟部、勞動部、環境部共同頒予之第一階段機車維修技術課程結訓證書
-              </p>
+                <span class="help-icon-wrapper">
+                  <i class="fas fa-circle-question"></i>
+                  <span class="tooltip-text">
+                    如未通過，將待本府彙整名單後向中央經濟部提出受訓需求。
+                  </span>
+                </span>
+              </div>
+              
               <div class="radio-group">
                 <label><input type="radio" name="priority" value="已通過，並持有結訓證書" required>已通過，並持有結訓證書</label>
                 <label><input type="radio" name="priority" value="未通過，未持有結訓證書">未通過，未持有結訓證書</label>
@@ -231,12 +261,21 @@
 
             <!-- 申請補助類別 -->
             <div class="form-section">
-              <h3>申請補助類別<span class="required">*</span></h3>
+              <h3>申請補助類別
+                <span class="help-icon-wrapper">
+                  <i class="fas fa-circle-question"></i>
+                  <span class="tooltip-text">
+                    <p>本計畫補助期間為本市環保局「基隆市公益青年就業電動機車補助計畫 1.0」</p>
+                    <p>公告起訖日 112 年 09 月 12 日至 114 年 12 月 15 日(含)止。</p>
+                  </span>
+                </span>
+              </h3>
               <div>
                 <div class="checkbox-grid">
                   <div>  
                     <p class="form-tip">
                       產業轉型支援補助(勾選所需補助項目)
+                      <span class="required">*</span>
                     </p>
                     <label><input type="checkbox" name="tranSupport[]" value="綠能轉型" required> 綠能轉型</label>
                     <label><input type="checkbox" name="tranSupport[]" value="留才獎勵"> 留才獎勵</label>
@@ -245,6 +284,7 @@
                   <div>  
                     <p class="form-tip">
                       綠能交通產業推廣(勾選所需補助項目)
+                      <span class="required">*</span>
                     </p>
                     <div class="radio-group">
                       <label><input type="radio" name="greenMobile" value="公益青年機車推廣" checked> 公益青年機車推廣</label>
@@ -267,6 +307,7 @@
                   <label><input type="checkbox" name="applyBrand[]" value="宏佳騰"> 宏佳騰</label>
                   <label><input type="checkbox" name="applyBrand[]" value="睿能"> 睿能</label>
                   <label><input type="checkbox" name="applyBrand[]" value="摩特動力"> 摩特動力</label>
+                  <label><input type="checkbox" name="applyBrand[]" value="摩特動力"> 泓創</label>
                 </div>
               </div>
             </div>
@@ -287,7 +328,16 @@
             <!-- 補助經費概算 -->
             <div class="form-section">
               <h3>補助總經費概算</h3>
-              <label for="totalBudget">「產業轉型支援補助」申請案總經費<span class="required">*</span></label>
+              <label for="totalBudget">「產業轉型支援補助」申請案總經費
+                <span class="required">*</span>
+                <span class="help-icon-wrapper">
+                  <i class="fas fa-circle-question"></i>
+                  <span class="tooltip-text">
+                    【填寫範例】 200,000  元
+                    ※補助上限200,000元，請依實際申請補助內容填寫
+                  </span>
+                </span>
+            </label>
               <input type="text" id="totalBudget" name="totalBudget" required>
 
             </div>
@@ -295,9 +345,24 @@
             <!-- 綠能轉型費用概算 -->
             <div class="form-section">
               <h3>「產業轉型支援補助-綠能轉型」補助申請費用概算</h3>
-              <label for="greenDesc">內容說明</label>
+              <label for="greenDesc">內容說明
+                <span class="help-icon-wrapper">
+                  <i class="fas fa-circle-question"></i>
+                  <span class="tooltip-text">
+                    【填寫範例】
+                    已具備中央第一階段技術結訓證書，及各車廠證書，且該證書期限符合本計畫規定
+                  </span>
+                </span>
+              </label>
               <textarea id="greenDesc" name="greenDesc" rows="4"></textarea>
-              <label for="greenApply">申請補助金額</label>
+              <label for="greenApply">申請補助金額
+                <span class="help-icon-wrapper">
+                  <i class="fas fa-circle-question"></i>
+                  <span class="tooltip-text">
+                    ※補助上限100,000元，請依實際申請補助內容填寫
+                  </span>
+                </span>
+              </label>
               <input type="text" id="greenApply" name="greenApply">
 
               <label for="greenOther">其他機關補助金額</label>
@@ -308,9 +373,24 @@
             <!-- 留才獎勵費用概算 -->
             <div class="form-section">
               <h3>「產業轉型支援補助-留才獎勵」補助申請費用概算</h3>
-              <label for="retainDesc">內容說明</label>
+              <label for="retainDesc">內容說明
+                <span class="help-icon-wrapper">
+                  <i class="fas fa-circle-question"></i>
+                  <span class="tooltip-text">
+                    【填寫範例】
+                    車行○○員工已具備中央第一階段技術結訓證書，及各車廠證書，且依本計畫規定檢附綁定○○員工6個月的工作在職證明文件
+                  </span>
+                </span>
+              </label>
               <textarea id="retainDesc" name="retainDesc" rows="4"></textarea>
-              <label for="retainApply">申請補助金額</label>
+              <label for="retainApply">申請補助金額
+                <span class="help-icon-wrapper">
+                  <i class="fas fa-circle-question"></i>
+                  <span class="tooltip-text">
+                    ※補助上限20,000元，請依實際申請補助內容填寫
+                  </span>
+                </span>
+              </label>
               <input type="text" id="retainApply" name="retainApply">
 
               <label for="retainOther">其他機關補助金額</label>
@@ -321,14 +401,35 @@
             <!-- 設備補助費用概算 -->
             <div class="form-section">
               <h3>「產業轉型支援補助-設備補助」補助申請費用概算</h3>
-              <label for="equipDesc">內容說明</label>
+              <label for="equipDesc">內容說明
+                <span class="help-icon-wrapper">
+                  <i class="fas fa-circle-question"></i>
+                  <span class="tooltip-text">
+                    <p>【填寫範例】</p>
+                    <p>．保養維修診斷器材工具：依本計畫購置所需設備，如……等。</p>
+                    <p>．維修系統租賃費：依本計畫購置所需設備，如……等。</p>
+                    <p>．店面改造及識別標誌：依本計畫購置所需設備，如……等。</p>          
+                  </span>
+                </span>
+              </label>
               <textarea id="equipDesc" name="equipDesc" rows="4"></textarea>
-              <label for="equipApply">申請補助金額</label>
+              <label for="equipApply">申請補助金額
+                <span class="help-icon-wrapper">
+                  <i class="fas fa-circle-question"></i>
+                  <span class="tooltip-text">
+                    <p>※補助上限80,000元，請依實際申請補助內容填寫。補助項目細項上限分別如下：</p>
+                    <p>．保養維修診斷器材工具：補助上限40,000元。</p>
+                    <p>．維修系統租賃費：補助上限10,000元。</p>
+                    <p>．店面改造及識別標誌：補助上限30,000元。</p>          
+                  </span>
+                </span>
+              </label>               
+              
               <input type="text" id="equipApply" name="equipApply">
 
               <label for="equipOther">其他機關補助金額</label>
               <input type="text" id="equipOther" name="equipOther">
-               
+              
             </div>
 
             <!-- 預期效益：經營效益 -->
@@ -354,7 +455,7 @@
 
               <label for="evSoftware">目前車行內有「維修電動機車之軟體設備」為幾項？<span class="required">*</span></label>
               <input type="text" id="evSoftware" name="evSoftware" required>
-             
+            
             </div>
             
 
@@ -377,7 +478,7 @@
                   <p>※正本文件請自行留存，並於審核通過通知請領時需攜帶檢附</p></label>
                 <div class="file-input-wrapper">
                   <label class="file-btn">
-                     選擇檔案
+                    選擇檔案
                     <input type="file" id="file-affidavit" name="file-affidavit" accept=".pdf,.jpg,.png" required>
                   </label>
                   <span class="file-name" id="file-affidavit-name">尚未選擇檔案</span>
@@ -388,7 +489,7 @@
                 <label class="file-label">車行設立登記證明文件<span class="required">*</span></label>
                 <div class="file-input-wrapper">
                   <label class="file-btn">
-                     選擇檔案
+                    選擇檔案
                     <input type="file" id="file-license" name="file-license" accept=".pdf,.jpg,.png" required>
                   </label>
                   <span class="file-name" id="file-license-name">尚未選擇檔案</span>
@@ -399,7 +500,7 @@
                 <label class="file-label">營業人銷售額<span class="required">*</span></label>
                 <div class="file-input-wrapper">
                   <label class="file-btn">
-                     選擇檔案
+                    選擇檔案
                     <input type="file" id="file-revenue" name="file-revenue" accept=".pdf,.jpg,.png" required>
                   </label>
                   <span class="file-name" id="file-revenue-name">尚未選擇檔案</span>
@@ -411,7 +512,7 @@
                 <label class="file-label">稅額申報書<span class="required">*</span></label>
                 <div class="file-input-wrapper">
                   <label class="file-btn">
-                     選擇檔案
+                    選擇檔案
                     <input type="file" id="file-tax" name="file-tax" accept=".pdf,.jpg,.png" required>
                   </label>
                   <span class="file-name" id="file-tax-name">尚未選擇檔案</span>
@@ -422,7 +523,7 @@
                 <label class="file-label">車行銀行存簿封面<span class="required">*</span></label>
                 <div class="file-input-wrapper">
                   <label class="file-btn">
-                     選擇檔案
+                    選擇檔案
                     <input type="file" id="file-bank" name="file-bank" accept=".pdf,.jpg,.png" required>
                   </label>
                   <span class="file-name" id="file-bank-name">尚未選擇檔案</span>
@@ -465,7 +566,7 @@
                 <label class="file-label">人員中央完訓證書</label>
                 <div class="file-input-wrapper">
                   <label class="file-btn">
-                     選擇檔案
+                    選擇檔案
                     <input type="file" id="file-retain-train" name="file-retain-train" accept=".pdf,.jpg,.png">
                   </label>
                   <span class="file-name" id="file-retain-train-name">尚未選擇檔案</span>
@@ -476,7 +577,7 @@
                 <label class="file-label">維修技術證書</label>
                 <div class="file-input-wrapper">
                   <label class="file-btn">
-                     選擇檔案
+                    選擇檔案
                     <input type="file" id="file-retain-skill" name="file-retain-skill" accept=".pdf,.jpg,.png">
                   </label>
                   <span class="file-name" id="file-retain-skill-name">尚未選擇檔案</span>
@@ -487,7 +588,7 @@
                 <label class="file-label">任職就業證明</label>
                 <div class="file-input-wrapper">
                   <label class="file-btn">
-                     選擇檔案
+                    選擇檔案
                     <input type="file" id="file-retain-job" name="file-retain-job" accept=".pdf,.jpg,.png">
                   </label>
                   <span class="file-name" id="file-retain-job-name">尚未選擇檔案</span>
@@ -503,7 +604,7 @@
                 <label class="file-label">發票+工具證明照片</label>
                 <div class="file-input-wrapper">
                   <label class="file-btn">
-                     選擇檔案
+                    選擇檔案
                     <input type="file" id="file-equip-invoice" name="file-equip-invoice" accept=".pdf,.jpg,.png">
                   </label>
                   <span class="file-name" id="file-equip-invoice-name">尚未選擇檔案</span>
@@ -514,7 +615,7 @@
                 <label class="file-label">廠牌認證維修系統租賃繳費證明</label>
                 <div class="file-input-wrapper">
                   <label class="file-btn">
-                     選擇檔案
+                    選擇檔案
                     <input type="file" id="file-equip-cert" name="file-equip-cert" accept=".pdf,.jpg,.png">
                   </label>
                   <span class="file-name" id="file-equip-cert-name">尚未選擇檔案</span>
@@ -525,7 +626,7 @@
                 <label class="file-label">發票+相關證明照片</label>
                 <div class="file-input-wrapper">
                   <label class="file-btn">
-                     選擇檔案
+                    選擇檔案
                     <input type="file" id="file-equip-pic" name="file-equip-pic" accept=".pdf,.jpg,.png">
                   </label>
                   <span class="file-name" id="file-equip-pic-name">尚未選擇檔案</span>
@@ -539,10 +640,12 @@
               <button id="submitBtn" type="submit">送出申請</button>
 
             </div>
+            <!-- <button onclick="prepareForPrint()">列印或匯出為 PDF</button> -->
+
             <div id="loading" style="display: none; color: red; text-align: center;">資料送出中，請稍候...</div>
 
           </div>
-         </form>
+        </form>
       </section>
     </div>
   </main>
