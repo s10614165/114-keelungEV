@@ -54,18 +54,22 @@ document.addEventListener('DOMContentLoaded', function () {
   const nextToStep4 = document.createElement('button');
   nextToStep4.textContent = '下一步';
   nextToStep4.type = 'button';
-  nextToStep4.addEventListener('click', function () {
-  step3.style.display = 'none';
-  step4.style.display = 'block';
+  nextToStep4?.addEventListener('click', function () {
+    step3.style.display = 'none';
+    step4.style.display = 'block';
+    currentStep = 4;
+    updateProgressUI(currentStep);
   });
 
   // 插入第三步按鈕列中
   document.querySelector('#step3 .form-nav').insertBefore(nextToStep4, document.querySelector('#step3 .form-nav button[type="submit"]'));
 
   // 上一步 Step 4 → Step 3
-  prevStep4.addEventListener('click', function () {
+  prevStep4?.addEventListener('click', function () {
     step4.style.display = 'none';
     step3.style.display = 'block';
+    currentStep = 3;
+    updateProgressUI(currentStep);
   });
 
   // 顯示上傳檔案名稱
@@ -82,7 +86,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // 表單驗證
   const url = "https://script.google.com/macros/s/AKfycbzr7aP0W9J6wP0kZFqydFdJSXbHN-lZpoRkxpaYBMFDd6aoCZTc_oE5dmvghK2awSIT/exec"; // Apps Script Web App URL
+  const submitBtn = document.getElementById("submitBtn");
+  const loading = document.getElementById("loading"); // 或 loadingSpinner
+
   document.getElementById("subsidyForm").addEventListener("submit", async function (e) {
+
     const steps = [step1, step2, step3, step4];
     let isValid = true;
     let isEmail = true;
@@ -96,6 +104,8 @@ document.addEventListener('DOMContentLoaded', function () {
       for (const field of fields) {
         const type = field.type;
         const tag = field.tagName;
+
+        if (!field.hasAttribute('required')) continue; // 只驗證 required 的欄位
 
         if (
           (type === 'text' || type === 'email' || type === 'tel' || type === 'number' || tag === 'TEXTAREA') &&
@@ -139,6 +149,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
       }
 
+
       if (!isValid) {
         e.preventDefault();
         step1.style.display = 'none';
@@ -154,6 +165,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         return;
       }
+
 
       if(!isEmail) {
         e.preventDefault();
@@ -175,8 +187,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // 若全部通過驗證，允許送出
 
-
     e.preventDefault();
+    // 驗證前就先禁用送出按鈕，避免使用者狂點
+    submitBtn.disabled = true;
+    loading.style.display = "block";
 
     const form = e.target;
     const selectedBrands = Array.from(document.querySelectorAll('input[name="brand[]"]:checked'))
@@ -263,23 +277,34 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
         const text = await response.text();
-        alert(text); // 顯示成功或錯誤訊息
 
-        // 成功送出後清除表單資料
-        form.reset();
+        if (text.trim().toLowerCase() === 'success'){
+          alert("提交成功!"); // 顯示成功或錯誤訊息
 
-        // 清除顯示的檔案名稱
-        document.querySelectorAll('span[id$="-name"]').forEach(span => {
-          span.textContent = '尚未選擇檔案';
-        });
+          // 成功送出後清除表單資料
+          form.reset();
 
-        window.location.href = 'subsidy.html';
+          // 清除顯示的檔案名稱
+          document.querySelectorAll('span[id$="-name"]').forEach(span => {
+            span.textContent = '尚未選擇檔案';
+          });
+
+          window.location.href = 'success.html';
+        }
+        else {
+          alert("提交失敗：" + text);
+        }
+        
+        
     } catch (error) {
       console.error("檔案讀取失敗", error);
       alert("檔案讀取失敗，請重新嘗試。");
+    } finally {
+      // 無論成功或失敗，最後都恢復按鈕狀態
+      submitBtn.disabled = false;
+      loading.style.display = "none";
     }
 
-    reader.readAsDataURL(file);
   });
   
 });
