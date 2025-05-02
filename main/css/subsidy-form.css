@@ -464,11 +464,12 @@
 }
 
 .step.current .step-road {
-  background: url('../asset/img/recently-step.png') no-repeat center bottom;
-  background-size: contain;
+  background: url('../asset/img/recently-step.svg') no-repeat center bottom;
+  background-size: cover;
+  background-position-y: center;
   width: 100%;
-  height: 100%;
-  transform: translateY(1.2px);
+  height: 50%;
+  transform: translateY(40px);
 }
 
 .step-rider {
