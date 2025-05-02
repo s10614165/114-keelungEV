@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>產業轉型申請補助專區</title>
+  <!-- 共用樣式 -->
+  <link rel="stylesheet" href="../css/navbar.css" />
+
+  <!-- 專頁樣式：申請補助表單 -->
+  <link rel="stylesheet" href="../css/subsidy-form.css" />
+  <!-- 專頁樣式：申請補助表單 -->
+  <link rel="stylesheet" href="../css/subsidy-intro.css" />
+  <!--字體-->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+  <!--  Font Awesome CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+
+</head>
+
+<body>
+  <!-- 導覽列 -->
+<!-- 共用 Navbar 載入位置 -->
+<div id="navbar-placeholder"></div>
+
+  <!-- 頁面主體 -->
+  <main class="subsidy-page">
+    <!-- 進度條區塊 -->
+    <div class="step-progress-wrapper">
+      <nav class="breadcrumb" aria-label="breadcrumb">
+        <ul>
+          <li>首頁</li>
+          <li>申請補助專區</li>
+          <li>公益青年代辦補助申請</li>
+          <li>補件專區</li>
+        </ul>
+      </nav>
+      <h1 class="page-title">補件專區</h1>
+      <!-- 按鈕列 -->
+      <div class="tab-buttons">
+        <a href="teenSubsidy-intro.html" class="tab-btn active">補助申請</a>
+        <button class="tab-btn disabled" disabled>進度查詢</button>
+        <a href="teenSubsidy-supplement.html" class="tab-btn active">補件專區</a>
+      </div>
+
+    </div>
+
+    <div class="container">
+
+
+        <!-- 表單外框 -->
+        <form class="subsidy-form" id="subsidyForm" novalidate>
+          <!-- Step 1：基本資料 + 詳細資料 -->
+          <div class="form-step" id="step1">
+            <section class="form-section">
+              <h2 class="form-title">補件單位</h2>
+
+              <!-- 申請單位全名 -->
+              <label for="company">補件單位全名<span class="required">*</span></label>
+              <input type="text" id="company" name="company" required>
+
+              <!-- 營利事業統一編碼 -->
+              <label for="taxId">營利事業統一編碼<span class="required">*</span></label>
+              <input type="text" id="taxId" name="taxId" required>
+
+              
+
+            </section>
+
+            <!-- 補件計畫類別 -->
+            <label for="shop"><p>補件計畫類別<span class="required">*</span></p><p>***選擇後下方資料類別需自動抓取對應需上傳文件</p></label>
+            <select id="shop" name="shop" required>
+                <option value="">請選擇</option>
+                <option>核准通過證明文件</option>
+                <option>車行銀行存摺封面</option>
+                <option>領據(附件7)</option>
+            </select>
+
+            <!-- 檔案上傳 -->
+            <section class="form-section">
+                <h2 class="form-title">核准通過證明文件</h2>
+            
+                <div class="file-upload">
+                  <label class="file-label">核准通過證明文件(補助核准公文)<span class="required">*</span></label>
+                  <div class="file-input-wrapper">
+                    <label class="file-btn">
+                        選擇檔案
+                      <input type="file" id="file-teenPassProof" name="file-teenPassProof" accept=".pdf,.jpg,.png" required>
+                    </label>
+                    <span class="file-name" id="file-teenPassProof-name">尚未選擇檔案</span>
+                  </div>
+                </div>
+                <label for="teenPassProof-desc">備註說明</label>
+                <input type="text" id="teenPassProof-desc" name="teenPassProof-desc">
+            </section>
+                
+            <section class="form-section">
+                <h2 class="form-title">車行銀行存摺封面</h2>
+                <div class="file-upload">
+                    <label class="file-label">車行銀行存摺封面<span class="required">*</span></label>
+                    <div class="file-input-wrapper">
+                    <label class="file-btn">
+                        選擇檔案
+                        <input type="file" id="file-teenBank" name="file-teenBank" accept=".pdf,.jpg,.png" required>
+                    </label>
+                    <span class="file-name" id="file-teenBank-name">尚未選擇檔案</span>
+                    </div>
+                </div>
+                <label for="teenBank-desc">備註說明</label>
+                <input type="text" id="teenBank-desc" name="teenBank-desc">
+            </section>
+            <section class="form-section">
+                <h2 class="form-title">領據(附件7)</h2>
+                <div class="file-upload">
+                    <label class="file-label">
+                        <p>領據(附件7)<span class="required">*</span></p>
+                        <p>※請點選<a href="https://drive.google.com/file/d/1Z0jw__vyeL9R-oTd0jlS4G82PDUJP9tf/view" target="_blank">連結</a>下載檔案，並填寫簽章後掃描/拍照上傳</p>
+                    </label>
+                    <div class="file-input-wrapper">
+                        <label class="file-btn">
+                        選擇檔案
+                        <input type="file" id="file-teenAffidavit" name="file-teenAffidavit" accept=".pdf,.jpg,.png" required>
+                        </label>
+                        <span class="file-name" id="file-teenAffidavit-name">尚未選擇檔案</span>
+                    </div>
+                </div>
+                <label for="teenAffidavit-desc">備註說明</label>
+                <input type="text" id="teenAffidavit-desc" name="teenAffidavit-desc">
+            </section>
+
+            <div class="form-nav">
+                <div class="btn-wrapper right">
+                <button id="submitBtn" type="submit">送出申請</button>
+                </div>
+                <!-- <button onclick="prepareForPrint()">列印或匯出為 PDF</button> -->
+                
+            </div>
+            <div id="loading" style="display: none; color: red; text-align: center;">資料送出中，請稍候...</div>
+                        
+          </div>
+
+
+        </form>
+    </div>
+  </main>
+
+  <!-- Footer（沿用首頁） -->
+
+  <!-- 頁腳 -->
+  <footer class="footer">
+    <div class="footer-left">
+      <img src="../asset/img/logo.png" alt="基隆市府 logo" class="footer-logo" />
+      <div class="footer-text">
+        <p>基隆市政府產業發展處</p>
+        <p>地址｜202091 基隆市中正區信三路301號3樓</p>
+        <p>電話｜(02) 2425-8389</p>
+      </div>
+    </div>
+    <div class="footer-right">
+      <img src="../asset/img/icon-fb.png" alt="Facebook" class="footer-icon" />
+      <img src="../asset/img/icon-line.png" alt="網站" class="footer-icon" />
+      <img src="../asset/img/icon-ig.png" alt="Instagram" class="footer-icon" />
+    </div>
+  </footer>
+  <script src="../js/navbar.js"></script>
+</body>
+
+<script src="../js/teenSubsidy-supplement.js"></script>
+
+</html>

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>公益青年代辦補助申請</title>
+  <!-- 共用樣式 -->
+  <link rel="stylesheet" href="../css/navbar.css" />
+
+  <!-- 專頁樣式：申請補助表單 -->
+  <link rel="stylesheet" href="../css/subsidy-form.css" />
+  <!--字體-->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+  <!--  Font Awesome CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+
+</head>
+
+<body>
+  <!-- 導覽列 -->
+<!-- 共用 Navbar 載入位置 -->
+<div id="navbar-placeholder"></div>
+
+  <!-- 頁面主體 -->
+  <main class="subsidy-page">
+    <!-- 進度條區塊 -->
+    <div class="step-progress-wrapper">
+      <nav class="breadcrumb" aria-label="breadcrumb">
+        <ul>
+          <li>首頁</li>
+          <li>申請補助專區</li>
+          <li>公益青年代辦補助申請</li>
+          <li>補助申請</li>
+        </ul>
+      </nav>
+      <h1 class="page-title">公益青年代辦補助申請</h1>
+      <div class="step-track">
+        <div class="track-line"></div>
+        <div class="track-line-finished"></div> <!-- ✅ 新增這條覆蓋的綠色線 -->
+        <ul class="step-progress">
+          <li class="step" data-step="1">
+            <div class="step-bar"></div>
+            <div class="step-label">1.填寫資料</div>
+          </li>
+          <li class="step" data-step="2">
+            <div class="step-bar"></div>
+            <div class="step-label">2.檢附文件</div>
+          </li>
+          <li class="step" data-step="3">
+            <div class="step-bar"></div>
+            <div class="step-label">3.送出申請</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="container">
+
+
+
+
+      <!-- 表單外框 -->
+        <form class="subsidy-form" id="subsidyForm" novalidate>
+          <!-- Step 1：基本資料 + 詳細資料 -->
+          <div class="form-step" id="step1">
+            <section class="form-section">
+              <h2 class="form-title">填寫車行基本資料</h2>
+              <!-- 基本資料區塊 -->
+              <h3 class="form-subtitle">車行基本資料</h3>
+
+              <!-- 申請單位全名 -->
+              <label for="company">申請單位全名<span class="required">*</span></label>
+              <input type="text" id="company" name="company" required>
+
+              <!-- 營利事業統一編碼 -->
+              <label for="taxId">營利事業統一編碼<span class="required">*</span></label>
+              <input type="text" id="taxId" name="taxId" required>
+
+              <!-- 所屬行政區 -->
+              <label for="district">所屬行政區<span class="required">*</span></label>
+              <select id="district" name="district" required>
+                <option value="">請選擇</option>
+                <option>信義區</option>
+                <option>仁愛區</option>
+                <option>中正區</option>
+                <option>安樂區</option>
+                <option>中山區</option>
+                <option>七堵區</option>
+                <option>暖暖區</option>
+              </select>
+
+              <!-- 車行類型 -->
+              <label for="shop">車行類型<span class="required">*</span></label>
+              <select id="shop" name="shop" required>
+                <option value="">請選擇</option>
+                <option>純油車行</option>
+                <option>油電合一</option>
+                <option>純電車行</option>
+              </select>
+
+
+              <!-- 車廠品牌 -->
+              <div class="form-group">
+                <label>車廠品牌 (可複選)<span class="required">*</span></label>
+                <div class="checkbox-wrapper">
+                  <div class="checkbox-grid">
+                      <label><input type="checkbox" name="brand[]" value="SANYANG 三陽" required> SANYANG 三陽</label>
+                      <label><input type="checkbox" name="brand[]" value="YAMAHA 山葉"> YAMAHA 山葉</label>
+                      <label><input type="checkbox" name="brand[]" value="emoving 中華電動二輪車"> emoving 中華電動二輪車</label>
+                      <label><input type="checkbox" name="brand[]" value="eReady 台鈴智慧電車"> eReady 台鈴智慧電車</label>
+                      <label><input type="checkbox" name="brand[]" value="ionex 光陽"> 光陽電動車 ionex (光陽)</label>
+                      <label><input type="checkbox" name="brand[]" value="KYMCO 光陽"> KYMCO 光陽</label>
+                      <label><input type="checkbox" name="brand[]" value="gogoro"> 睿能 gogoro</label>
+                      <label><input type="checkbox" name="brand[]" value="PGO 摩特動力"> PGO 摩特動力</label>
+                      <label><input type="checkbox" name="brand[]" value="宏佳騰"> 宏佳騰機車</label>
+                      <label><input type="checkbox" name="brand[]" value="Zau 泓創綠能"> Zau 泓創綠能</label>
+                  </div>
+                </div>
+              </div>
+
+              <label for="estDate">車行設立日期<span class="required">*</span></label>
+              <input type="date" id="estDate" name="estDate" placeholder="例：2020/01/01" required>
+
+            </section>
+            
+            <!-- 詳細資料區塊 -->
+            <section class="form-section">
+              <h2 class="form-title">人員基本資料</h2>
+              <label for="ownerName">負責人姓名<span class="required">*</span></label>
+              <input type="text" id="ownerName" name="ownerName" required>
+
+              <label for="contactName">申請人姓名<span class="required">*</span></label>
+              <input type="text" id="contactName" name="contactName" required>
+
+              <label for="contactPhone">申請人連絡手機/市話<span class="required">*</span></label>
+              <input type="tel" id="contactPhone" name="contactPhone" required>
+
+            </section>
+
+            <div class="form-nav">
+              <div class="btn-wrapper right">
+                <button type="button" id="nextBtn">下一步</button>
+              </div>
+            </div>
+              
+          </div>
+
+          <!-- Step 2：第二頁 -->
+          <div class="form-step" id="step2" style="display: none;">
+            <!-- 請領說明 -->
+            <section class="form-section">
+                <h2 class="form-title">請領說明</h2>
+                <label for="teenCaseNum">至本日已收代辦件數為幾件?<span class="required">*</span></label>
+                <input type="text" id="teenCaseNum" name="teenCaseNum" required>
+  
+                <label for="teenNoticeNum">市府通知核准件數為?<span class="required">*</span></label>
+                <input type="text" id="teenNoticeNum" name="teenNoticeNum" required>
+  
+                <label for="teenApply">本次請領新台幣金額為?<span class="required">*</span></label>
+                <input type="tel" id="teenApply" name="teenApply" required>
+
+                <label for="teenApplyAccum">截至本次累積請領金額為?<span class="required">*</span></label>
+                <input type="tel" id="teenApply" name="teenApply" required>
+
+            </section>
+
+            <!-- 檔案上傳 -->
+            <section class="form-section">
+                <h2 class="form-title">佐證資料上傳</h2>
+            
+                <div class="file-upload">
+                  <label class="file-label">核准通過證明文件(補助核准公文)<span class="required">*</span></label>
+                  <div class="file-input-wrapper">
+                    <label class="file-btn">
+                        選擇檔案
+                      <input type="file" id="file-teenPassProof" name="file-teenPassProof" accept=".pdf,.jpg,.png" required>
+                    </label>
+                    <span class="file-name" id="file-teenPassProof-name">尚未選擇檔案</span>
+                  </div>
+                </div>
+            
+                <div class="file-upload">
+                  <label class="file-label">車行銀行存摺封面<span class="required">*</span></label>
+                  <div class="file-input-wrapper">
+                    <label class="file-btn">
+                        選擇檔案
+                      <input type="file" id="file-teenBank" name="file-teenBank" accept=".pdf,.jpg,.png" required>
+                    </label>
+                    <span class="file-name" id="file-teenBank-name">尚未選擇檔案</span>
+                  </div>
+                </div>
+
+                <div class="file-upload">
+                    <label class="file-label">
+                      <p>領據(附件7)<span class="required">*</span></p>
+                      <p>※請點選<a href="https://drive.google.com/file/d/1Z0jw__vyeL9R-oTd0jlS4G82PDUJP9tf/view" target="_blank">連結</a>下載檔案，並填寫簽章後掃描/拍照上傳</p>
+                    </label>
+                    <div class="file-input-wrapper">
+                      <label class="file-btn">
+                         選擇檔案
+                        <input type="file" id="file-teenAffidavit" name="file-teenAffidavit" accept=".pdf,.jpg,.png" required>
+                      </label>
+                      <span class="file-name" id="file-teenAffidavit-name">尚未選擇檔案</span>
+                    </div>
+                </div>
+            </section>
+
+            <div class="form-nav">
+                <div class="btn-wrapper left">
+                  <button type="button" id="prevBtn">上一步</button>
+                </div>
+                <div class="btn-wrapper right">
+                  <button id="submitBtn" type="submit">送出申請</button>
+                </div>
+                <!-- <button onclick="prepareForPrint()">列印或匯出為 PDF</button> -->
+                 
+            </div>
+            <div id="loading" style="display: none; color: red; text-align: center;">資料送出中，請稍候...</div>
+
+          </div>
+
+         </form>
+    </div>
+  </main>
+
+  <!-- Footer（沿用首頁） -->
+
+  <!-- 頁腳 -->
+  <footer class="footer">
+    <div class="footer-left">
+      <img src="../asset/img/logo.png" alt="基隆市府 logo" class="footer-logo" />
+      <div class="footer-text">
+        <p>基隆市政府產業發展處</p>
+        <p>地址｜202091 基隆市中正區信三路301號3樓</p>
+        <p>電話｜(02) 2425-8389</p>
+      </div>
+    </div>
+    <div class="footer-right">
+      <img src="../asset/img/icon-fb.png" alt="Facebook" class="footer-icon" />
+      <img src="../asset/img/icon-line.png" alt="網站" class="footer-icon" />
+      <img src="../asset/img/icon-ig.png" alt="Instagram" class="footer-icon" />
+    </div>
+  </footer>
+  <script src="../js/navbar.js"></script>
+</body>
+
+<script src="../js/teenSubsidy.js"></script>
+
+</html>

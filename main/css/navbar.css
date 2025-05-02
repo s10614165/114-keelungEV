@@ -282,3 +282,43 @@ body {
     align-self: center;
   }
 }
+
+
+/* 預設隱藏 */
+.dropdown ul{
+  display: none;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: white;
+  padding: 10px 0;
+  border: 1px solid #ddd;
+  min-width: 160px;
+  z-index: 999;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.dropdown-menu li a {
+  display: block;
+  padding: 10px 20px;
+  color: #333;
+  text-decoration: none;
+}
+
+.dropdown-menu li a:hover {
+  display: block;
+  background-color: #f0f0f0;
+}
+
+/* hover 顯示下拉 */
+.dropdown:hover .dropdown-menu {
+  display: block;
+}

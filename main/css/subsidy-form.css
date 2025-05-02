@@ -317,6 +317,10 @@
   text-align: right;
 }
 
+.btn-wrapper.center {
+  text-align: center;
+}
+
 .btn-wrapper.left button {
   background-color: #198da1;
   color: white;
@@ -348,6 +352,24 @@
   background-color: #b46909; /* 你可自訂一個偏深的橘色 */
 }
 
+.btn-wrapper.center button{
+  background-color: #e69b06;
+  font-size: 15px;
+  overflow: hidden;
+  color: #ffffff;
+  padding: 0.5rem 1.2rem;
+  border: none;
+  border-radius: 100px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  padding: 0.6rem 2.4rem;
+}
+
+.btn-wrapper.center button:hover {
+  background-color: #b46909; /* 你可自訂一個偏深的橘色 */
+}
+
 .form-nav button:hover {
   background-color: #7fcfdf;
 }
@@ -360,6 +382,16 @@
   text-align: center;
   position: relative;
   height: 300px;
+}
+
+.step-progress-wrapper-supple {
+  background: url('../asset/img/step-bar-background.png') no-repeat center bottom;
+  background-size: cover;
+  margin-top: 65px;
+  padding: 2rem 1rem 4rem;
+  text-align: center;
+  position: relative;
+  height: 180px;
 }
 
 .step-progress {
@@ -465,6 +497,56 @@
   border-radius: 40px;
   transform: translateY(-50%);
   z-index: 0;
+}
+
+
+.form-label {
+  font-weight: bold;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  font-family: sans-serif;
+}
+
+.help-icon-wrapper {
+  position: relative;
+  display: inline-block;
+  margin-left: 6px;
+  cursor: pointer;
+  color: #007bff;
+}
+
+.help-icon-wrapper:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+
+.tooltip-text {
+  visibility: hidden;
+  opacity: 0;
+  white-space: nowrap;
+  background-color: #f1f1f1;
+  color: #333;
+  padding: 8px 12px;
+  border-radius: 6px;
+  position: absolute;
+  left: 26px;
+  top: 50%;
+  transform: translateY(-50%);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  font-size: 13px;
+  transition: opacity 0.3s ease;
+  z-index: 100;
+  border-left: 4px solid #007bff;
+}
+
+.help-icon-wrapper i {
+  font-size: 16px;
+  transition: transform 0.2s;
+}
+
+.help-icon-wrapper:hover i {
+  transform: scale(1.1);
 }
 
 
