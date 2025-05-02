@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>產業轉型申請補助專區</title>
+  <!-- 共用樣式 -->
+  <link rel="stylesheet" href="../css/navbar.css" />
+
+  <!-- 專頁樣式：申請補助表單 -->
+  <link rel="stylesheet" href="../css/subsidy-form.css" />
+  <!-- 專頁樣式：申請補助表單 -->
+  <link rel="stylesheet" href="../css/subsidy-intro.css" />
+  <!--字體-->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+  <!--  Font Awesome CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+
+</head>
+
+<body>
+  <!-- 導覽列 -->
+<!-- 共用 Navbar 載入位置 -->
+<div id="navbar-placeholder"></div>
+
+  <!-- 頁面主體 -->
+  <main class="subsidy-page">
+    <!-- 進度條區塊 -->
+    <div class="step-progress-wrapper">
+      <nav class="breadcrumb" aria-label="breadcrumb">
+        <ul>
+          <li>首頁</li>
+          <li>申請補助專區</li>
+          <li>產業轉型申請補助專區</li>
+          <li>補件專區</li>
+        </ul>
+      </nav>
+      <h1 class="page-title">補件專區</h1>
+      <!-- 按鈕列 -->
+      <div class="tab-buttons">
+        <a href="subsidy-intro.html" class="tab-btn active">補助申請</a>
+        <button class="tab-btn disabled" disabled>進度查詢</button>
+        <a href="subsidy-supplement.html" class="tab-btn active">補件專區</a>
+      </div>
+
+    </div>
+
+    <div class="container">
+
+
+        <!-- 表單外框 -->
+        <form class="subsidy-form" id="subsidyForm" novalidate>
+          <!-- Step 1：基本資料 + 詳細資料 -->
+          <div class="form-step" id="step1">
+            <section class="form-section">
+              <h2 class="form-title">補件單位</h2>
+
+              <!-- 申請單位全名 -->
+              <label for="company">補件單位全名<span class="required">*</span></label>
+              <input type="text" id="company" name="company" required>
+
+              <!-- 營利事業統一編碼 -->
+              <label for="taxId">營利事業統一編碼<span class="required">*</span></label>
+              <input type="text" id="taxId" name="taxId" required>
+
+              
+
+            </section>
+
+            <!-- 補件計畫類別 -->
+            <label for="shop"><p>補件計畫類別<span class="required">*</span></p><p>***選擇後下方資料類別需自動抓取對應需上傳文件</p></label>
+            <select id="shop" name="shop" required>
+            <option value="">請選擇</option>
+            <option>基本資料</option>
+            <option>綠能轉型</option>
+            <option>留才獎勵</option>
+            <option>設備補助</option>
+            </select>
+
+
+            <!-- 基本文件 -->
+            <section class="form-section">
+                <h2 class="form-title">上傳基本文件</h2>
+                <div class="file-upload">
+                <label class="file-label">
+                    <p>切結書(附件5)<span class="required">*</span></p>
+                    <p>※請點選<a href="https://drive.google.com/file/d/1GgBVrOggtvCctlJQziAs5ey9YEW7Qxvu/view?usp=sharing" target="_blank">連結</a>下載檔案，並填寫簽章後掃描/拍照上傳</p>
+                    <p>※正本文件請自行留存，並於審核通過通知請領時需攜帶檢附</p></label>
+                <div class="file-input-wrapper">
+                    <label class="file-btn">
+                    選擇檔案
+                    <input type="file" id="file-affidavit" name="file-affidavit" accept=".pdf,.jpg,.png" required>
+                    </label>
+                    <span class="file-name" id="file-affidavit-name">尚未選擇檔案</span>
+                </div>
+                </div>
+
+                <div class="file-upload">
+                <label class="file-label">車行設立登記證明文件<span class="required">*</span></label>
+                <div class="file-input-wrapper">
+                    <label class="file-btn">
+                    選擇檔案
+                    <input type="file" id="file-license" name="file-license" accept=".pdf,.jpg,.png" required>
+                    </label>
+                    <span class="file-name" id="file-license-name">尚未選擇檔案</span>
+                </div>
+                </div>
+            
+                <div class="file-upload">
+                <label class="file-label">營業人銷售額<span class="required">*</span></label>
+                <div class="file-input-wrapper">
+                    <label class="file-btn">
+                    選擇檔案
+                    <input type="file" id="file-revenue" name="file-revenue" accept=".pdf,.jpg,.png" required>
+                    </label>
+                    <span class="file-name" id="file-revenue-name">尚未選擇檔案</span>
+                </div>
+                </div>
+
+
+                <div class="file-upload">
+                <label class="file-label">稅額申報書<span class="required">*</span></label>
+                <div class="file-input-wrapper">
+                    <label class="file-btn">
+                    選擇檔案
+                    <input type="file" id="file-tax" name="file-tax" accept=".pdf,.jpg,.png" required>
+                    </label>
+                    <span class="file-name" id="file-tax-name">尚未選擇檔案</span>
+                </div>
+                </div>
+
+                <div class="file-upload">
+                <label class="file-label">車行銀行存簿封面<span class="required">*</span></label>
+                <div class="file-input-wrapper">
+                    <label class="file-btn">
+                    選擇檔案
+                    <input type="file" id="file-bank" name="file-bank" accept=".pdf,.jpg,.png" required>
+                    </label>
+                    <span class="file-name" id="file-bank-name">尚未選擇檔案</span>
+                </div>
+                </div>
+                <label for="basic-desc">備註說明</label>
+                <input type="text" id="basic-desc" name="basic-desc">
+            </section>
+
+            <!-- 綠能轉型 -->
+            <section class="form-section">
+                <h2 class="form-title">上傳綠能轉型所需文件</h2>
+            
+                <div class="file-upload">
+                    <label class="file-label">中央完訓證書</label>
+                    <div class="file-input-wrapper">
+                    <label class="file-btn">
+                        選擇檔案
+                        <input type="file" id="file-green-train" name="file-green-train" accept=".pdf,.jpg,.png">
+                    </label>
+                    <span class="file-name" id="file-green-train-name">尚未選擇檔案</span>
+                    </div>
+                </div>
+            
+                <div class="file-upload">
+                    <label class="file-label">車廠授權維修證明</label>
+                    <div class="file-input-wrapper">
+                    <label class="file-btn">
+                        選擇檔案
+                        <input type="file" id="file-green-auth" name="file-green-auth" accept=".pdf,.jpg,.png">
+                    </label>
+                    <span class="file-name" id="file-green-auth-name">尚未選擇檔案</span>
+                    </div>
+                </div>
+                <label for="green-desc">備註說明</label>
+                <input type="text" id="green-desc" name="green-desc">
+            </section>
+
+            <!-- 留才獎勵 -->
+            <section class="form-section">
+                <h2 class="form-title">上傳留才獎勵所需文件</h2>
+                <div class="file-upload">
+                    <label class="file-label">人員中央完訓證書</label>
+                    <div class="file-input-wrapper">
+                    <label class="file-btn">
+                        選擇檔案
+                        <input type="file" id="file-retain-train" name="file-retain-train" accept=".pdf,.jpg,.png">
+                    </label>
+                    <span class="file-name" id="file-retain-train-name">尚未選擇檔案</span>
+                    </div>
+                </div>
+
+                <div class="file-upload">
+                    <label class="file-label">維修技術證書</label>
+                    <div class="file-input-wrapper">
+                    <label class="file-btn">
+                        選擇檔案
+                        <input type="file" id="file-retain-skill" name="file-retain-skill" accept=".pdf,.jpg,.png">
+                    </label>
+                    <span class="file-name" id="file-retain-skill-name">尚未選擇檔案</span>
+                    </div>
+                </div>
+
+                <div class="file-upload">
+                    <label class="file-label">任職就業證明</label>
+                    <div class="file-input-wrapper">
+                    <label class="file-btn">
+                        選擇檔案
+                        <input type="file" id="file-retain-job" name="file-retain-job" accept=".pdf,.jpg,.png">
+                    </label>
+                    <span class="file-name" id="file-retain-job-name">尚未選擇檔案</span>
+                    </div>
+                </div>
+                <label for="retain-desc">備註說明</label>
+                <input type="text" id="retain-desc" name="retain-desc">
+            </section>
+
+            <!-- 設備補助 -->
+            <section class="form-section">
+                <h2 class="form-title">上傳設備補助所需文件</h2>
+
+                <div class="file-upload">
+                    <label class="file-label">發票+工具證明照片</label>
+                    <div class="file-input-wrapper">
+                    <label class="file-btn">
+                        選擇檔案
+                        <input type="file" id="file-equip-invoice" name="file-equip-invoice" accept=".pdf,.jpg,.png">
+                    </label>
+                    <span class="file-name" id="file-equip-invoice-name">尚未選擇檔案</span>
+                    </div>
+                </div>
+
+                <div class="file-upload">
+                    <label class="file-label">廠牌認證維修系統租賃繳費證明</label>
+                    <div class="file-input-wrapper">
+                    <label class="file-btn">
+                        選擇檔案
+                        <input type="file" id="file-equip-cert" name="file-equip-cert" accept=".pdf,.jpg,.png">
+                    </label>
+                    <span class="file-name" id="file-equip-cert-name">尚未選擇檔案</span>
+                    </div>
+                </div>
+
+                <div class="file-upload">
+                    <label class="file-label">發票+相關證明照片</label>
+                    <div class="file-input-wrapper">
+                    <label class="file-btn">
+                        選擇檔案
+                        <input type="file" id="file-equip-pic" name="file-equip-pic" accept=".pdf,.jpg,.png">
+                    </label>
+                    <span class="file-name" id="file-equip-pic-name">尚未選擇檔案</span>
+                    </div>
+                </div>
+                <label for="equip-desc">備註說明</label>
+                <input type="text" id="equip-desc" name="equip-desc">
+            </section>
+
+
+            <div class="form-nav">
+                <div class="btn-wrapper right">
+                <button id="submitBtn" type="submit">送出申請</button>
+                </div>
+                <!-- <button onclick="prepareForPrint()">列印或匯出為 PDF</button> -->
+                
+            </div>
+            <div id="loading" style="display: none; color: red; text-align: center;">資料送出中，請稍候...</div>
+                        
+          </div>
+
+
+        </form>
+    </div>
+  </main>
+
+  <!-- Footer（沿用首頁） -->
+
+  <!-- 頁腳 -->
+  <footer class="footer">
+    <div class="footer-left">
+      <img src="../asset/img/logo.png" alt="基隆市府 logo" class="footer-logo" />
+      <div class="footer-text">
+        <p>基隆市政府產業發展處</p>
+        <p>地址｜202091 基隆市中正區信三路301號3樓</p>
+        <p>電話｜(02) 2425-8389</p>
+      </div>
+    </div>
+    <div class="footer-right">
+      <img src="../asset/img/icon-fb.png" alt="Facebook" class="footer-icon" />
+      <img src="../asset/img/icon-line.png" alt="網站" class="footer-icon" />
+      <img src="../asset/img/icon-ig.png" alt="Instagram" class="footer-icon" />
+    </div>
+  </footer>
+  <script src="../js/navbar.js"></script>
+</body>
+
+<script src="../js/subsidy-supplement.js"></script>
+
+</html>
