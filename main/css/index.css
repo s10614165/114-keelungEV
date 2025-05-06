@@ -1,3 +1,9 @@
+.main-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
 /* 按鈕區塊 */
 .button-container {
   display: flex;
@@ -30,6 +36,19 @@
   transform: scale(1.05);
 }
 
+.main-content {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  background-image: url('../asset/img/background.png');
+  background-size: cover;           /* ✅ 關鍵：等比例填滿並允許裁切 */
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-color: #53e4e7;
+}
+
 /* RWD 響應處理 */
 @media (max-width: 600px) {
   .button-container {
@@ -40,4 +59,6 @@
     width: 45vw;
   }
 }
+
+
 

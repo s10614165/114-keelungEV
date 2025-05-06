@@ -27,7 +27,7 @@ body {
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-.nav_container {
+.nav-container {
   max-width: 1800px;
   margin: 0 auto;
   padding: 0.75rem 2rem; /* 左右留空距 */
@@ -62,7 +62,6 @@ body {
   text-decoration: none;
   color: #1e1e1e;
   gap: 0.5rem;
-
   font-weight: bold;
   font-size: 1.75rem;
 }
@@ -149,15 +148,24 @@ body {
   display: block;
 }
 
-
-/* 畫面寬度小於 1210px：顯示漢堡圖示、隱藏右側選單 */
 @media (max-width: 1209px) {
+  .nav-container {
+    gap: 2.5rem;
+  }
+  
+  .nav-links ul{
+    gap: 1rem;
+  }
+}
+
+/* 畫面寬度小於 870px：顯示漢堡圖示、隱藏右側選單 */
+@media (max-width: 996px) {
   .nav-links {
     display: none;
   }
 
 
-  .nav_container {
+  .nav-container {
     display: flex;
     justify-content: space-between; /* ✨ 分散左右 */
     align-items: center;
@@ -182,18 +190,7 @@ body {
 }
 
 /* 主內容區：設定背景圖 */
-.main-content {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 2rem;
-  background-image: url('../asset/img/background.png');
-  background-size: cover;           /* ✅ 關鍵：等比例填滿並允許裁切 */
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-color: #53e4e7;
-}
+
 
 .breadcrumb {
   font-size: 14px;
