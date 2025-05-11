@@ -1,12 +1,12 @@
-# 114-keelungEV
-這是一個先用GPT產出的基隆機車產業平臺首頁
+# React + Vite
 
-測試網頁: 
-https://zoustec.ddns.net/michael/114-keelungEV/main/html/
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-雲端Google Sheet:
-https://docs.google.com/spreadsheets/d/1tXRpe5B6A7w7p4VWAFQDTVt0CwgRqg1j_S7ku4tytDU/edit?gid=0#gid=0
+Currently, two official plugins are available:
 
-雲端Google Drive: 
-https://drive.google.com/drive/u/0/folders/1WlI1I0-eDMp8LR1TliJCdgzd4pHRVxMM
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
+## Expanding the ESLint configuration
+
+If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
