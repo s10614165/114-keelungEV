@@ -1,52 +1,37 @@
 import { Link } from 'react-router-dom';
+import backgroundImg from '@/assets/img/background.png';
+import applyEnterImg from '@/assets/img/apply-enter.png';
+import mapEnterImg from '@/assets/img/map-enter.png';
 
 function Home() {
   return (
-    <div className="max-w-4xl mx-auto">
-      <h1 className="text-3xl font-bold text-center mb-8">
-        基隆市電動機車補助專區
-      </h1>
-      
-      <div className="grid md:grid-cols-2 gap-8">
-        <div className="bg-white p-6 rounded-lg shadow-md">
-          <h2 className="text-xl font-semibold mb-4">一般民眾補助</h2>
-          <p className="text-gray-600 mb-4">
-            基隆市一般民眾購買電動機車補助方案說明
-          </p>
-          <Link
-            to="/subsidy-intro"
-            className="inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-          >
-            了解更多
+    <div 
+      className="flex-1 h-screen flex justify-center items-center  bg-cover bg-no-repeat bg-center"
+      style={{ backgroundImage: `url(${backgroundImg})` }}
+    >
+      <div className="flex gap-8 flex-wrap justify-center items-center max-w-full">
+        <div className="transform -translate-y-6">
+          <Link to="/subsidy-intro" className="block">
+            <img 
+              src={applyEnterImg} 
+              alt="補助申請專區" 
+              className="w-[300px] max-w-full h-auto transition-transform duration-300 hover:scale-105" 
+            />
           </Link>
         </div>
-
-        <div className="bg-white p-6 rounded-lg shadow-md">
-          <h2 className="text-xl font-semibold mb-4">青年補助方案</h2>
-          <p className="text-gray-600 mb-4">
-            基隆市青年購買電動機車專屬補助方案說明
-          </p>
-          <Link
-            to="/teen-subsidy-intro"
-            className="inline-block bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
-          >
-            了解更多
+        <div>
+          <Link to="/map" className="block">
+            <img 
+              src={mapEnterImg} 
+              alt="友善車行地圖" 
+              className="w-[300px] max-w-full h-auto transition-transform duration-300 hover:scale-105" 
+            />
           </Link>
         </div>
-      </div>
-
-      <div className="mt-8 bg-white p-6 rounded-lg shadow-md">
-        <h2 className="text-xl font-semibold mb-4">補助申請流程</h2>
-        <ol className="list-decimal list-inside space-y-2 text-gray-600">
-          <li>選擇適合的補助方案</li>
-          <li>準備所需文件</li>
-          <li>填寫線上申請表</li>
-          <li>等待審核結果</li>
-          <li>領取補助款項</li>
-        </ol>
       </div>
     </div>
   );
 }
 
-export default Home; 
+
+export default Home;

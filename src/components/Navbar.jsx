@@ -1,8 +1,108 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
+import evLogo from "@/assets/img/ev-logo.png";
+import Close from "@/assets/icon/Close_LG.png";
+import listIcon from "@/assets/img/list.png";
 
-function Navbar() {
+import StepBar from "@/assets/img/step-bar-background.png";
+import { BACKGROUND_COLOR } from "@/constants/styles";
+import ToogleUP from "@/assets/icon/icon-toogle-up.png";
+import ToogleDown from "@/assets/icon/icon-toogle-down.png";
+import LinkButton from "@/components/LinkButton";
+
+// 麵包屑元件
+const Breadcrumb = ({ routes, location, menuItems }) => {
+  const currentPath = location.pathname;
+  const breadcrumbItems = [
+    {
+      path: "/",
+      name: "首頁",
+    },
+  ];
+
+  // 根據當前路徑找到對應的選單項目和父選單項目
+  let parentMenuItem = null;
+  let currentPage = null;
+
+  // 先找到當前頁面所屬的父選單和具體頁面
+  for (const menuItem of menuItems) {
+    // 檢查是否是主選單項目的路徑
+    if (currentPath === menuItem.link) {
+      parentMenuItem = menuItem;
+      // 如果點擊的是主選單，找到對應的第一個子選單項目
+      const matchingSubItem = menuItem.subItems?.find(
+        (sub) => !sub.external && sub.link === currentPath
+      );
+      if (matchingSubItem) {
+        currentPage = matchingSubItem;
+      } else {
+        // 如果沒有找到完全匹配的子項目，使用主選單本身的資訊
+        currentPage = { title: menuItem.title, link: menuItem.link };
+      }
+      break;
+    }
+
+    // 檢查子選單項目
+    if (menuItem.subItems) {
+      const subItem = menuItem.subItems.find(
+        (sub) => !sub.external && sub.link === currentPath
+      );
+      if (subItem) {
+        parentMenuItem = menuItem;
+        currentPage = subItem;
+        break;
+      }
+    }
+  }
+
+  // 構建麵包屑
+  if (parentMenuItem && currentPage) {
+    // 添加父選單項目
+    breadcrumbItems.push({
+      path: parentMenuItem.link,
+      name: parentMenuItem.title,
+    });
+
+    // 始終添加當前頁面（即使名稱與父選單相同）
+    breadcrumbItems.push({
+      path: currentPage.link,
+      name: currentPage.title,
+    });
+  } else {
+    // 如果在選單結構中找不到，則使用原本的路由邏輯
+    const route = routes.find((r) => r.path === currentPath);
+    if (route) {
+      breadcrumbItems.push({
+        path: currentPath,
+        name: route.breadcrumbName,
+      });
+    }
+  }
+
+  return (
+    <div className="">
+      <div className="max-w-7xl mx-auto px-8 py-2 flex items-center text-sm text-gray-600">
+        {breadcrumbItems.map((item, index) => (
+          <span key={`${item.path}-${index}`} className="flex items-center">
+            {index < breadcrumbItems.length - 1 ? (
+              <>
+                <span className=" transition-colors">{item.name}</span>
+                <span className="mx-2">{">"}</span>
+              </>
+            ) : (
+              <span className="text-black font-bold">{item.name}</span>
+            )}
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+function Navbar({ routes }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [openSubMenus, setOpenSubMenus] = useState({});
+  const location = useLocation();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -12,154 +112,307 @@ function Navbar() {
     setIsMenuOpen(false);
   };
 
+  const toggleSubMenu = (menuKey) => {
+    setOpenSubMenus((prev) => ({
+      ...prev,
+      [menuKey]: !prev[menuKey],
+    }));
+  };
+
+  const menuItems = [
+    {
+      key: "map",
+      title: "友善車行地圖",
+      link: "/map",
+      subItems: [
+        { title: "友善車行地圖", link: "/map" },
+        { title: "充/換電站資訊", link: "/powerStationInfo" },
+      ],
+    },
+    {
+      key: "subsidy",
+      title: "申請補助專區",
+      link: "/subsidy-intro",
+      subItems: [
+        { title: "產業轉型補助", link: "/subsidy-intro" },
+        { title: "公益青年代辦", link: "/teen-subsidy-intro" },
+        {
+          title: "中小企業貸款",
+          link: "https://www.keelungyouth.com/%E5%9C%93%E5%A4%A2%E8%B2%B8%E6%AC%BE",
+          external: true,
+        },
+        {
+          title: "青創貸款補貼",
+          link: "https://www.keelungyouth.com/%E8%B2%B8%E6%AC%BE%E5%88%A9%E6%81%AF%E8%A3%9C%E8%B2%BC",
+          external: true,
+        },
+      ],
+    },
+    {
+      key: "rules",
+      title: "申請補助規則",
+      link: "/rules",
+      subItems: [
+        { title: "規則說明", link: "/rules" },
+        { title: "申請單據下載", link: "/download" },
+      ],
+    },
+    {
+      key: "policy",
+      title: "政策成效",
+      link: "/policy-effect",
+      subItems: [
+        { title: "轉型成效", link: "/policy-effect" },
+        { title: "成功案例影片", link: "/success-case" },
+        { title: "DM下載", link: "/dm-download" },
+      ],
+    },
+    {
+      key: "news",
+      title: "活動快訊",
+      link: "/news",
+      subItems: [
+        { title: "座談會報名", link: "/seminar" },
+        { title: "培訓課程資訊", link: "/training" },
+        { title: "抽獎活動資訊", link: "/lottery" },
+      ],
+    },
+  ];
+
+  // 取得當前頁面標題的函數
+  const getCurrentPageTitle = () => {
+    const currentPath = location.pathname;
+    
+    // 如果是首頁
+    if (currentPath === "/") {
+      return "首頁";
+    }
+
+    // 使用與麵包屑相同的邏輯尋找當前頁面名稱
+    for (const menuItem of menuItems) {
+      // 檢查是否是主選單項目的路徑
+      if (currentPath === menuItem.link) {
+        // 如果點擊的是主選單，找到對應的第一個子選單項目
+        const matchingSubItem = menuItem.subItems?.find(
+          (sub) => !sub.external && sub.link === currentPath
+        );
+        if (matchingSubItem) {
+          return matchingSubItem.title;
+        } else {
+          // 如果沒有找到完全匹配的子項目，使用主選單本身的資訊
+          return menuItem.title;
+        }
+      }
+
+      // 檢查子選單項目
+      if (menuItem.subItems) {
+        const subItem = menuItem.subItems.find(
+          (sub) => !sub.external && sub.link === currentPath
+        );
+        if (subItem) {
+          return subItem.title;
+        }
+      }
+    }
+
+    // 如果在選單結構中找不到，則使用原本的路由邏輯
+    const route = routes.find((r) => r.path === currentPath);
+    return route ? route.breadcrumbName : "";
+  };
+
+  // 當路由改變時更新瀏覽器標題
+  useEffect(() => {
+    const pageTitle = getCurrentPageTitle();
+    const siteTitle = "基隆友善車行一點通";
+    
+    if (pageTitle) {
+      // 如果是首頁，只顯示網站名稱
+      if (location.pathname === "/") {
+        document.title = siteTitle;
+      } else {
+        // 其他頁面顯示「頁面名稱 - 網站名稱」
+        document.title = `${pageTitle}`;
+      }
+    } else {
+      // 如果找不到頁面標題，只顯示網站名稱
+      document.title = siteTitle;
+    }
+  }, [location.pathname]); // 依賴 location.pathname，路徑改變時會重新執行
+
   return (
     <>
       {/* 導覽列 */}
-      <header className="fixed top-0 left-0 w-full z-50 bg-white shadow-md">
+      <header className=" top-0 left-0 w-full bg-white shadow-md">
         <div className="max-w-7xl mx-auto px-8 py-3 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2 text-gray-800 hover:text-blue-600 transition-colors">
-            <img src="/src/assets/img/ev-logo.png" alt="EV Logo" className="h-12 w-auto" />
-            <div className="flex flex-col leading-tight">
+          <Link
+            to="/"
+            className="flex items-center gap-2 text-gray-800 hover:text-blue-600 transition-colors"
+          >
+            <img src={evLogo} alt="EV Logo" className="h-12 w-auto" />
+            <div className="hidden md:flex flex-col leading-tight">
               <span className="text-xl font-bold">基隆友善車行一點通</span>
-              <span className="text-base font-semibold text-gray-600 tracking-wide">KEELUNG EV FRIENDLY SHOP</span>
+              <span className="text-base font-semibold text-gray-600 tracking-wide">
+                KEELUNG EV FRIENDLY SHOP
+              </span>
             </div>
           </Link>
-        
+
           <nav className="hidden lg:block">
             <ul className="flex gap-10 text-lg">
-              <li>
-                <Link to="/map" className="text-gray-800 font-medium hover:text-blue-600 transition-colors">
-                  友善車行地圖
-                </Link>
-              </li>
-              <li className="relative group">
-                <Link to="/subsidy-intro" className="text-gray-800 font-medium hover:text-blue-600 transition-colors">
-                  申請補助專區
-                </Link>
-                <ul className="absolute hidden group-hover:block top-full left-0 bg-white py-2 min-w-40 border border-gray-200 shadow-lg z-50">
-                  <li>
-                    <Link to="/subsidy-intro" className="block px-5 py-2 text-gray-800 hover:bg-gray-100">
-                      產業轉型補助
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/teen-subsidy-intro" className="block px-5 py-2 text-gray-800 hover:bg-gray-100">
-                      公益青年代辦
-                    </Link>
-                  </li>
-                  <li>
-                    <a 
-                      href="https://www.keelungyouth.com/%E5%9C%93%E5%A4%A2%E8%B2%B8%E6%AC%BE" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="block px-5 py-2 text-gray-800 hover:bg-gray-100"
-                    >
-                      中小企業貸款
-                    </a>
-                  </li>
-                  <li>
-                    <a 
-                      href="https://www.keelungyouth.com/%E8%B2%B8%E6%AC%BE%E5%88%A9%E6%81%AF%E8%A3%9C%E8%B2%BC" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="block px-5 py-2 text-gray-800 hover:bg-gray-100"
-                    >
-                      青創貸款補貼
-                    </a>
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <Link to="/rules" className="text-gray-800 font-medium hover:text-blue-600 transition-colors">
-                  申請補助規則
-                </Link>
-              </li>
-              <li>
-                <Link to="/news" className="text-gray-800 font-medium hover:text-blue-600 transition-colors">
-                  活動快訊
-                </Link>
-              </li>
-              <li>
-                <Link to="/results" className="text-gray-800 font-medium hover:text-blue-600 transition-colors">
-                  政策成效
-                </Link>
-              </li>
+              {menuItems.map((item, menuIndex) => (
+                <li key={item.key} className="relative group">
+                  <Link
+                    to={item.link}
+                    className="text-gray-800 font-medium hover:text-blue-600 transition-colors"
+                  >
+                    {item.title}
+                  </Link>
+                  <ul
+                    className={`absolute hidden group-hover:block top-full ${
+                      menuIndex === menuItems.length - 1 ? "right-0" : "left-0"
+                    } bg-white py-2 min-w-40 border border-gray-200 shadow-lg z-50 rounded-lg overflow-hidden`}
+                  >
+                    {item.subItems.map((subItem, index) => (
+                      <li key={index}>
+                        {subItem.external ? (
+                          <a
+                            href={subItem.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="block px-5 py-2 text-gray-800 hover:bg-gray-100"
+                          >
+                            {subItem.title}
+                          </a>
+                        ) : (
+                          <Link
+                            to={subItem.link}
+                            className="block px-5 py-2 text-gray-800 hover:bg-gray-100"
+                          >
+                            {subItem.title}
+                          </Link>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                </li>
+              ))}
             </ul>
           </nav>
 
           {/* 漢堡圖示 */}
-          <img 
-            src="/src/assets/img/list.png" 
-            className="w-8 h-8 cursor-pointer lg:hidden" 
-            id="menuIcon" 
-            alt="menu" 
+          <img
+            src={listIcon}
+            className="w-8 h-8 cursor-pointer lg:hidden"
+            id="menuIcon"
+            alt="menu"
             onClick={toggleMenu}
           />
         </div>
+        {/* 麵包屑元件 - 只在非根目錄時顯示 */}
+        {location.pathname !== "/" && (
+          <>
+            <div
+              className="relative bg-transparent text-center min-w-[300px] pb-16 h-[300px] bg-bottom bg-cover"
+              style={{ backgroundImage: `url(${StepBar})` }}
+            >
+              <Breadcrumb
+                routes={routes}
+                location={location}
+                menuItems={menuItems}
+              />
+
+              {/* 當前頁面標題 */}
+              <div className="flex items-center justify-center mt-3">
+                <h1 className="text-4xl font-bold text-gray-800">
+                  {getCurrentPageTitle()}
+                </h1>
+              </div>
+            </div>
+          </>
+        )}
       </header>
 
-      {/* 側邊滑出選單 */}
-      <div 
-        className={`fixed top-0 right-0 w-64 h-full bg-white shadow-lg pt-24 px-6 z-40 transform transition-transform duration-300 ease-in-out ${
-          isMenuOpen ? 'translate-x-0' : 'translate-x-full'
-        }`}
-      >
-        <ul className="flex flex-col gap-6">
-          <li>
-            <Link 
-              to="/map" 
-              onClick={closeMenu}
-              className="text-lg text-gray-800 hover:text-blue-600 transition-colors"
-            >
-              友善車行地圖
-            </Link>
-          </li>
-          <li>
-            <Link 
-              to="/subsidy-intro" 
-              onClick={closeMenu}
-              className="text-lg text-gray-800 hover:text-blue-600 transition-colors"
-            >
-              申請補助專區
-            </Link>
-          </li>
-          <li>
-            <Link 
-              to="/rules" 
-              onClick={closeMenu}
-              className="text-lg text-gray-800 hover:text-blue-600 transition-colors"
-            >
-              申請補助規則
-            </Link>
-          </li>
-          <li>
-            <Link 
-              to="/news" 
-              onClick={closeMenu}
-              className="text-lg text-gray-800 hover:text-blue-600 transition-colors"
-            >
-              活動快訊
-            </Link>
-          </li>
-          <li>
-            <Link 
-              to="/results" 
-              onClick={closeMenu}
-              className="text-lg text-gray-800 hover:text-blue-600 transition-colors"
-            >
-              政策成效
-            </Link>
-          </li>
-        </ul>
-      </div>
-
       {/* 遮罩層 */}
-      <div 
-        className={`fixed inset-0 bg-black bg-opacity-30 z-30 transition-opacity duration-300 ${
-          isMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+      <div
+        className={`block xl:hidden fixed inset-0 ${BACKGROUND_COLOR} transition-opacity duration-300 z-30 ${
+          isMenuOpen
+            ? "opacity-25 pointer-events-auto"
+            : "opacity-0 pointer-events-none"
         }`}
         onClick={closeMenu}
       />
+
+      {/* 側邊滑出選單 */}
+      <div
+        className={`font-bold block xl:hidden fixed top-0 right-0 w-64 h-full bg-[#d4f8f9] shadow-lg pt-24  z-40 transform transition-transform duration-300 ease-in-out ${
+          isMenuOpen ? "translate-x-0 z-50" : "translate-x-full"
+        }`}
+      >
+        <img
+          onClick={closeMenu}
+          src={Close}
+          alt="close"
+          className="h-6 w-auto absolute top-3 right-3"
+        />
+        <ul className="flex flex-col gap-4 ">
+          {menuItems.map((item) => (
+            <li key={item.key}>
+              <div
+                className="flex items-center justify-between cursor-pointer px-9 hover:bg-gray-100 rounded"
+                onClick={() => toggleSubMenu(item.key)}
+              >
+                <span
+                  className={`${
+                    openSubMenus[item.key] ? "text-[#198da1]" : "text-gray-800"
+                  } text-lg px-6`}
+                >
+                  {item.title}
+                </span>
+                {item.subItems && (
+                  <img
+                    src={openSubMenus[item.key] ? ToogleUP : ToogleDown}
+                    alt="toggle"
+                    className="w-4 h-4 "
+                  />
+                )}
+              </div>
+
+              {/* 子選單 */}
+              {item.subItems && openSubMenus[item.key] && (
+                <ul className=" mt-2 px-16 flex flex-col gap-2 bg-[#aeeff3] rounded p-3">
+                  {item.subItems.map((subItem, index) => (
+                    <li key={index}>
+                      {subItem.external ? (
+                        <a
+                          href={subItem.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="block py-2  text-gray-700 hover:text-blue-600 transition-colors text-sm"
+                          onClick={closeMenu}
+                        >
+                          {subItem.title}
+                        </a>
+                      ) : (
+                        <Link
+                          to={subItem.link}
+                          className="block py-2  text-gray-700 hover:text-blue-600 transition-colors text-sm"
+                          onClick={closeMenu}
+                        >
+                          {subItem.title}
+                        </Link>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </li>
+          ))}
+        </ul>
+        <div className="flex items-center justify-end gap-4 mt-[91px] cursor-pointer px-9  rounded">
+          <LinkButton iconType="sider-fb" alt="Facebook" />
+          <LinkButton iconType="sider-ig" alt="ig" />
+        </div>
+      </div>
     </>
   );
 }
