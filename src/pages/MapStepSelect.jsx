@@ -3,8 +3,8 @@ import { create } from "zustand";
 import Icon_Check from "@/assets/icon/icon-check.png";
 import ToogleUP from "@/assets/icon/icon-toogle-up.png";
 import ToogleDown from "@/assets/icon/icon-toogle-down.png";
-// Zustand store
-const useStore = create((set) => ({
+// Zustand store - 匯出 store 供其他元件使用
+export const useStore = create((set) => ({
   // 區域選擇
   districts: [
     "仁愛區",
@@ -15,8 +15,50 @@ const useStore = create((set) => ({
     "暖暖區",
     "七堵區",
   ],
-  selectedDistricts: [],
-  setSelectedDistricts: (districts) => set({ selectedDistricts: districts }),
+  selectedDistricts: [], // 選擇的行政區
+  selectedBrands: [], // 選擇的品牌
+  // 行為/動作
+  // 注意：每次都返回全新的陣列
+  setSelectedDistricts: (districts) =>
+    set(() => ({
+      selectedDistricts: [...districts],
+    })),
+
+  setSelectedBrands: (brands) =>
+    set(() => ({
+      selectedBrands: [...brands],
+    })),
+
+  // 添加一個行政區（確保創建新陣列）
+  addDistrict: (district) =>
+    set((state) => ({
+      selectedDistricts: [...state.selectedDistricts, district],
+    })),
+
+  // 移除一個行政區（確保創建新陣列）
+  removeDistrict: (district) =>
+    set((state) => ({
+      selectedDistricts: state.selectedDistricts.filter((d) => d !== district),
+    })),
+
+  // 添加一個品牌（確保創建新陣列）
+  addBrand: (brand) =>
+    set((state) => ({
+      selectedBrands: [...state.selectedBrands, brand],
+    })),
+
+  // 移除一個品牌（確保創建新陣列）
+  removeBrand: (brand) =>
+    set((state) => ({
+      selectedBrands: state.selectedBrands.filter((b) => b !== brand),
+    })),
+
+  // 清除所有選擇
+  clearAll: () =>
+    set(() => ({
+      selectedDistricts: [],
+      selectedBrands: [],
+    })),
 
   // 品牌選擇
   brands: [
@@ -31,8 +73,6 @@ const useStore = create((set) => ({
     "宏佳騰機車",
     "Zau 泓創綠能",
   ],
-  selectedBrands: [],
-  setSelectedBrands: (brands) => set({ selectedBrands: brands }),
 }));
 
 // 多選下拉選單元件
@@ -77,20 +117,21 @@ const MultiSelectDropdown = ({
   return (
     <div className="relative w-full" ref={dropdownRef}>
       <button
-        className="w-full px-4 py-3 text-left bg-white border border-gray-300 rounded-lg flex items-center justify-between hover:border-blue-400 focus:outline-none focus:border-blue-500"
+        className="w-[380px] max-w-[380px] max-h-[35px] px-2 py-1 text-left bg-white border border-gray-300 rounded-lg flex items-center justify-between hover:border-blue-400 focus:outline-none focus:border-blue-500"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <span className="text-gray-700">
+        <span className="text-gray-700 text-[20px]">
           {selected.length > 0
-            ? `${title} (已選${selected.length}/7)`
+            ? `${title} (已選${selected.length}/10)`
             : placeholder}
         </span>
         <span>
-            <img src={isOpen ? ToogleUP : ToogleDown} alt="toggle" className="w-4 h-4" />
+          <img
+            src={isOpen ? ToogleUP : ToogleDown}
+            alt="toggle"
+            className="w-4 h-4"
+          />
         </span>
-         
-       
-        
       </button>
 
       {isOpen && (
@@ -103,7 +144,9 @@ const MultiSelectDropdown = ({
                 onClick={() => handleToggle(option)}
               >
                 <div className="w-5 h-5 mr-3 flex items-center justify-center">
-                  {selected.includes(option) && <img src={Icon_Check} alt="check" className="w-4 h-4" />}
+                  {selected.includes(option) && (
+                    <img src={Icon_Check} alt="check" className="w-4 h-4" />
+                  )}
                 </div>
                 <span className="text-gray-700">{option}</span>
               </div>
@@ -140,18 +183,12 @@ const App = () => {
     selectedBrands,
     setSelectedBrands,
   } = useStore();
-
   return (
-    <div className=" bg-gray-50 p-8 z-20">
+    <div className="min-h-screen  z-60 ">
       <div className="max-w-6xl mx-auto">
-    
-
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* 左側下拉選單 - 地區選擇 */}
           <div>
-            <h2 className="text-lg font-semibold text-gray-700 mb-3">
-              地區選擇
-            </h2>
             <MultiSelectDropdown
               options={districts}
               selected={selectedDistricts}
@@ -159,28 +196,10 @@ const App = () => {
               placeholder="請選擇地區"
               title="地區"
             />
-            {selectedDistricts.length > 0 && (
-              <div className="mt-3">
-                <p className="text-sm text-gray-600 mb-2">已選擇：</p>
-                <div className="flex flex-wrap gap-2">
-                  {selectedDistricts.map((district) => (
-                    <span
-                      key={district}
-                      className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm"
-                    >
-                      {district}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            )}
           </div>
 
           {/* 右側下拉選單 - 品牌選擇 */}
           <div>
-            <h2 className="text-lg font-semibold text-gray-700 mb-3">
-              電動車品牌選擇
-            </h2>
             <MultiSelectDropdown
               options={brands}
               selected={selectedBrands}
@@ -188,46 +207,6 @@ const App = () => {
               placeholder="請選擇電動車品牌"
               title="品牌"
             />
-            {selectedBrands.length > 0 && (
-              <div className="mt-3">
-                <p className="text-sm text-gray-600 mb-2">已選擇：</p>
-                <div className="flex flex-wrap gap-2">
-                  {selectedBrands.map((brand) => (
-                    <span
-                      key={brand}
-                      className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm"
-                    >
-                      {brand}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* 展示當前選擇狀態 */}
-        <div className="mt-12 p-6 bg-white rounded-lg shadow">
-          <h3 className="text-xl font-semibold text-gray-800 mb-4">
-            當前選擇狀態
-          </h3>
-          <div className="space-y-3">
-            <div>
-              <span className="font-medium text-gray-700">選中的地區：</span>
-              <span className="ml-2 text-gray-600">
-                {selectedDistricts.length > 0
-                  ? selectedDistricts.join(", ")
-                  : "尚未選擇"}
-              </span>
-            </div>
-            <div>
-              <span className="font-medium text-gray-700">選中的品牌：</span>
-              <span className="ml-2 text-gray-600">
-                {selectedBrands.length > 0
-                  ? selectedBrands.join(", ")
-                  : "尚未選擇"}
-              </span>
-            </div>
           </div>
         </div>
       </div>

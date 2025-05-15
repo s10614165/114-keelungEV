@@ -9,7 +9,7 @@ import {
   useMap,
 } from "@vis.gl/react-google-maps";
 import powerPinImg from "@/assets/img/powerpin.png";
-
+import { useStore } from "@/pages/MapStepSelect";
 const apiKey = import.meta.env.VITE_GOOGLE_API_KEY;
 const sheetId = import.meta.env.VITE_MotorcycleShops_GogleSheet__ID;
 
@@ -150,125 +150,176 @@ const MapContent = ({ markers, setSelectedShop }) => {
   const markerRefs = useRef([]);
   
   useEffect(() => {
-    if (!map || !markers.length || !window.google) return;
-
-    // 清理之前的標記
+    if (!map || !window.google) return;
+    
+    console.log("MapContent接收到的標記數量:", markers.length);
+    
+    // 1. 先移除所有相關元素 (更徹底的清理)
+    // 尋找並移除所有標記相關的DOM元素
+    const overlays = document.querySelectorAll('.gm-style > div:nth-child(1) > div:nth-child(3) > div');
+    overlays.forEach(overlay => {
+      if (overlay) {
+        try {
+          // 嘗試清除可能的標記元素
+          const possibleMarkers = overlay.querySelectorAll('img, div.cluster-marker, gmp-advanced-marker');
+          possibleMarkers.forEach(el => {
+            if (el && el.parentNode) {
+              el.parentNode.removeChild(el);
+            }
+          });
+        } catch (e) {
+          console.error("清理DOM元素時出錯:", e);
+        }
+      }
+    });
+    
+    // 2. 清理之前的標記引用
     markerRefs.current.forEach((marker) => {
       if (marker) {
-        marker.map = null;
+        try {
+          marker.map = null;
+        } catch (e) {
+          console.error("清理標記引用時出錯:", e);
+        }
       }
     });
     markerRefs.current = [];
-
-    // 創建新的標記
-    const newMarkers = markers.map((shop) => {
-      const markerContent = document.createElement("img");
-      markerContent.src = powerPinImg;
-      markerContent.style.width = "40px";
-      markerContent.style.height = "40px";
-      markerContent.style.cursor = "pointer";
-
-      const marker = new window.google.maps.marker.AdvancedMarkerElement({
-        position: shop.position,
-        content: markerContent,
-        map: map,
-      });
-
-      marker.addListener("click", () => {
-        setSelectedShop(shop);
-      });
-
-      return marker;
-    });
-
-    markerRefs.current = newMarkers;
-
-    // 清理舊的聚類器
-    if (markerClusterer) {
-      markerClusterer.clearMarkers();
-      markerClusterer.setMap(null);
-    }
-
-    // 創建新的聚類器
-    const clusterer = new MarkerClusterer({
-      markers: newMarkers,
-      map: map,
-      renderer: customRenderer,
-      gridSize: 60,
-      maxZoom: 15,
-      zoomOnClick: false, // 關閉預設的縮放行為
-    });
-
-    // 手動處理叢集點擊事件
-    clusterer.addListener("click", (cluster) => {
-      console.log("Cluster clicked:", cluster);
-      
-      const markers = cluster.markers;
-      if (!markers || markers.length === 0) return;
-      
-      const bounds = new google.maps.LatLngBounds();
-      
-      // 計算所有標記的邊界
-      markers.forEach((marker) => {
-        if (marker.position) {
-          bounds.extend(marker.position);
-        }
-      });
-      
-      // 檢查邊界是否有效
-      if (bounds.isEmpty()) {
-        console.error("Bounds is empty");
-        return;
-      }
-      
-      // 獲取邊界的東北和西南點
-      const ne = bounds.getNorthEast();
-      const sw = bounds.getSouthWest();
-      
-      // 計算邊界的大小
-      const latDiff = Math.abs(ne.lat() - sw.lat());
-      const lngDiff = Math.abs(ne.lng() - sw.lng());
-      
-      // 如果邊界太小，手動擴展
-      if (latDiff < 0.002 || lngDiff < 0.002) {
-        const padding = 0.002;
-        bounds.extend(
-          new google.maps.LatLng(ne.lat() + padding, ne.lng() + padding)
-        );
-        bounds.extend(
-          new google.maps.LatLng(sw.lat() - padding, sw.lng() - padding)
-        );
-      }
-      
-      // 調整地圖視角
-      map.fitBounds(bounds);
-      
-      // 確保縮放級別合適
-      setTimeout(() => {
-        const currentZoom = map.getZoom();
-        console.log("Current zoom after fitBounds:", currentZoom);
-        
-        // 如果縮放過度，調整到合適的級別
-        if (currentZoom > 17) {
-          map.setZoom(17);
-        } else if (currentZoom < 13 && markers.length < 5) {
-          // 如果標記較少且縮放太小，稍微放大
-          map.setZoom(15);
-        }
-      }, 300);
-    });
     
-    setMarkerClusterer(clusterer);
-
-    return () => {
-      markerRefs.current.forEach((marker) => {
-        if (marker) {
-          marker.map = null;
-        }
-      });
-      if (markerClusterer) {
+    // 3. 清理聚類器
+    if (markerClusterer) {
+      try {
         markerClusterer.clearMarkers();
         markerClusterer.setMap(null);
+      } catch (e) {
+        console.error("清理聚類器時出錯:", e);
+      }
+      setMarkerClusterer(null);
+    }
+    
+    // 如果沒有標記，則不創建新的標記
+    if (!markers.length) return;
+    
+    // 延遲一下再創建新標記，確保清理完成
+    setTimeout(() => {
+      // 創建新的標記
+      const newMarkers = markers.map((shop) => {
+        const markerContent = document.createElement("img");
+        markerContent.src = powerPinImg;
+        markerContent.style.width = "40px";
+        markerContent.style.height = "40px";
+        markerContent.style.cursor = "pointer";
+        
+        const marker = new window.google.maps.marker.AdvancedMarkerElement({
+          position: shop.position,
+          content: markerContent,
+          map: map,
+          id: shop.店名,
+        });
+
+        marker.addListener("gmp-click", () => { // 注意這裡改用 gmp-click
+          setSelectedShop(shop);
+        });
+
+        return marker;
+      });
+      
+      console.log("創建的新標記數量:", newMarkers.length);
+      markerRefs.current = newMarkers;
+      
+      // 創建新的聚類器
+      const clusterer = new MarkerClusterer({
+        markers: [...newMarkers],
+        map: map,
+        renderer: customRenderer,
+        gridSize: 60,
+        maxZoom: 15,
+        zoomOnClick: false,
+      });
+      
+      console.log("聚類器創建完成，包含標記數量:", newMarkers.length);
+
+      // 手動處理叢集點擊事件
+      clusterer.addListener("click", (cluster) => {
+        console.log("Cluster clicked:", cluster);
+
+        const markers = cluster.markers;
+        if (!markers || markers.length === 0) return;
+
+        const bounds = new google.maps.LatLngBounds();
+
+        // 計算所有標記的邊界
+        markers.forEach((marker) => {
+          if (marker.position) {
+            bounds.extend(marker.position);
+          }
+        });
+
+        // 檢查邊界是否有效
+        if (bounds.isEmpty()) {
+          console.error("Bounds is empty");
+          return;
+        }
+
+        // 獲取邊界的東北和西南點
+        const ne = bounds.getNorthEast();
+        const sw = bounds.getSouthWest();
+
+        // 計算邊界的大小
+        const latDiff = Math.abs(ne.lat() - sw.lat());
+        const lngDiff = Math.abs(ne.lng() - sw.lng());
+
+        // 如果邊界太小，手動擴展
+        if (latDiff < 0.002 || lngDiff < 0.002) {
+          const padding = 0.002;
+          bounds.extend(
+            new google.maps.LatLng(ne.lat() + padding, ne.lng() + padding)
+          );
+          bounds.extend(
+            new google.maps.LatLng(sw.lat() - padding, sw.lng() - padding)
+          );
+        }
+
+        // 調整地圖視角
+        map.fitBounds(bounds);
+
+        // 確保縮放級別合適
+        setTimeout(() => {
+          const currentZoom = map.getZoom();
+          console.log("Current zoom after fitBounds:", currentZoom);
+
+          // 如果縮放過度，調整到合適的級別
+          if (currentZoom > 17) {
+            map.setZoom(17);
+          } else if (currentZoom < 13 && markers.length < 5) {
+            // 如果標記較少且縮放太小，稍微放大
+            map.setZoom(15);
+          }
+        }, 300);
+      });
+
+      setMarkerClusterer(clusterer);
+    }, 100); // 100毫秒延遲確保DOM更新
+    
+    return () => {
+      console.log("MapContent清理函數執行");
+      markerRefs.current.forEach((marker) => {
+        if (marker) {
+          try {
+            marker.map = null;
+          } catch (e) {
+            console.error("清理標記時出錯:", e);
+          }
+        }
+      });
+      markerRefs.current = [];
+      
+      if (markerClusterer) {
+        try {
+          markerClusterer.clearMarkers();
+          markerClusterer.setMap(null);
+        } catch (e) {
+          console.error("清理聚類器時出錯:", e);
+        }
       }
     };
   }, [map, markers, setSelectedShop]);
@@ -283,6 +334,10 @@ const KLVMap = () => {
   });
   const [selectedShop, setSelectedShop] = useState(null);
   const [markers, setMarkers] = useState([]);
+  const [originalMarkers, setOriginalMarkers] = useState([]); // 儲存原始標記數據
+
+  // 使用 shallow 比較訂閱 store
+  const { selectedDistricts, selectedBrands } = useStore();
 
   // 地理編碼函數：將地址轉換為座標
   const geocodeAddress = useCallback(async (address) => {
@@ -304,6 +359,51 @@ const KLVMap = () => {
       return null;
     }
   }, []);
+
+  // 完整的過濾邏輯，處理所有可能的篩選條件組合
+  useEffect(() => {
+    console.log(
+      "篩選條件變更 - 地區:",
+      selectedDistricts,
+      "品牌:",
+      selectedBrands
+    );
+
+    if (!originalMarkers.length) {
+      console.log("原始標記為空，不執行篩選");
+      return;
+    }
+
+    // 如果沒有選擇任何過濾條件，顯示所有標記
+    if (selectedDistricts.length === 0 && selectedBrands.length === 0) {
+      console.log("沒有選擇過濾條件，顯示所有標記");
+      setMarkers(originalMarkers);
+      return;
+    }
+
+    // 根據選定的條件進行過濾
+    const filtered = originalMarkers.filter((marker) => {
+      // 檢查地區匹配
+      const districtMatch =
+        selectedDistricts.length === 0 ||
+        selectedDistricts.includes(marker.行政區);
+
+      // 檢查品牌匹配 (如果標記有車廠屬性且是數組)
+      const brandMatch =
+        selectedBrands.length === 0 ||
+        (marker.車廠 &&
+          Array.isArray(marker.車廠) &&
+          marker.車廠.some((brand) => selectedBrands.includes(brand)));
+
+      // 同時符合地區和品牌條件
+      return districtMatch && brandMatch;
+    });
+
+    console.log("篩選前標記數量:", originalMarkers.length);
+    console.log("篩選後標記數量:", filtered.length);
+
+    setMarkers(filtered);
+  }, [selectedDistricts, selectedBrands, originalMarkers]);
 
   // 批次處理地理編碼（避免超過 API 限制）
   const batchGeocode = useCallback(
@@ -347,7 +447,9 @@ const KLVMap = () => {
     if (loading !== false) {
       return;
     }
+
     const shopData = parseMotorcycleShops(data);
+    console.log("解析後的商店數據數量:", shopData.length);
 
     if (shopData && shopData.length > 0) {
       // 可以先從本地儲存載入已編碼的數據
@@ -355,11 +457,15 @@ const KLVMap = () => {
 
       if (cachedData) {
         const parsedData = JSON.parse(cachedData);
-        setMarkers(parsedData);
+        console.log("從緩存加載的標記數量:", parsedData.length);
+        setOriginalMarkers(parsedData); // 設置原始標記
+        setMarkers(parsedData); // 初始顯示所有標記
       } else {
         // 執行地理編碼
         batchGeocode(shopData).then((geocodedShops) => {
-          setMarkers(geocodedShops);
+          console.log("地理編碼後的標記數量:", geocodedShops.length);
+          setOriginalMarkers(geocodedShops); // 設置原始標記
+          setMarkers(geocodedShops); // 初始顯示所有標記
           // 儲存到本地以便下次使用
           localStorage.setItem(
             "keelungMotorcycleShopsGeodata",
@@ -388,8 +494,14 @@ const KLVMap = () => {
 
   return (
     <div className="w-full bg-red-300">
+      <div className="mb-2 px-4">
+        <p>
+          目前顯示: {markers.length} 個標記點 (總共: {originalMarkers.length})
+        </p>
+      </div>
       <APIProvider apiKey={apiKey} libraries={["marker"]}>
         <Map
+        key={`map-${markers.length}-${Date.now()}`} // 添加key強制重建
           mapId="a63bdf028cc2027a683b81f6"
           style={{ height: "75vh" }}
           defaultCenter={{ lat: 25.1283, lng: 121.7415 }} // 基隆市中心

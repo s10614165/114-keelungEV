@@ -345,7 +345,7 @@ function Navbar({ routes }) {
               </div>
               <div className="flex items-center justify-center mt-3">
                 <h1 className="text-4xl font-bold text-gray-800">
-                  {/* {getCurrentPageSubNav()} */}
+                  {genCurrentPageSubNav()}
                 </h1>
               </div>
             </div>
