@@ -9,7 +9,7 @@ import { BACKGROUND_COLOR } from "@/constants/styles";
 import ToogleUP from "@/assets/icon/icon-toogle-up.png";
 import ToogleDown from "@/assets/icon/icon-toogle-down.png";
 import LinkButton from "@/components/LinkButton";
-
+import MapStepSelect from "@/pages/MapStepSelect";
 // 麵包屑元件
 const Breadcrumb = ({ routes, location, menuItems }) => {
   const currentPath = location.pathname;
@@ -187,6 +187,7 @@ function Navbar({ routes }) {
     if (currentPath === "/") {
       return "首頁";
     }
+  
 
     // 使用與麵包屑相同的邏輯尋找當前頁面名稱
     for (const menuItem of menuItems) {
@@ -218,6 +219,21 @@ function Navbar({ routes }) {
     // 如果在選單結構中找不到，則使用原本的路由邏輯
     const route = routes.find((r) => r.path === currentPath);
     return route ? route.breadcrumbName : "";
+  };
+  // 取得當前頁面標題的函數
+  const genCurrentPageSubNav = () => {
+    const currentPath = location.pathname;
+    
+    // 如果是首頁
+    if (currentPath === "/") {
+      return <></>;
+    }
+
+    const subNav = {
+      "/map": <MapStepSelect />,
+    }
+
+    return subNav[currentPath] || null;
   };
 
   // 當路由改變時更新瀏覽器標題
@@ -325,6 +341,11 @@ function Navbar({ routes }) {
               <div className="flex items-center justify-center mt-3">
                 <h1 className="text-4xl font-bold text-gray-800">
                   {getCurrentPageTitle()}
+                </h1>
+              </div>
+              <div className="flex items-center justify-center mt-3">
+                <h1 className="text-4xl font-bold text-gray-800">
+                  {/* {getCurrentPageSubNav()} */}
                 </h1>
               </div>
             </div>

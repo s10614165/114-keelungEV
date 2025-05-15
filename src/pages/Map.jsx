@@ -15,7 +15,7 @@ const sheetId = import.meta.env.VITE_MotorcycleShops_GogleSheet__ID;
 
 // 自定義聚類渲染器
 const customRenderer = {
-  render: ({ count, position }) => {
+  render: ({ count, position, cluster }) => {
     // 根據不同的標記數量設定不同的大小
     const size = count > 50 ? 60 : count > 20 ? 50 : 40;
 
@@ -27,7 +27,7 @@ const customRenderer = {
     div.style.position = "relative";
     div.style.cursor = "pointer";
 
-    // 設定圖標 1 的樣式
+    // 設定圖標樣式
     div.innerHTML = `
       <div style="
         width: 100%;
@@ -71,17 +71,18 @@ const customRenderer = {
       </div>
     `;
 
-    return new window.google.maps.marker.AdvancedMarkerElement({
+    const advancedMarker = new window.google.maps.marker.AdvancedMarkerElement({
       position,
       content: div,
       zIndex: Number(window.google.maps.Marker.MAX_ZINDEX) + count,
     });
+
+    return advancedMarker;
   },
 };
 
 // 解析基隆市機車行資料
 function parseMotorcycleShops(data) {
-  console.log(data);
   const values = data.values;
 
   // 標題行在 values[1]
@@ -166,7 +167,7 @@ const MapContent = ({ markers, setSelectedShop }) => {
   const map = useMap();
   const [markerClusterer, setMarkerClusterer] = useState(null);
   const markerRefs = useRef([]);
-
+  
   useEffect(() => {
     if (!map || !markers.length || !window.google) return;
 
@@ -192,7 +193,6 @@ const MapContent = ({ markers, setSelectedShop }) => {
         map: map,
       });
 
-      // 添加點擊事件
       marker.addListener("click", () => {
         setSelectedShop(shop);
       });
@@ -202,23 +202,84 @@ const MapContent = ({ markers, setSelectedShop }) => {
 
     markerRefs.current = newMarkers;
 
-    // 創建或更新聚類器
+    // 清理舊的聚類器
     if (markerClusterer) {
       markerClusterer.clearMarkers();
-      markerClusterer.addMarkers(newMarkers);
-    } else {
-      const clusterer = new MarkerClusterer({
-        markers: newMarkers,
-        map: map,
-        renderer: customRenderer,
-        gridSize: 60,
-        maxZoom: 15,
-      });
-      setMarkerClusterer(clusterer);
+      markerClusterer.setMap(null);
     }
 
+    // 創建新的聚類器
+    const clusterer = new MarkerClusterer({
+      markers: newMarkers,
+      map: map,
+      renderer: customRenderer,
+      gridSize: 60,
+      maxZoom: 15,
+      zoomOnClick: false, // 關閉預設的縮放行為
+    });
+
+    // 手動處理叢集點擊事件
+    clusterer.addListener("click", (cluster) => {
+      console.log("Cluster clicked:", cluster);
+      
+      const markers = cluster.markers;
+      if (!markers || markers.length === 0) return;
+      
+      const bounds = new google.maps.LatLngBounds();
+      
+      // 計算所有標記的邊界
+      markers.forEach((marker) => {
+        if (marker.position) {
+          bounds.extend(marker.position);
+        }
+      });
+      
+      // 檢查邊界是否有效
+      if (bounds.isEmpty()) {
+        console.error("Bounds is empty");
+        return;
+      }
+      
+      // 獲取邊界的東北和西南點
+      const ne = bounds.getNorthEast();
+      const sw = bounds.getSouthWest();
+      
+      // 計算邊界的大小
+      const latDiff = Math.abs(ne.lat() - sw.lat());
+      const lngDiff = Math.abs(ne.lng() - sw.lng());
+      
+      // 如果邊界太小，手動擴展
+      if (latDiff < 0.002 || lngDiff < 0.002) {
+        const padding = 0.002;
+        bounds.extend(
+          new google.maps.LatLng(ne.lat() + padding, ne.lng() + padding)
+        );
+        bounds.extend(
+          new google.maps.LatLng(sw.lat() - padding, sw.lng() - padding)
+        );
+      }
+      
+      // 調整地圖視角
+      map.fitBounds(bounds);
+      
+      // 確保縮放級別合適
+      setTimeout(() => {
+        const currentZoom = map.getZoom();
+        console.log("Current zoom after fitBounds:", currentZoom);
+        
+        // 如果縮放過度，調整到合適的級別
+        if (currentZoom > 17) {
+          map.setZoom(17);
+        } else if (currentZoom < 13 && markers.length < 5) {
+          // 如果標記較少且縮放太小，稍微放大
+          map.setZoom(15);
+        }
+      }, 300);
+    });
+    
+    setMarkerClusterer(clusterer);
+
     return () => {
-      // 清理
       markerRefs.current.forEach((marker) => {
         if (marker) {
           marker.map = null;
@@ -226,9 +287,10 @@ const MapContent = ({ markers, setSelectedShop }) => {
       });
       if (markerClusterer) {
         markerClusterer.clearMarkers();
+        markerClusterer.setMap(null);
       }
     };
-  }, [map, markers, setSelectedShop, markerClusterer]);
+  }, [map, markers, setSelectedShop]);
 
   return null;
 };
@@ -325,7 +387,7 @@ const KLVMap = () => {
         });
       }
     }
-  }, [data, batchGeocode]);
+  }, [data, batchGeocode, loading]);
 
   if (loading) {
     return (
@@ -348,12 +410,14 @@ const KLVMap = () => {
       <APIProvider apiKey={apiKey} libraries={["marker"]}>
         <Map
           mapId="a63bdf028cc2027a683b81f6"
-          style={{ height: "50vh" }}
+          style={{ height: "75vh" }}
           defaultCenter={{ lat: 25.1283, lng: 121.7415 }} // 基隆市中心
-          defaultZoom={1}
+          defaultZoom={12} // 合理的初始縮放級別
           gestureHandling={"greedy"}
           disableDefaultUI={false}
           options={{
+            minZoom: 10, // 設定最小縮放級別
+            maxZoom: 20, // 設定最大縮放級別
             styles: [
               {
                 featureType: "poi",
@@ -388,7 +452,7 @@ const KLVMap = () => {
                 east: 122.0, // 最東經度（右邊界）
                 west: 121.6, // 最西經度（左邊界）
               },
-              strictBounds: true,
+              strictBounds: false, // 改為 false 以允許更靈活的縮放
             },
           }}
         >
