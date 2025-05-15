@@ -132,26 +132,7 @@ PERFORMANCE OF THIS SOFTWARE.
           font-family: Arial, sans-serif;
           text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
         ">${i}</span>
-        <div style="
-          position: absolute;
-          bottom: -3px;
-          left: 50%;
-          transform: translateX(-50%);
-          width: 8px;
-          height: 8px;
-          background: white;
-          border-radius: 50%;
-          box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-        "></div>
-        <div style="
-          position: absolute;
-          top: 5px;
-          right: 5px;
-          width: 6px;
-          height: 6px;
-          background: rgba(255, 255, 255, 0.4);
-          border-radius: 50%;
-        "></div>
+      
       </div>
     `,new window.google.maps.marker.AdvancedMarkerElement({position:a,content:o,zIndex:Number(window.google.maps.Marker.MAX_ZINDEX)+i})}};function T1(i){const a=i.values,r=a[1],s=a.slice(2),o={shopName:r.indexOf("店名"),district:r.indexOf("行政區"),manufacturer:r.indexOf("車廠"),businessHours:r.indexOf("營業時間"),phone:r.indexOf("連絡電話"),address:r.indexOf("地址")},f=[],h=new Set;for(const y of s){if(!y[o.shopName]||y[o.shopName].includes("重複")||y[o.shopName].includes("與")||y[o.address]==="重複"||y[o.address]==="重覆")continue;const g=y[o.shopName].trim(),m=y[o.district],v=y[o.businessHours]||"",A=y[o.phone]||"",E=y[o.address]||"";let U=[];if(y[o.manufacturer]){const C=y[o.manufacturer];C.includes(`
 `)?U=C.split(`
