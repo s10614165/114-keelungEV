@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
@@ -63,7 +63,7 @@ const routes = [
 
 function App() {
   return (
-    <Router basename="/114-keelungEV">
+    <Router >
       <div className={`${BACKGROUND_COLOR} min-h-screen flex flex-col`}>
         <Navbar routes={routes} />
         <main className="flex-grow bg-[#eefdfd]">
