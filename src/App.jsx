@@ -63,7 +63,7 @@ const routes = [
 
 function App() {
   return (
-    <Router>
+    <Router basename="/114-keelungEV">
       <div className={`${BACKGROUND_COLOR} min-h-screen flex flex-col`}>
         <Navbar routes={routes} />
         <main className="flex-grow bg-[#eefdfd]">

@@ -93,10 +93,10 @@ const PowerStationInfo = () => {
             return (
               <div
                 key={brand.id}
-                className="relative max-w-[344px] max-h-[300px] bg-white rounded-2xl shadow-lg overflow-hidden cursor-pointer transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
+                className="relative max-w-[344px]  max-h-[300px] bg-white rounded-2xl shadow-lg overflow-hidden cursor-pointer transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
               >
                 {/* 卡片內容 */}
-                <div className="md:p-8 flex flex-col items-center ">
+                <div className=" min-h-[244px] flex flex-col items-center justify-center ">
                   {/* Logo 圖片 */}
                   <div className="w-full h-24 md:h-32 flex items-center justify-center">
                     {logo ? (
