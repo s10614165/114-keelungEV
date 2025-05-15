@@ -48,26 +48,7 @@ const customRenderer = {
           font-family: Arial, sans-serif;
           text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
         ">${count}</span>
-        <div style="
-          position: absolute;
-          bottom: -3px;
-          left: 50%;
-          transform: translateX(-50%);
-          width: 8px;
-          height: 8px;
-          background: white;
-          border-radius: 50%;
-          box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-        "></div>
-        <div style="
-          position: absolute;
-          top: 5px;
-          right: 5px;
-          width: 6px;
-          height: 6px;
-          background: rgba(255, 255, 255, 0.4);
-          border-radius: 50%;
-        "></div>
+      
       </div>
     `;
 
