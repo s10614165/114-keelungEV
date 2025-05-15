@@ -312,7 +312,7 @@ function Navbar({ routes }) {
         {location.pathname !== "/" && (
           <>
             <div
-              className="relative bg-transparent text-center min-w-[300px] pb-16 h-[200px] bg-bottom bg-cover"
+              className="relative  text-center bg-[#e7fcfc] min-w-[300px] bg pb-16 h-[200px] bg-bottom bg-cover"
               style={{ backgroundImage: `url(${StepBar})` }}
             >
               <Breadcrumb
