@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import useGoogleSheet from "@/hooks/useGoogleSheet";
 const sheetId = import.meta.env.VITE_PowerStation_GogleSheet__ID;
 import External_Link from "@/assets/icon/External_Link.png";
-import PowerStaionBackround from "@/assets/img/powerStaionBackround.png";
+import FooterBgcImg from "@/components/FooterBgcImg";
 // 摩托車品牌 Logo imports
 import AeonmotorLogo from "@/assets/MotorLogo/Aeonmotor.png";
 import EmovingLogo from "@/assets/MotorLogo/emoving.jpg";
@@ -14,6 +14,7 @@ import PGOLogo from "@/assets/MotorLogo/PGO.png";
 import SYMLogo from "@/assets/MotorLogo/SYM.png";
 import YAMAHALogo from "@/assets/MotorLogo/YAMAHA.png";
 import ZauLogo from "@/assets/MotorLogo/Zau.png";
+import PageTitle from "@/components/PageTitle";
 
 // Logo 對照表
 const logoMap = {
@@ -81,10 +82,7 @@ const PowerStationInfo = () => {
   return (
     <div className="min-h-screen bg-[#e4fbfb] relative">
       <div className="p-4 md:p-8 pb-0 flex flex-col items-center justify-center ">
-        <h1 className="border-t-[8px] pt-[20px] w-[150px] border-[#1b7183] text-2xl md:text-3xl font-bold text-center text-gray-800 mb-8">
-          品牌總覽
-        </h1>
-
+        <PageTitle title="品牌總覽" />
         <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mb-8">
           {brands.map((brand) => {
             const logo = logoMap[brand.id];
@@ -139,13 +137,7 @@ const PowerStationInfo = () => {
       </div>
 
       {/* 背景圖片 - 固定在底部 */}
-      <div className="relative w-full">
-        <img
-          src={PowerStaionBackround}
-          alt="Power Station Background"
-          className="w-full md:h-auto md:object-contain h-40 sm:h-48 object-cover object-top"
-        />
-      </div>
+      <FooterBgcImg />
     </div>
   );
 };

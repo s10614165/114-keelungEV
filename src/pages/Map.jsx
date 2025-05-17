@@ -148,21 +148,25 @@ const MapContent = ({ markers, setSelectedShop }) => {
   const map = useMap();
   const [markerClusterer, setMarkerClusterer] = useState(null);
   const markerRefs = useRef([]);
-  
+
   useEffect(() => {
     if (!map || !window.google) return;
-    
+
     console.log("MapContent接收到的標記數量:", markers.length);
-    
+
     // 1. 先移除所有相關元素 (更徹底的清理)
     // 尋找並移除所有標記相關的DOM元素
-    const overlays = document.querySelectorAll('.gm-style > div:nth-child(1) > div:nth-child(3) > div');
-    overlays.forEach(overlay => {
+    const overlays = document.querySelectorAll(
+      ".gm-style > div:nth-child(1) > div:nth-child(3) > div"
+    );
+    overlays.forEach((overlay) => {
       if (overlay) {
         try {
           // 嘗試清除可能的標記元素
-          const possibleMarkers = overlay.querySelectorAll('img, div.cluster-marker, gmp-advanced-marker');
-          possibleMarkers.forEach(el => {
+          const possibleMarkers = overlay.querySelectorAll(
+            "img, div.cluster-marker, gmp-advanced-marker"
+          );
+          possibleMarkers.forEach((el) => {
             if (el && el.parentNode) {
               el.parentNode.removeChild(el);
             }
@@ -172,7 +176,7 @@ const MapContent = ({ markers, setSelectedShop }) => {
         }
       }
     });
-    
+
     // 2. 清理之前的標記引用
     markerRefs.current.forEach((marker) => {
       if (marker) {
@@ -184,7 +188,7 @@ const MapContent = ({ markers, setSelectedShop }) => {
       }
     });
     markerRefs.current = [];
-    
+
     // 3. 清理聚類器
     if (markerClusterer) {
       try {
@@ -195,10 +199,10 @@ const MapContent = ({ markers, setSelectedShop }) => {
       }
       setMarkerClusterer(null);
     }
-    
+
     // 如果沒有標記，則不創建新的標記
     if (!markers.length) return;
-    
+
     // 延遲一下再創建新標記，確保清理完成
     setTimeout(() => {
       // 創建新的標記
@@ -208,7 +212,7 @@ const MapContent = ({ markers, setSelectedShop }) => {
         markerContent.style.width = "40px";
         markerContent.style.height = "40px";
         markerContent.style.cursor = "pointer";
-        
+
         const marker = new window.google.maps.marker.AdvancedMarkerElement({
           position: shop.position,
           content: markerContent,
@@ -216,16 +220,17 @@ const MapContent = ({ markers, setSelectedShop }) => {
           id: shop.店名,
         });
 
-        marker.addListener("gmp-click", () => { // 注意這裡改用 gmp-click
+        marker.addListener("gmp-click", () => {
+          // 注意這裡改用 gmp-click
           setSelectedShop(shop);
         });
 
         return marker;
       });
-      
+
       console.log("創建的新標記數量:", newMarkers.length);
       markerRefs.current = newMarkers;
-      
+
       // 創建新的聚類器
       const clusterer = new MarkerClusterer({
         markers: [...newMarkers],
@@ -235,7 +240,7 @@ const MapContent = ({ markers, setSelectedShop }) => {
         maxZoom: 15,
         zoomOnClick: false,
       });
-      
+
       console.log("聚類器創建完成，包含標記數量:", newMarkers.length);
 
       // 手動處理叢集點擊事件
@@ -299,7 +304,7 @@ const MapContent = ({ markers, setSelectedShop }) => {
 
       setMarkerClusterer(clusterer);
     }, 100); // 100毫秒延遲確保DOM更新
-    
+
     return () => {
       console.log("MapContent清理函數執行");
       markerRefs.current.forEach((marker) => {
@@ -312,7 +317,7 @@ const MapContent = ({ markers, setSelectedShop }) => {
         }
       });
       markerRefs.current = [];
-      
+
       if (markerClusterer) {
         try {
           markerClusterer.clearMarkers();
@@ -322,7 +327,7 @@ const MapContent = ({ markers, setSelectedShop }) => {
         }
       }
     };
-  }, [map, markers, setSelectedShop]);
+  }, [map, markers]);
 
   return null;
 };
@@ -368,7 +373,7 @@ const KLVMap = () => {
       "品牌:",
       selectedBrands
     );
-
+    console.log(data)
     if (!originalMarkers.length) {
       console.log("原始標記為空，不執行篩選");
       return;
@@ -495,13 +500,13 @@ const KLVMap = () => {
   return (
     <div className="w-full bg-red-300">
       <div className="mb-2 px-4">
-        <p>
+        {/* <p>
           目前顯示: {markers.length} 個標記點 (總共: {originalMarkers.length})
-        </p>
+        </p> */}
       </div>
       <APIProvider apiKey={apiKey} libraries={["marker"]}>
         <Map
-        key={`map-${markers.length}-${Date.now()}`} // 添加key強制重建
+          key={`map-${selectedDistricts.join(",")}-${selectedBrands.join(",")}`} // 只在篩選條件變化時更新
           mapId="a63bdf028cc2027a683b81f6"
           style={{ height: "75vh" }}
           defaultCenter={{ lat: 25.1283, lng: 121.7415 }} // 基隆市中心

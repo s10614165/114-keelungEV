@@ -1,61 +1,206 @@
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
+import PageTitle from "../components/PageTitle";
+import Iconapply from "@/assets/icon/icon-apply.png";
+import IconCalendar from "@/assets/icon/icon-calendar.png";
+import IconHuman from "@/assets/icon/icon-human.png";
+import IconList from "@/assets/icon/icon-list.png";
+import IconMoney from "@/assets/icon/icon-money.png";
+import IconService from "@/assets/icon/icon-service.png";
+import { Row, Col } from "antd";
+import { useState } from "react";
+import FooterBgcImg from "@/components/FooterBgcImg";
+
 
 function Description() {
+  const [activeKeys, setActiveKeys] = useState({
+    time: false,
+    method: false,
+    items: false,
+    qualification: false,
+    payment: false,
+  });
+
+  const handleToggle = (key) => {
+    setActiveKeys((prev) => ({
+      ...prev,
+      [key]: !prev[key],
+    }));
+  };
+
+  const handleCollapseAll = () => {
+    setActiveKeys({
+      time: false,
+      method: false,
+      items: false,
+      qualification: false,
+      payment: false,
+    });
+  };
+
+  const handleExpandAll = () => {
+    setActiveKeys({
+      time: true,
+      method: true,
+      items: true,
+      qualification: true,
+      payment: true,
+    });
+  };
+
+  const collapseStyle = {
+    marginBottom: "12px",
+    borderRadius: "8px",
+    overflow: "hidden",
+    background: "linear-gradient(to bottom, #FFFFFF, #fcfef9)",
+  };
+  const headerStyle = {
+    padding: "24px 50px",
+    fontSize: "16px",
+    cursor: "pointer",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    borderRadius: "8px",
+    background: "linear-gradient(to bottom, #FFFFFF, #ecfee8)",
+    border: "1px solid #f0f0f0",
+    fontWeight: "bold",
+  };
+  const contentStyle = {
+    padding: "16px",
+    backgroundColor: "rgba(255, 255, 255, 0.6)",
+    borderBottomLeftRadius: "8px",
+    borderBottomRightRadius: "8px",
+  };
+
+  const renderCollapseHeader = (icon, text, isActive) => (
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        width: "100%",
+      }}
+    >
+      <div style={{ display: "flex", alignItems: "center" }}>
+        <img
+          src={icon}
+          alt={text}
+          style={{ width: "24px", height: "24px", marginRight: "40px" }}
+        />
+        <span>{text}</span>
+      </div>
+      <span>{isActive ? "-" : "+"}</span>
+    </div>
+  );
+
   return (
-    <div className="max-w-4xl mx-auto">
-      <h1 className="text-3xl font-bold text-center mb-8">
-        電動機車補助說明
-      </h1>
+    <div className="w-full flex flex-col items-center justify-center pt-[52px]">
+      <PageTitle title="規則說明" />
 
-      <div className="bg-white p-6 rounded-lg shadow-md mb-8">
-        <h2 className="text-xl font-semibold mb-4">補助目的</h2>
-        <p className="text-gray-600 mb-4">
-          為推動基隆市電動機車普及化，減少空氣污染，特訂定本補助方案。
-        </p>
-      </div>
+      <Row className="w-full">
+        <Col span={3} />
+        <Col span={18}>
+          <div className="w-full  ">
+            <div className="flex justify-end mb-2 text-sm text-teal-600">
+              <button onClick={handleCollapseAll} className="mr-2">
+                全部收合
+              </button>{" "}
+              |
+              <button onClick={handleExpandAll} className="ml-2">
+                全部展開
+              </button>
+            </div>
 
-      <div className="bg-white p-6 rounded-lg shadow-md mb-8">
-        <h2 className="text-xl font-semibold mb-4">補助對象</h2>
-        <div className="space-y-4">
-          <div>
-            <h3 className="font-medium text-lg mb-2">一般民眾</h3>
-            <p className="text-gray-600">
-              設籍基隆市且年滿18歲之市民。
-            </p>
-            <Link
-              to="/subsidy-intro"
-              className="text-blue-600 hover:text-blue-800 mt-2 inline-block"
-            >
-              查看詳細說明 →
-            </Link>
+            <div className="rounded-lg overflow-hidden">
+              {/* 申請時間 */}
+              <div style={collapseStyle}>
+                <div style={headerStyle} onClick={() => handleToggle("time")}>
+                  {renderCollapseHeader(
+                    IconCalendar,
+                    "申請時間",
+                    activeKeys.time
+                  )}
+                </div>
+                {activeKeys.time && (
+                  <div style={contentStyle}>
+                    <p>申請時間內容...</p>
+                  </div>
+                )}
+              </div>
+
+              {/* 申請方式 */}
+              <div style={collapseStyle}>
+                <div style={headerStyle} onClick={() => handleToggle("method")}>
+                  {renderCollapseHeader(
+                    Iconapply,
+                    "申請方式",
+                    activeKeys.method
+                  )}
+                </div>
+                {activeKeys.method && (
+                  <div style={contentStyle}>
+                    <p>申請方式內容...</p>
+                  </div>
+                )}
+              </div>
+
+              {/* 補助項目 */}
+              <div style={collapseStyle}>
+                <div style={headerStyle} onClick={() => handleToggle("items")}>
+                  {renderCollapseHeader(IconList, "補助項目", activeKeys.items)}
+                </div>
+                {activeKeys.items && (
+                  <div style={contentStyle}>
+                    <p>補助項目內容...</p>
+                  </div>
+                )}
+              </div>
+
+              {/* 補助資格 */}
+              <div style={collapseStyle}>
+                <div
+                  style={headerStyle}
+                  onClick={() => handleToggle("qualification")}
+                >
+                  {renderCollapseHeader(
+                    IconHuman,
+                    "補助資格",
+                    activeKeys.qualification
+                  )}
+                </div>
+                {activeKeys.qualification && (
+                  <div style={contentStyle}>
+                    <p>補助資格內容...</p>
+                  </div>
+                )}
+              </div>
+
+              {/* 撥款程序 */}
+              <div style={collapseStyle}>
+                <div
+                  style={headerStyle}
+                  onClick={() => handleToggle("payment")}
+                >
+                  {renderCollapseHeader(
+                    IconMoney,
+                    "撥款程序",
+                    activeKeys.payment
+                  )}
+                </div>
+                {activeKeys.payment && (
+                  <div style={contentStyle}>
+                    <p>撥款程序內容...</p>
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
-          <div>
-            <h3 className="font-medium text-lg mb-2">青年專案</h3>
-            <p className="text-gray-600">
-              設籍基隆市且年滿18歲至45歲之青年。
-            </p>
-            <Link
-              to="/teen-subsidy-intro"
-              className="text-blue-600 hover:text-blue-800 mt-2 inline-block"
-            >
-              查看詳細說明 →
-            </Link>
-          </div>
-        </div>
-      </div>
-
-      <div className="bg-white p-6 rounded-lg shadow-md">
-        <h2 className="text-xl font-semibold mb-4">申請注意事項</h2>
-        <ul className="list-disc list-inside space-y-2 text-gray-600">
-          <li>申請人需為車輛所有人</li>
-          <li>車輛需為全新電動機車</li>
-          <li>每人限申請一次</li>
-          <li>申請文件需完整且真實</li>
-          <li>補助款項將於審核通過後撥付</li>
-        </ul>
-      </div>
+        </Col>
+        <Col span={3} />
+      </Row>
+      <FooterBgcImg/>
     </div>
   );
 }
 
-export default Description; 
+export default Description;
