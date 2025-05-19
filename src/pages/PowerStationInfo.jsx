@@ -17,6 +17,7 @@ import ZauLogo from "@/assets/MotorLogo/Zau.png";
 import PageTitle from "@/components/PageTitle";
 import Loading from "../components/Loading";
 import PageError from "../components/PageError";
+import { Row, Col } from "antd";
 
 // Logo 對照表
 const logoMap = {
@@ -73,27 +74,32 @@ const PowerStationInfo = () => {
 
   return (
     <div className="min-h-screen bg-[#e4fbfb] relative">
-      <div className="p-4 md:p-8 pb-0 flex flex-col items-center justify-center ">
-        <PageTitle title="品牌總覽" />
-        <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mb-8">
-          {brands.map((brand) => {
-            const logo = logoMap[brand.id];
-            const bgColor = "bg-[#36cbda]";
-
-            return (
-              <div
-                key={brand.id}
-                className="relative max-w-[344px]  max-h-[300px] bg-white rounded-2xl shadow-lg overflow-hidden cursor-pointer transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
-              >
-                {/* 卡片內容 */}
-                <div className=" min-h-[244px] flex flex-col items-center justify-center ">
+      {/* 主要內容區塊 */}
+      <div className="flex w-full min-h-screen">
+        {/* 左側紅色背景 */}
+        <div className="hidden md:block w-1/12 "></div>
+        {/* 中間內容 */}
+        <div className="flex-1 flex flex-col items-center pt-[52px]">
+          <PageTitle title="品牌總覽" />
+          <div className="w-full max-w-6xl px-2 md:px-0 grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-6 my-8">
+            {brands.map((brand) => {
+              const logo = logoMap[brand.id];
+              const bgColor = "bg-[#36cbda]";
+              return (
+                <div
+                  key={brand.id}
+                  className="relative w-full max-w-[344px] bg-white rounded-2xl shadow-lg overflow-hidden cursor-pointer transform transition-all duration-300 hover:scale-105 hover:shadow-xl  flex flex-col justify-between"
+                  onClick={() => {
+                    window.open(brand.link, "_blank");
+                  }}
+                >
                   {/* Logo 圖片 */}
-                  <div className="w-full h-24 md:h-32 flex items-center justify-center">
+                  <div className="flex items-center justify-center h-[112px] md:h-[244px] w-full bg-white">
                     {logo ? (
                       <img
                         src={logo}
                         alt={brand.brand}
-                        className="max-w-full max-h-full object-contain"
+                        className="object-contain max-h-full max-w-[80%] mx-auto"
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center text-gray-400">
@@ -101,31 +107,32 @@ const PowerStationInfo = () => {
                       </div>
                     )}
                   </div>
-                </div>
-
-                {/* 底部品牌標籤 */}
-                <div
-                  className={`${bgColor} relative px-4 py-3 text-white text-sm font-medium`}
-                >
-                  <span className="block text-center truncate">
-                    {brand.brand}
-                  </span>
-                  <a
-                    href={brand.link}
-                    rel="blank"
-                    className="absolute right-4 top-1/2 -translate-y-1/2"
+                  {/* 底部品牌標籤 */}
+                  <div
+                    className={`${bgColor} relative px-4 py-3 text-white text-sm font-medium`}
                   >
-                    <img
-                      src={External_Link}
-                      alt="External_Link"
-                      className="w-[32px] h-[32px]"
-                    />
-                  </a>
+                    <span className="block text-center truncate">
+                      {brand.brand}
+                    </span>
+                    <a
+                      href={brand.link}
+                      rel="blank"
+                      className="absolute right-4 top-1/2 -translate-y-1/2"
+                    >
+                      <img
+                        src={External_Link}
+                        alt="External_Link"
+                        className="w-[14px] h-[14px] md:w-[32px] md:h-[32px]"
+                      />
+                    </a>
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
+        {/* 右側紅色背景 */}
+        <div className="hidden md:block w-1/12 "></div>
       </div>
 
       {/* 背景圖片 - 固定在底部 */}
