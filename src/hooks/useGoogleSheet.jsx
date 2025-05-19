@@ -7,6 +7,10 @@ const useGoogleSheet = ({range = "★大表(主要版本)勿動!",sheetId=""}) =
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  function setLoadingState(isLoading) {
+    setLoading(isLoading);
+  }
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -25,7 +29,7 @@ const useGoogleSheet = ({range = "★大表(主要版本)勿動!",sheetId=""}) =
     fetchData();
   }, [range]);
 
-  return { data, loading, error };
+  return { data, loading, error,setLoadingState };
 };
 
 export default useGoogleSheet;
