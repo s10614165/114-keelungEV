@@ -9,13 +9,34 @@ const MAX_COUNT = 10;
 export const useStore = create((set) => ({
   // 區域選擇
   districts: [
-    "仁愛區",
-    "信義區",
-    "中正區",
-    "中山區",
-    "安樂區",
-    "暖暖區",
-    "七堵區",
+    {
+      value: "仁愛區",
+      label: "仁愛區",
+    },
+    {
+      value: "信義區",
+      label: "信義區",
+    },
+    {
+      value: "中正區",
+      label: "中正區",
+    },
+    {
+      value: "中山區",
+      label: "中山區",
+    },
+    {
+      value: "安樂區",
+      label: "安樂區",
+    },
+    {
+      value: "暖暖區",
+      label: "暖暖區",
+    },
+    {
+      value: "七堵區",
+      label: "七堵區",
+    },
   ],
   selectedDistricts: [], // 選擇的行政區
   selectedBrands: [], // 選擇的品牌
@@ -60,16 +81,48 @@ export const useStore = create((set) => ({
 
   // 品牌選擇
   brands: [
-    "SANYANG三陽",
-    "YAMAHA山葉",
-    "emoving中華電動二輪車",
-    "eReady台鈴智慧電車",
-    "光陽電動車ionex",
-    "KYMCO光陽",
-    "睿能gogoro",
-    "PGO摩特動力",
-    "宏佳騰機車",
-    "Zau 泓創綠能",
+    {
+      value: "SYM",
+      label: "SANYANG三陽",
+    },
+    {
+      value: "YAMAHA",
+      label: "YAMAHA山葉",
+    },
+
+    {
+      value: "emoving",
+      label: "emoving中華電動二輪車",
+    },
+    {
+      value: "eReady",
+      label: "eReady台鈴",
+    },
+    {
+      value: "ionex",
+      label: "Ionex光陽電動車",
+    },
+    {
+      value: "KYMCO",
+      label: "KYMCO光陽",
+    },
+    {
+      value: "Aeonmotor",
+      label: "AeonMOTOR宏佳騰",
+    },
+    {
+      value: "Zau",
+      label: "Zau 泓創綠能",
+    },
+    {
+      value: "Gogoro",
+      label: "睿能gogoro",
+    },
+
+    {
+      value: "PGO",
+      label: "PGO摩特動力",
+    },
   ],
 }));
 
@@ -106,8 +159,7 @@ const CustomSelect = ({
   const suffix = (
     <>
       {selected.length > 0 ? (
-        <span
-        >{`${title} (已選${selected.length}/${MAX_COUNT})`}</span>
+        <span>{`${title} (已選${selected.length}/${MAX_COUNT})`}</span>
       ) : (
         <span></span>
       )}
@@ -127,7 +179,7 @@ const CustomSelect = ({
       open={isOpen}
       maxTagCount={2}
       maxTagPlaceholder={() => <span>...</span>}
-      onOpenChange ={(visible) => setOpen(visible)}
+      onOpenChange={(visible) => setOpen(visible)}
       popupRender={(menu) => (
         <>
           {menu}
@@ -159,7 +211,7 @@ const CustomSelect = ({
           </div>
         </>
       )}
-      options={options.map((item) => ({ value: item, label: item }))}
+      options={options}
     />
   );
 };

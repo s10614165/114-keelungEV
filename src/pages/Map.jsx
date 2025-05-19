@@ -10,6 +10,8 @@ import {
 } from "@vis.gl/react-google-maps";
 import powerPinImg from "@/assets/img/powerpin.png";
 import { useStore } from "@/pages/MapStepSelect";
+import Loading from "../components/Loading";
+import PageError from "../components/PageError";
 const apiKey = import.meta.env.VITE_GOOGLE_API_KEY;
 const sheetId = import.meta.env.VITE_MotorcycleShops_GogleSheet__ID;
 
@@ -90,14 +92,15 @@ function parseMotorcycleShops(data) {
       row[indexes.shopName].includes("重複") ||
       row[indexes.shopName].includes("與") ||
       row[indexes.address] === "重複" ||
-      row[indexes.address] === "重覆"
+      row[indexes.address] === "重覆" ||
+      !row[indexes.businessHours] // 跳過沒有營業時間的資料
     ) {
       continue;
     }
 
     const shopName = row[indexes.shopName].trim();
     const district = row[indexes.district];
-    const businessHours = row[indexes.businessHours] || "";
+    const businessHours = row[indexes.businessHours];
     const phone = row[indexes.phone] || "";
     const address = row[indexes.address] || "";
 
@@ -126,6 +129,7 @@ function parseMotorcycleShops(data) {
         營業時間: businessHours,
         連絡電話: phone,
         地址: address,
+        是否顯示營業時間: businessHours !== "N/A"
       });
 
       processedShops.add(uniqueId);
@@ -139,7 +143,7 @@ function parseMotorcycleShops(data) {
     }
     return a.行政區.localeCompare(b.行政區);
   });
-
+  console.log(shops)
   return shops;
 }
 
@@ -337,6 +341,7 @@ const KLVMap = () => {
     range: "★大表(主要版本)勿動!",
     sheetId,
   });
+  const [s_isloading, set_s_isLoading] = useState(false);
   const [selectedShop, setSelectedShop] = useState(null);
   const [markers, setMarkers] = useState([]);
   const [originalMarkers, setOriginalMarkers] = useState([]); // 儲存原始標記數據
@@ -373,7 +378,7 @@ const KLVMap = () => {
       "品牌:",
       selectedBrands
     );
-    console.log(data)
+    console.log(data);
     if (!originalMarkers.length) {
       console.log("原始標記為空，不執行篩選");
       return;
@@ -393,6 +398,7 @@ const KLVMap = () => {
         selectedDistricts.length === 0 ||
         selectedDistricts.includes(marker.行政區);
 
+        console.log(selectedBrands)
       // 檢查品牌匹配 (如果標記有車廠屬性且是數組)
       const brandMatch =
         selectedBrands.length === 0 ||
@@ -401,9 +407,10 @@ const KLVMap = () => {
           marker.車廠.some((brand) => selectedBrands.includes(brand)));
 
       // 同時符合地區和品牌條件
+      console.log(brandMatch)
       return districtMatch && brandMatch;
     });
-
+    console.log(filtered)
     console.log("篩選前標記數量:", originalMarkers.length);
     console.log("篩選後標記數量:", filtered.length);
 
@@ -461,40 +468,65 @@ const KLVMap = () => {
       const cachedData = localStorage.getItem("keelungMotorcycleShopsGeodata");
 
       if (cachedData) {
-        const parsedData = JSON.parse(cachedData);
-        console.log("從緩存加載的標記數量:", parsedData.length);
-        setOriginalMarkers(parsedData); // 設置原始標記
-        setMarkers(parsedData); // 初始顯示所有標記
+        const parsedCache = JSON.parse(cachedData);
+        const now = new Date().getTime();
+
+        // 檢查資料是否過期
+        if (now < parsedCache.expiry) {
+          // 資料未過期，使用快取資料
+          console.log("從緩存加載的標記數量:", parsedCache.data.length);
+          setOriginalMarkers(parsedCache.data);
+          setMarkers(parsedCache.data);
+        } else {
+          // 資料已過期，重新獲取地理編碼
+          console.log("快取資料已過期，重新獲取地理編碼");
+          set_s_isLoading(true);
+          batchGeocode(shopData).then((geocodedShops) => {
+            console.log("地理編碼後的標記數量:", geocodedShops.length);
+            setOriginalMarkers(geocodedShops);
+            setMarkers(geocodedShops);
+
+            // 更新快取資料和過期時間
+            const expirationTime = new Date().getTime() + 60 * 60 * 1000; // 1小時後過期
+            localStorage.setItem(
+              "keelungMotorcycleShopsGeodata",
+              JSON.stringify({
+                data: geocodedShops,
+                expiry: expirationTime,
+              })
+            );
+            set_s_isLoading(false);
+          });
+        }
       } else {
-        // 執行地理編碼
+        // 無快取資料，執行地理編碼
+        set_s_isLoading(true);
         batchGeocode(shopData).then((geocodedShops) => {
           console.log("地理編碼後的標記數量:", geocodedShops.length);
-          setOriginalMarkers(geocodedShops); // 設置原始標記
-          setMarkers(geocodedShops); // 初始顯示所有標記
+          setOriginalMarkers(geocodedShops);
+          setMarkers(geocodedShops);
+
           // 儲存到本地以便下次使用
+          const expirationTime = new Date().getTime() + 60 * 60 * 1000; // 1小時後過期
           localStorage.setItem(
             "keelungMotorcycleShopsGeodata",
-            JSON.stringify(geocodedShops)
+            JSON.stringify({
+              data: geocodedShops,
+              expiry: expirationTime,
+            })
           );
+          set_s_isLoading(false);
         });
       }
     }
-  }, [data, batchGeocode, loading]);
+  }, [data, batchGeocode, loading, s_isloading]);
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <div className="text-lg">載入資料中...</div>
-      </div>
-    );
+  if (loading || s_isloading) {
+    return <Loading extraText="首次加載，會需要較長時間" />;
   }
 
   if (error) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <div className="text-lg text-red-500">載入失敗: {error.message}</div>
-      </div>
-    );
+    return <PageError />;
   }
 
   return (
@@ -508,7 +540,7 @@ const KLVMap = () => {
         <Map
           key={`map-${selectedDistricts.join(",")}-${selectedBrands.join(",")}`} // 只在篩選條件變化時更新
           mapId="a63bdf028cc2027a683b81f6"
-          style={{ height: "75vh" }}
+          style={{ height: "100vh" }}
           defaultCenter={{ lat: 25.1283, lng: 121.7415 }} // 基隆市中心
           defaultZoom={12} // 合理的初始縮放級別
           gestureHandling={"greedy"}
@@ -573,7 +605,7 @@ const KLVMap = () => {
                     <strong>車廠：</strong>
                     {selectedShop.車廠.join(", ")}
                   </p>
-                  {selectedShop.營業時間 && (
+                  {selectedShop.是否顯示營業時間 && (
                     <p>
                       <strong>營業時間：</strong>
                       {selectedShop.營業時間}

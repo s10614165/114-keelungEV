@@ -15,6 +15,8 @@ import SYMLogo from "@/assets/MotorLogo/SYM.png";
 import YAMAHALogo from "@/assets/MotorLogo/YAMAHA.png";
 import ZauLogo from "@/assets/MotorLogo/Zau.png";
 import PageTitle from "@/components/PageTitle";
+import Loading from "../components/Loading";
+import PageError from "../components/PageError";
 
 // Logo 對照表
 const logoMap = {
@@ -45,22 +47,12 @@ const PowerStationInfo = () => {
 
   // 處理載入中狀態
   if (loading) {
-    return (
-      <div className="min-h-screen bg-gradient-to-b from-sky-100 to-sky-200 p-4 md:p-8 flex items-center justify-center">
-        <div className="text-xl font-medium text-gray-600">載入中...</div>
-      </div>
-    );
+    return <Loading />;
   }
 
   // 處理錯誤狀態
   if (error) {
-    return (
-      <div className="min-h-screen bg-gradient-to-b from-sky-100 to-sky-200 p-4 md:p-8 flex items-center justify-center">
-        <div className="text-xl font-medium text-red-600">
-          載入失敗：{error.message}
-        </div>
-      </div>
-    );
+    return <PageError />;
   }
 
   // 處理無資料狀態
