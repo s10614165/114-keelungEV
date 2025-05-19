@@ -88,7 +88,7 @@ const PowerStationInfo = () => {
               return (
                 <div
                   key={brand.id}
-                  className="relative w-full max-w-[344px] bg-white rounded-2xl shadow-lg overflow-hidden cursor-pointer transform transition-all duration-300 hover:scale-105 hover:shadow-xl  flex flex-col justify-between"
+                  className="relative w-full max-w-[344px] bg-white rounded-2xl shadow-lg overflow-hidden cursor-pointer transform transition-all duration-300 hover:scale-105 hover:shadow-xl group flex flex-col justify-between"
                   onClick={() => {
                     window.open(brand.link, "_blank");
                   }}
@@ -109,9 +109,9 @@ const PowerStationInfo = () => {
                   </div>
                   {/* 底部品牌標籤 */}
                   <div
-                    className={`${bgColor} relative px-4 py-3 text-white text-sm font-medium`}
+                    className={`${bgColor} group-hover:bg-[#26CF13] relative px-4 py-3 text-white  font-medium`}
                   >
-                    <span className="block text-center truncate">
+                    <span className="block  text-[10px] md:text-[22px] text-center truncate">
                       {brand.brand}
                     </span>
                     <a

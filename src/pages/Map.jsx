@@ -577,10 +577,10 @@ const KLVMap = () => {
             ],
             restriction: {
               latLngBounds: {
-                north: 25.3, // 最北緯度（上邊界）
+                north: 25.149, // 最北緯度（上邊界）
                 south: 25.0, // 最南緯度（下邊界）
-                east: 122.0, // 最東經度（右邊界）
-                west: 121.6, // 最西經度（左邊界）
+                east: 121.89, // 最東經度（右邊界）
+                west: 121.69, // 最西經度（左邊界）
               },
               strictBounds: false, // 改為 false 以允許更靈活的縮放
             },
