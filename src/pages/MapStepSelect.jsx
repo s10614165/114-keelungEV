@@ -236,7 +236,7 @@ const App = () => {
   return (
     <div className="min-h-screen z-60">
       <div className="max-w-6xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-0.5 md:gap-6">
           {/* 左側下拉選單 - 地區選擇 */}
           <div>
             <CustomSelect

@@ -17,7 +17,7 @@ import ZauLogo from "@/assets/MotorLogo/Zau.svg";
 import PageTitle from "@/components/PageTitle";
 import Loading from "../components/Loading";
 import PageError from "../components/PageError";
-import { Row, Col } from "antd";
+import BrandIcon from "@/assets/icon/icon-brand.svg";
 
 // Logo 對照表
 const logoMap = {
@@ -80,7 +80,8 @@ const PowerStationInfo = () => {
         <div className="hidden md:block w-1/12 "></div>
         {/* 中間內容 */}
         <div className="flex-1 flex flex-col items-center pt-[52px]">
-          <PageTitle title="品牌總覽" />
+         
+          <PageTitle title="品牌總覽" icon={BrandIcon} iconClassName="w-[32px] h-[32px]" />
           <div className="w-full max-w-6xl px-2 md:px-0 grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-6 my-8">
             {brands.map((brand) => {
               const logo = logoMap[brand.id];
@@ -111,7 +112,7 @@ const PowerStationInfo = () => {
                   <div
                     className={`${bgColor} group-hover:bg-[#26CF13] relative px-4 py-3 text-white  font-medium`}
                   >
-                    <span className="block  text-[10px] md:text-[22px] text-center truncate">
+                    <span className="block  text-[10px] md:text-[22px] font-bold text-center truncate">
                       {brand.brand}
                     </span>
                     <a

@@ -10,6 +10,8 @@ import useGoogleSheet from "@/hooks/useGoogleSheet";
 import Loading from "@/components/Loading";
 import PageError from "../components/PageError";
 const sheetId = import.meta.env.VITE_PowerStation_GogleSheet__ID;
+import DownloadIcon from "@/assets/icon/icon-download.svg";
+
 
 function Download() {
   const { data, loading, error } = useGoogleSheet({
@@ -63,7 +65,7 @@ function Download() {
 
   return (
     <div className="w-full flex flex-col items-center justify-center pt-[52px]">
-      <PageTitle title="申請單據下載" />
+      <PageTitle icon={DownloadIcon} iconClassName="w-[24px] h-[32px]" title="申請單據下載 " />
       <Row gutter={0} className="w-full">
         <Col xs={1} md={3} />
         <Col xs={22} md={18}>

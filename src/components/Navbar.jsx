@@ -259,7 +259,7 @@ function Navbar({ routes }) {
   return (
     <>
       {/* 導覽列 */}
-      <header className=" top-0 left-0 w-full bg-white shadow-md">
+      <header className="top-0 left-0 w-full bg-white shadow-lg">
         <div className="max-w-7xl mx-auto px-8 py-3 flex items-center justify-between">
           <Link
             to="/"
@@ -329,7 +329,7 @@ function Navbar({ routes }) {
         {location.pathname !== "/" && (
           <>
             <div
-              className="relative  text-center bg-[#e7fcfc] min-w-[300px] md:pt-[24px] bg pb-16 h-[200px] bg-bottom bg-cover"
+              className="relative  flex flex-col text-center bg-[#e7fcfc] min-w-[100px] md:min-w-[300px] md:pt-[24px] bg md:pb-16 h-[200px] bg-bottom bg-cover"
               style={{ backgroundImage: `url(${StepBar})` }}
             >
               <Breadcrumb
@@ -339,16 +339,15 @@ function Navbar({ routes }) {
               />
 
               {/* 當前頁面標題 */}
-              <div className="flex items-center justify-center mt-3">
-                <h1 className="text-2xl font-bold text-gray-800">
+              <div className="flex grow self-center flex-col items-center justify-center  md:mt-3">
+                <h2 className="text-2xl font-bold text-gray-800">
                   {getCurrentPageTitle()}
-                </h1>
-              </div>
-              <div className="flex items-center justify-center mt-3">
-                <h1 className="text-4xl font-bold text-gray-800">
+                </h2>
+                <h2 className="text-4xl font-bold text-gray-800">
                   {genCurrentPageSubNav()}
-                </h1>
+                </h2>
               </div>
+            
             </div>
           </>
         )}

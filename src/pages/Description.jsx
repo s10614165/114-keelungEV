@@ -10,6 +10,7 @@ import { Row, Col } from "antd";
 import { useState } from "react";
 import FooterBgcImg from "@/components/FooterBgcImg";
 import { PlusOutlined, MinusOutlined } from "@ant-design/icons";
+import RulesIcon from "@/assets/icon/icon-rules.svg";
 
 function Description() {
   const [activeKeys, setActiveKeys] = useState({
@@ -69,7 +70,7 @@ function Description() {
         <img
           src={icon}
           alt={text}
-          className="w-[37px] h-[37px] mr-4 md:mr-[40px]"
+          className="md:w-[37px] md:h-[37px] w-[24px] h-[24px] mr-4 md:mr-[40px]"
         />
         <span className="md:text-2xl text-[#155413] font-bold text-base ">{text}</span>
       </div>
@@ -81,7 +82,7 @@ function Description() {
 
   return (
     <div className="w-full flex flex-col items-center justify-center pt-[52px]">
-      <PageTitle title="規則說明" />
+      <PageTitle icon={RulesIcon} iconClassName="md:w-[32px] md:h-[24px]  w-[22px] h-[17px]" title="規則說明" />
 
       <Row gutter={24} className="w-full">
         <Col xs={1} md={3} />

@@ -1,9 +1,12 @@
 import React from "react";
-const PageTitle = ({ title }) => {
+const PageTitle = ({ title, icon = "", iconClassName = "" }) => {
   return (
-    <h1 className="border-t-[8px] pt-[20px] w-[180px] border-[#1b7183] text-2xl md:text-3xl font-bold text-center text-gray-800 mb-8">
-      {title}
-    </h1>
+    <div className="w-full flex items-center justify-center ">
+      <h1 className="  border-b-[8px] pb-[11px] flex items-center gap-2 md:pb-[16px] w-fit border-[#1b7183] text-[22px] md:text-[32px] font-bold text-center text-[#1B7183] mb-8">
+        {icon!=="" && <img src={icon} alt="icon" className={`${iconClassName} `}></img>}
+        {title}
+      </h1>
+    </div>
   );
 };
 
