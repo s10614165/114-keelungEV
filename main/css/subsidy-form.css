@@ -375,7 +375,7 @@
 }
 
 .step-progress-wrapper {
-  background: url('../asset/img/step-bar-background.png') no-repeat center bottom;
+  background: url('../asset/img/step-bar-background.svg') no-repeat center bottom;
   background-size: cover;
   margin-top: 65px;
   padding: 2rem 1rem 4rem;
@@ -385,7 +385,7 @@
 }
 
 .step-progress-wrapper-supple {
-  background: url('../asset/img/step-bar-background.png') no-repeat center bottom;
+  background: url('../asset/img/step-bar-background.svg') no-repeat center bottom;
   background-size: cover;
   margin-top: 65px;
   padding: 2rem 1rem 4rem;

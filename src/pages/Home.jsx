@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import backgroundImg from '@/assets/img/background.png';
+import backgroundImg from '@/assets/img/background.svg';
 import applyEnterImg from '@/assets/img/apply-enter.png';
 import mapEnterImg from '@/assets/img/map-enter.png';
 

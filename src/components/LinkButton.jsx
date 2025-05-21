@@ -1,8 +1,10 @@
 import React from 'react'
-import FooterFB from "@/assets/icon/icon-fb.png";
-import FooterIG from "@/assets/icon/icon-ig.png";
+import FooterFB from "@/assets/icon/icon-fb.svg";
+import FooterIG from "@/assets/icon/icon-ig.svg";
+import FooterLine from "@/assets/icon/icon-Line.svg";
 import SiderFB from "@/assets/icon/Facebook.png";
 import SiderIG from "@/assets/icon/Instagram.png";
+import SiderLine from "@/assets/icon/Line.svg";
 
 /**
  * LinkButton - 可重用的社群媒體連結按鈕元件
@@ -77,8 +79,10 @@ const LinkButton = ({
   const iconMap = {
     "footer-fb": FooterFB,
     "footer-ig": FooterIG,
+    "footer-line": FooterLine,
     "sider-fb": SiderFB,
-    "sider-ig": SiderIG
+    "sider-ig": SiderIG,
+    "sider-line": SiderLine
   };
 
   /**
@@ -96,9 +100,14 @@ const LinkButton = ({
    * @description 如果沒有提供 href，則根據圖標類型自動設定連結
    */
   const finalHref = href || (() => {
-    // 判斷是 Facebook 還是 Instagram
-    const isFacebook = iconType.includes('fb');
-    return isFacebook ? 'https://www.facebook.com/ilovekeelung' : 'https://www.instagram.com/embracekeelung/';
+    // 判斷是 Facebook、Line 還是 Instagram
+    if (iconType.includes('fb')) {
+      return 'https://www.facebook.com/ilovekeelung';
+    } else if (iconType.includes('line')) {
+      return 'https://line.me/R/ti/p/@914kgwbz?oat_content=url&ts=04221721';
+    } else {
+      return 'https://www.instagram.com/embracekeelung/';
+    }
   })();
   
   return (

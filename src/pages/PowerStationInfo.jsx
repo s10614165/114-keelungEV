@@ -4,16 +4,16 @@ const sheetId = import.meta.env.VITE_PowerStation_GogleSheet__ID;
 import External_Link from "@/assets/icon/External_Link.png";
 import FooterBgcImg from "@/components/FooterBgcImg";
 // 摩托車品牌 Logo imports
-import AeonmotorLogo from "@/assets/MotorLogo/Aeonmotor.png";
-import EmovingLogo from "@/assets/MotorLogo/emoving.jpg";
-import EReadyLogo from "@/assets/MotorLogo/eReady.jpg";
-import GogoroLogo from "@/assets/MotorLogo/gogoro.png";
-import IonexLogo from "@/assets/MotorLogo/ionex.jpg";
-import KYMCOLogo from "@/assets/MotorLogo/KYMCO.png";
-import PGOLogo from "@/assets/MotorLogo/PGO.png";
-import SYMLogo from "@/assets/MotorLogo/SYM.png";
-import YAMAHALogo from "@/assets/MotorLogo/YAMAHA.png";
-import ZauLogo from "@/assets/MotorLogo/Zau.png";
+import AeonmotorLogo from "@/assets/MotorLogo/Aeonmotor.svg";
+import EmovingLogo from "@/assets/MotorLogo/emoving.svg";
+import EReadyLogo from "@/assets/MotorLogo/eReady.svg";
+import GogoroLogo from "@/assets/MotorLogo/gogoro.svg";
+import IonexLogo from "@/assets/MotorLogo/ionex.svg";
+import KYMCOLogo from "@/assets/MotorLogo/KYMCO.svg";
+import PGOLogo from "@/assets/MotorLogo/PGO.svg";
+import SYMLogo from "@/assets/MotorLogo/SYM.svg";
+import YAMAHALogo from "@/assets/MotorLogo/YAMAHA.svg";
+import ZauLogo from "@/assets/MotorLogo/Zau.svg";
 import PageTitle from "@/components/PageTitle";
 import Loading from "../components/Loading";
 import PageError from "../components/PageError";
@@ -99,7 +99,7 @@ const PowerStationInfo = () => {
                       <img
                         src={logo}
                         alt={brand.brand}
-                        className="object-contain max-h-full max-w-[80%] mx-auto"
+                        className="object-contain max-h-full "
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center text-gray-400">

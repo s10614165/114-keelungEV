@@ -171,7 +171,7 @@ const CustomSelect = ({
     <Select
       mode="multiple"
       value={selected}
-      className="w-[300px] text-left"
+      className="w-[380px] text-left"
       onChange={setSelected}
       suffixIcon={suffix}
       placeholder={placeholder}
@@ -192,15 +192,16 @@ const CustomSelect = ({
             }}
           >
             <Button
-              style={{ marginTop: "8px" }}
-              type="text"
+            // variant="outlined"
+              style={{ marginTop: "8px",border:"1px solid #19A4B4" ,borderRadius: "20px" ,color:"#19A4B4"}}
+              type={"default"}
               onClick={clearSelected}
             >
               清空條件
             </Button>
             <Button
-              className="rounded-3xl"
-              style={{ marginTop: "8px", borderRadius: "20px" }}
+              className="rounded-3xl bg-[#19A4B4]"
+              style={{ marginTop: "8px", borderRadius: "20px",backgroundColor:"#19A4B4",width:"90%",maxWidth:"242px"}}
               type="primary"
               onClick={() => {
                 setOpen(false);

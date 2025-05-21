@@ -69,11 +69,11 @@ function Description() {
         <img
           src={icon}
           alt={text}
-          className="w-[26px] h-[26px] mr-4 md:mr-[40px]"
+          className="w-[37px] h-[37px] mr-4 md:mr-[40px]"
         />
-        <span className="md:text-2xl text-base ">{text}</span>
+        <span className="md:text-2xl text-[#155413] font-bold text-base ">{text}</span>
       </div>
-      <span className="md:text-2xl text-base ">
+      <span className="md:text-[18px]  font-bold text-[12px] ">
         {isActive ? <MinusOutlined className="text-2xl" /> : <PlusOutlined />}
       </span>
     </div>

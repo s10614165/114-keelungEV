@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import evLogo from "@/assets/img/ev-logo.png";
+import evLogo from "@/assets/img/ev-logo.svg";
 import Close from "@/assets/icon/Close_LG.png";
 import listIcon from "@/assets/img/list.png";
 
@@ -90,7 +90,7 @@ const Breadcrumb = ({ routes, location, menuItems }) => {
                 <span className="mx-2">{">"}</span>
               </>
             ) : (
-              <span className="text-black font-bold">{item.name}</span>
+              <span className="text-black font-medium text-sm ">{item.name}</span>
             )}
           </span>
         ))}
@@ -158,16 +158,6 @@ function Navbar({ routes }) {
       ],
     },
     {
-      key: "policy",
-      title: "政策成效",
-      link: "/policy-effect",
-      subItems: [
-        { title: "轉型成效", link: "/policy-effect" },
-        { title: "成功案例影片", link: "/success-case" },
-        { title: "DM下載", link: "/dm-download" },
-      ],
-    },
-    {
       key: "news",
       title: "活動快訊",
       link: "/news",
@@ -177,6 +167,17 @@ function Navbar({ routes }) {
         { title: "抽獎活動資訊", link: "/lottery" },
       ],
     },
+    {
+      key: "policy",
+      title: "政策成效",
+      link: "/policy-effect",
+      subItems: [
+        { title: "轉型成效", link: "/policy-effect" },
+        { title: "成功案例影片", link: "/success-case" },
+        { title: "DM下載", link: "/dm-download" },
+      ],
+    },
+   
   ];
 
   // 取得當前頁面標題的函數
@@ -266,9 +267,9 @@ function Navbar({ routes }) {
           >
             <img src={evLogo} alt="EV Logo" className="h-12 w-auto" />
             <div className="hidden md:flex flex-col leading-tight">
-              <span className="text-xl font-bold">基隆友善車行一點通</span>
-              <span className="text-base font-semibold text-gray-600 tracking-wide">
-                KEELUNG EV FRIENDLY SHOP
+              <span className="text-lg font-bold">基隆友善車行一點通</span>
+              <span className="text-[9px] font-semibold text-gray-600 tracking-wide">
+                Keelung E-Friendly Scooter Network
               </span>
             </div>
           </Link>
@@ -279,30 +280,30 @@ function Navbar({ routes }) {
                 <li key={item.key} className="relative group">
                   <Link
                     to={item.link}
-                    className="text-gray-800 font-medium hover:text-blue-600 transition-colors"
+                    className="text-gray-800 text-base font-medium hover:text-blue-600 transition-colors"
                   >
                     {item.title}
                   </Link>
                   <ul
                     className={`absolute hidden group-hover:block top-full ${
                       menuIndex === menuItems.length - 1 ? "right-0" : "left-0"
-                    } bg-white py-2 min-w-40 border border-gray-200 shadow-lg z-50 rounded-lg overflow-hidden`}
+                    } bg-white w-[200px] py-2 min-w-40 border border-gray-200 shadow-lg z-50 rounded-lg overflow-hidden`}
                   >
                     {item.subItems.map((subItem, index) => (
-                      <li key={index}>
+                      <li className="w-full  " key={index}>
                         {subItem.external ? (
                           <a
                             href={subItem.link}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="block px-5 py-2 text-gray-800 hover:bg-gray-100"
+                            className="block text-center  py-2 w-full text-gray-800 hover:bg-[#AEEFF3]"
                           >
                             {subItem.title}
                           </a>
                         ) : (
                           <Link
                             to={subItem.link}
-                            className="block px-5 py-2 text-gray-800 hover:bg-gray-100"
+                            className="block text-center  py-2 w-full text-gray-800 hover:bg-[#AEEFF3]"
                           >
                             {subItem.title}
                           </Link>
@@ -328,7 +329,7 @@ function Navbar({ routes }) {
         {location.pathname !== "/" && (
           <>
             <div
-              className="relative  text-center bg-[#e7fcfc] min-w-[300px] bg pb-16 h-[200px] bg-bottom bg-cover"
+              className="relative  text-center bg-[#e7fcfc] min-w-[300px] md:pt-[24px] bg pb-16 h-[200px] bg-bottom bg-cover"
               style={{ backgroundImage: `url(${StepBar})` }}
             >
               <Breadcrumb
@@ -339,7 +340,7 @@ function Navbar({ routes }) {
 
               {/* 當前頁面標題 */}
               <div className="flex items-center justify-center mt-3">
-                <h1 className="text-4xl font-bold text-gray-800">
+                <h1 className="text-2xl font-bold text-gray-800">
                   {getCurrentPageTitle()}
                 </h1>
               </div>
@@ -375,7 +376,7 @@ function Navbar({ routes }) {
           alt="close"
           className="h-6 w-auto absolute top-3 right-3"
         />
-        <ul className="flex flex-col gap-4 ">
+        <ul className="flex flex-col gap-4  font-medium">
           {menuItems.map((item) => (
             <li key={item.key}>
               <div
@@ -385,7 +386,7 @@ function Navbar({ routes }) {
                 <span
                   className={`${
                     openSubMenus[item.key] ? "text-[#198da1]" : "text-gray-800"
-                  } text-lg px-6`}
+                  } text-base px-6`}
                 >
                   {item.title}
                 </span>
@@ -408,7 +409,7 @@ function Navbar({ routes }) {
                           href={subItem.link}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="block py-2  text-gray-700 hover:text-blue-600 transition-colors text-sm"
+                          className="block py-2  text-gray-700 hover:text-blue-600 transition-colors text-sm font-medium"
                           onClick={closeMenu}
                         >
                           {subItem.title}
@@ -416,7 +417,7 @@ function Navbar({ routes }) {
                       ) : (
                         <Link
                           to={subItem.link}
-                          className="block py-2  text-gray-700 hover:text-blue-600 transition-colors text-sm"
+                          className="block py-2  text-gray-700 hover:text-blue-600 transition-colors text-sm font-medium"
                           onClick={closeMenu}
                         >
                           {subItem.title}
@@ -429,9 +430,14 @@ function Navbar({ routes }) {
             </li>
           ))}
         </ul>
-        <div className="flex items-center justify-end gap-4 mt-[91px] cursor-pointer px-9  rounded">
+        <div className="flex items-center justify-center  mt-[91px] cursor-pointer px-9   rounded">
+          <div className="flex  gap-[24px] justify-end items-center w-full    " >
+
+
           <LinkButton iconType="sider-fb" alt="Facebook" />
+          <LinkButton iconType="sider-line" alt="line" />
           <LinkButton iconType="sider-ig" alt="ig" />
+          </div>
         </div>
       </div>
     </>
