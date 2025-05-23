@@ -8,13 +8,13 @@ import {
   InfoWindow,
   useMap,
 } from "@vis.gl/react-google-maps";
-import powerPinImg from "@/assets/img/powerpin.png";
+import powerPinImg from "@/assets/img/powerpin.svg";
 import { useStore } from "@/pages/MapStepSelect";
 import Loading from "../components/Loading";
 import PageError from "../components/PageError";
 const apiKey = import.meta.env.VITE_GOOGLE_API_KEY;
 const sheetId = import.meta.env.VITE_MotorcycleShops_GogleSheet__ID;
-
+import BgGrid from "@/assets/img/grid_map_bg.svg";
 // 自定義聚類渲染器
 const customRenderer = {
   render: ({ count, position, cluster }) => {
@@ -35,23 +35,24 @@ const customRenderer = {
         width: 100%;
         height: 100%;
         border-radius: 50%;
-        background: linear-gradient(135deg, #00E676 0%, #00BFA5 100%);
+        background-color: #75f462;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         display: flex;
         align-items: center;
         justify-content: center;
         position: relative;
-        border: 3px solid #003D3A;
+        border: 3px solid #147e0d;
       ">
         <span style="
-          color: #003D3A;
+          color: #147e0d;
           font-size: ${size * 0.4}px;
           font-weight: bold;
           font-family: Arial, sans-serif;
           text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
         ">${count}</span>
       
-      </div>
+        </div>
+    </div>
     `;
 
     const advancedMarker = new window.google.maps.marker.AdvancedMarkerElement({
@@ -129,7 +130,7 @@ function parseMotorcycleShops(data) {
         營業時間: businessHours,
         連絡電話: phone,
         地址: address,
-        是否顯示營業時間: businessHours !== "N/A"
+        是否顯示營業時間: businessHours !== "N/A",
       });
 
       processedShops.add(uniqueId);
@@ -143,7 +144,7 @@ function parseMotorcycleShops(data) {
     }
     return a.行政區.localeCompare(b.行政區);
   });
-  console.log(shops)
+ 
   return shops;
 }
 
@@ -152,9 +153,14 @@ const MapContent = ({ markers, setSelectedShop }) => {
   const map = useMap();
   const [markerClusterer, setMarkerClusterer] = useState(null);
   const markerRefs = useRef([]);
+ 
+
+  
 
   useEffect(() => {
     if (!map || !window.google) return;
+
+ 
 
     console.log("MapContent接收到的標記數量:", markers.length);
 
@@ -330,6 +336,8 @@ const MapContent = ({ markers, setSelectedShop }) => {
           console.error("清理聚類器時出錯:", e);
         }
       }
+
+   
     };
   }, [map, markers]);
 
@@ -398,7 +406,7 @@ const KLVMap = () => {
         selectedDistricts.length === 0 ||
         selectedDistricts.includes(marker.行政區);
 
-        console.log(selectedBrands)
+      console.log(selectedBrands);
       // 檢查品牌匹配 (如果標記有車廠屬性且是數組)
       const brandMatch =
         selectedBrands.length === 0 ||
@@ -407,10 +415,10 @@ const KLVMap = () => {
           marker.車廠.some((brand) => selectedBrands.includes(brand)));
 
       // 同時符合地區和品牌條件
-      console.log(brandMatch)
+      console.log(brandMatch);
       return districtMatch && brandMatch;
     });
-    console.log(filtered)
+    console.log(filtered);
     console.log("篩選前標記數量:", originalMarkers.length);
     console.log("篩選後標記數量:", filtered.length);
 
@@ -529,106 +537,128 @@ const KLVMap = () => {
     return <PageError />;
   }
 
-  return (
-    <div className="w-full bg-red-300">
-      <div className="mb-2 px-4">
-        {/* <p>
-          目前顯示: {markers.length} 個標記點 (總共: {originalMarkers.length})
-        </p> */}
-      </div>
-      <APIProvider apiKey={apiKey} libraries={["marker"]}>
-        <Map
-          key={`map-${selectedDistricts.join(",")}-${selectedBrands.join(",")}`} // 只在篩選條件變化時更新
-          mapId="a63bdf028cc2027a683b81f6"
-          style={{ height: "100vh" }}
-          defaultCenter={{ lat: 25.1283, lng: 121.7415 }} // 基隆市中心
-          defaultZoom={12} // 合理的初始縮放級別
-          gestureHandling={"greedy"}
-          disableDefaultUI={false}
-          options={{
-            minZoom: 10, // 設定最小縮放級別
-            maxZoom: 20, // 設定最大縮放級別
-            styles: [
-              {
-                featureType: "poi",
-                elementType: "labels.icon",
-                stylers: [{ visibility: "off" }],
-              },
-              {
-                featureType: "poi",
-                elementType: "labels.text",
-                stylers: [{ visibility: "off" }],
-              },
-              {
-                featureType: "poi",
-                elementType: "geometry",
-                stylers: [{ visibility: "off" }],
-              },
-              {
-                featureType: "transit",
-                elementType: "all",
-                stylers: [{ visibility: "off" }],
-              },
-              {
-                featureType: "business",
-                elementType: "all",
-                stylers: [{ visibility: "off" }],
-              },
-            ],
-            restriction: {
-              latLngBounds: {
-                north: 25.149, // 最北緯度（上邊界）
-                south: 25.0, // 最南緯度（下邊界）
-                east: 121.89, // 最東經度（右邊界）
-                west: 121.69, // 最西經度（左邊界）
-              },
-              strictBounds: false, // 改為 false 以允許更靈活的縮放
-            },
-          }}
-        >
-          <MapContent markers={markers} setSelectedShop={setSelectedShop} />
+  // 按照 Figma 設定的樣式物件 - React 最佳實踐方式
+  const containerStyle = {
+    width: "98%",
+    position: "relative",
+    padding: "10px", // 模擬邊框厚度
+    background: "linear-gradient(to right, #42E82C 0%, #19A4B4 100%)",
+    borderRadius: "20px", // 外層圓角稍大一些
+  };
 
-          {/* 資訊視窗 */}
-          {selectedShop && (
-            <InfoWindow
-              position={selectedShop.position}
-              onCloseClick={() => setSelectedShop(null)}
+  const innerStyle = {
+    width: "100%",
+    // Inner shadow: X:0, Y:10, Blur:8, Spread:0, Green/400
+    boxShadow: "inset 0 2px 8px 0 #42E82C",
+    borderRadius: "12px", // 內層圓角
+    background: "white",
+    overflow: "hidden",
+  };
+
+  return (
+    <div className="flex justify-center p-4">
+      <div style={containerStyle}>
+        <div style={innerStyle}>
+          <APIProvider apiKey={apiKey} libraries={["marker"]}>
+            <Map
+              key={`map-${selectedDistricts.join(",")}-${selectedBrands.join(
+                ","
+              )}`} // 只在篩選條件變化時更新
+              mapId="a63bdf028cc2027a683b81f6"
+              style={{ height: "70vh" }}
+              defaultCenter={{ lat: 25.1283, lng: 121.7415 }} // 基隆市中心
+              defaultZoom={12} // 合理的初始縮放級別
+              gestureHandling={"greedy"}
+              disableDefaultUI={false}
+              options={{
+                minZoom: 10, // 設定最小縮放級別
+                maxZoom: 20, // 設定最大縮放級別
+                styles: [
+                  {
+                    featureType: "poi",
+                    elementType: "labels.icon",
+                    stylers: [{ visibility: "off" }],
+                  },
+                  {
+                    featureType: "poi",
+                    elementType: "labels.text",
+                    stylers: [{ visibility: "off" }],
+                  },
+                  {
+                    featureType: "poi",
+                    elementType: "geometry",
+                    stylers: [{ visibility: "off" }],
+                  },
+                  {
+                    featureType: "transit",
+                    elementType: "all",
+                    stylers: [{ visibility: "off" }],
+                  },
+                  {
+                    featureType: "business",
+                    elementType: "all",
+                    stylers: [{ visibility: "off" }],
+                  },
+                ],
+                mapTypeControl: false, // 關閉地圖類型控制項
+                latLngBounds: {
+                  north: 25.2, // 最北緯度（上邊界）
+                  south: 25.0, // 最南緯度（下邊界）
+                  east: 121.89, // 最東經度（右邊界）
+                  west: 121.2, // 最西經度（左邊界）
+                },
+                strictBounds: false, // 改為 false 以允許更靈活的縮放
+              }}
             >
-              <div className="p-3 max-w-xs ">
-                <h3 className="font-bold text-lg mb-2">{selectedShop.店名}</h3>
-                <div className="space-y-1 text-sm">
-                  <p>
-                    <strong>行政區：</strong>
-                    {selectedShop.行政區}
-                  </p>
-                  <p>
-                    <strong>車廠：</strong>
-                    {selectedShop.車廠.join(", ")}
-                  </p>
-                  {selectedShop.是否顯示營業時間 && (
-                    <p>
-                      <strong>營業時間：</strong>
-                      {selectedShop.營業時間}
-                    </p>
-                  )}
-                  {selectedShop.連絡電話 && (
-                    <p>
-                      <strong>電話：</strong>
-                      {selectedShop.連絡電話}
-                    </p>
-                  )}
-                  {selectedShop.地址 && (
-                    <p>
-                      <strong>地址：</strong>
-                      {selectedShop.地址}
-                    </p>
-                  )}
-                </div>
-              </div>
-            </InfoWindow>
-          )}
-        </Map>
-      </APIProvider>
+              <MapContent markers={markers} setSelectedShop={setSelectedShop} />
+
+              {/* 資訊視窗 */}
+              {selectedShop && (
+                <InfoWindow
+                  disableAutoPan={false}
+                  position={selectedShop.position}
+                  pixelOffset={[0,-40]} // 向上偏移 50 像素
+                  onCloseClick={() => setSelectedShop(null)}
+                >
+                  <div className="p-3 max-w-xs ">
+                    <h3 className="font-bold text-lg mb-2">
+                      {selectedShop.店名}
+                    </h3>
+                    <div className="space-y-1 text-sm">
+                      <p>
+                        <strong>行政區：</strong>
+                        {selectedShop.行政區}
+                      </p>
+                      <p>
+                        <strong>車廠：</strong>
+                        {selectedShop.車廠.join(", ")}
+                      </p>
+                      {selectedShop.是否顯示營業時間 && (
+                        <p>
+                          <strong>營業時間：</strong>
+                          {selectedShop.營業時間}
+                        </p>
+                      )}
+                      {selectedShop.連絡電話 && (
+                        <p>
+                          <strong>電話：</strong>
+                          {selectedShop.連絡電話}
+                        </p>
+                      )}
+                      {selectedShop.地址 && (
+                        <p>
+                          <strong>地址：</strong>
+                          {selectedShop.地址}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                </InfoWindow>
+              )}
+            </Map>
+          </APIProvider>
+        </div>
+      </div>
     </div>
   );
 };
