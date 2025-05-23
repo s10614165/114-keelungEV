@@ -8,7 +8,7 @@ import {
   InfoWindow,
   useMap,
 } from "@vis.gl/react-google-maps";
-import powerPinImg from "@/assets/img/powerpin.svg";
+import powerPinImg from "@/assets/img/powerpin.png";
 import { useStore } from "@/pages/MapStepSelect";
 import Loading from "../components/Loading";
 import PageError from "../components/PageError";
@@ -219,8 +219,8 @@ const MapContent = ({ markers, setSelectedShop }) => {
       const newMarkers = markers.map((shop) => {
         const markerContent = document.createElement("img");
         markerContent.src = powerPinImg;
-        markerContent.style.width = "40px";
-        markerContent.style.height = "40px";
+        markerContent.style.width = "60px";
+        markerContent.style.height = "60px";
         markerContent.style.cursor = "pointer";
 
         const marker = new window.google.maps.marker.AdvancedMarkerElement({
@@ -617,7 +617,7 @@ const KLVMap = () => {
                 <InfoWindow
                   disableAutoPan={false}
                   position={selectedShop.position}
-                  pixelOffset={[0,-40]} // 向上偏移 50 像素
+                  pixelOffset={[0,-70]} // 向上偏移 50 像素
                   onCloseClick={() => setSelectedShop(null)}
                 >
                   <div className="p-3 max-w-xs ">
