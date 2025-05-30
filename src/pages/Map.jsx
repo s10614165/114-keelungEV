@@ -144,7 +144,7 @@ function parseMotorcycleShops(data) {
     }
     return a.行政區.localeCompare(b.行政區);
   });
- 
+
   return shops;
 }
 
@@ -153,14 +153,9 @@ const MapContent = ({ markers, setSelectedShop }) => {
   const map = useMap();
   const [markerClusterer, setMarkerClusterer] = useState(null);
   const markerRefs = useRef([]);
- 
-
-  
 
   useEffect(() => {
     if (!map || !window.google) return;
-
- 
 
     console.log("MapContent接收到的標記數量:", markers.length);
 
@@ -336,8 +331,6 @@ const MapContent = ({ markers, setSelectedShop }) => {
           console.error("清理聚類器時出錯:", e);
         }
       }
-
-   
     };
   }, [map, markers]);
 
@@ -544,6 +537,7 @@ const KLVMap = () => {
     padding: "10px", // 模擬邊框厚度
     background: "linear-gradient(to right, #42E82C 0%, #19A4B4 100%)",
     borderRadius: "20px", // 外層圓角稍大一些
+    overflow: "hidden",
   };
 
   const innerStyle = {
@@ -565,13 +559,13 @@ const KLVMap = () => {
                 ","
               )}`} // 只在篩選條件變化時更新
               mapId="a63bdf028cc2027a683b81f6"
-              style={{ height: "70vh" }}
-              defaultCenter={{ lat: 25.1283, lng: 121.7415 }} // 基隆市中心
-              defaultZoom={12} // 合理的初始縮放級別
+              style={{ height: "70vh", borderRadius: "20px" }}
+              defaultCenter={{ lat: 25.13, lng: 121.73 }} // 基隆市中心
+              defaultZoom={10} // 合理的初始縮放級別
               gestureHandling={"greedy"}
               disableDefaultUI={false}
               options={{
-                minZoom: 10, // 設定最小縮放級別
+                minZoom: 7, // 設定最小縮放級別
                 maxZoom: 20, // 設定最大縮放級別
                 styles: [
                   {
@@ -601,13 +595,16 @@ const KLVMap = () => {
                   },
                 ],
                 mapTypeControl: false, // 關閉地圖類型控制項
-                latLngBounds: {
-                  north: 25.2, // 最北緯度（上邊界）
-                  south: 25.0, // 最南緯度（下邊界）
-                  east: 121.89, // 最東經度（右邊界）
-                  west: 121.2, // 最西經度（左邊界）
+                
+                restriction: {
+                  latLngBounds: {
+                    north: 25.219,
+                    south: 25.076621,
+                    east: 121.95,
+                    west: 121.602331,
+                  },
+                  strictBounds: true
                 },
-                strictBounds: false, // 改為 false 以允許更靈活的縮放
               }}
             >
               <MapContent markers={markers} setSelectedShop={setSelectedShop} />
@@ -617,7 +614,7 @@ const KLVMap = () => {
                 <InfoWindow
                   disableAutoPan={false}
                   position={selectedShop.position}
-                  pixelOffset={[0,-70]} // 向上偏移 50 像素
+                  pixelOffset={[0, -70]} // 向上偏移 50 像素
                   onCloseClick={() => setSelectedShop(null)}
                 >
                   <div className="p-3 max-w-xs ">

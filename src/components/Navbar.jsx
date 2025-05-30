@@ -275,35 +275,33 @@ function Navbar({ routes }) {
           </Link>
 
           <nav className="hidden lg:block">
-            <ul className="flex gap-10 text-lg">
+            <ul className="flex gap-10 text-lg ">
               {menuItems.map((item, menuIndex) => (
-                <li key={item.key} className="relative group">
-                  <Link
+                <li key={item.key} className="relative group cursor-pointer">
+                  {/* <Link
                     to={item.link}
                     className="text-gray-800 text-base font-medium hover:text-blue-600 transition-colors"
-                  >
+                  > */}
                     {item.title}
-                  </Link>
+                  {/* </Link> */}
                   <ul
-                    className={`absolute hidden group-hover:block top-full ${
-                      menuIndex === menuItems.length - 1 ? "right-0" : "left-0"
-                    } bg-white w-[200px] py-2 min-w-40 border border-gray-200 shadow-lg z-50 rounded-lg overflow-hidden`}
+                   className={`absolute hidden group-hover:block top-full left-1/2 transform -translate-x-1/2 bg-white w-[200px] py-2 min-w-40 border border-gray-200 shadow-lg z-50 rounded-lg overflow-hidden`}
                   >
                     {item.subItems.map((subItem, index) => (
-                      <li className="w-full  " key={index}>
+                      <li className="w-full flex items-center justify-center" key={index}>
                         {subItem.external ? (
                           <a
                             href={subItem.link}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="block text-center  py-2 w-full text-gray-800 hover:bg-[#AEEFF3]"
+                            className="block text-center py-2 w-full text-gray-800 hover:bg-[#AEEFF3]"
                           >
                             {subItem.title}
                           </a>
                         ) : (
                           <Link
                             to={subItem.link}
-                            className="block text-center  py-2 w-full text-gray-800 hover:bg-[#AEEFF3]"
+                            className="block text-center py-2 w-full text-gray-800 hover:bg-[#AEEFF3]"
                           >
                             {subItem.title}
                           </Link>
@@ -329,7 +327,7 @@ function Navbar({ routes }) {
         {location.pathname !== "/" && (
           <>
             <div
-              className="relative  flex flex-col text-center bg-[#e7fcfc] min-w-[100px] md:min-w-[300px] md:pt-[24px] bg md:pb-16 h-[200px] bg-bottom bg-cover"
+              className="relative z-10 flex flex-col text-center bg-[#eefdfd] min-w-[100px] md:min-w-[300px] md:pt-[24px] bg md:pb-16 h-[200px] bg-bottom bg-cover"
               style={{ backgroundImage: `url(${StepBar})` }}
             >
               <Breadcrumb

@@ -69,7 +69,7 @@ function Download() {
       <Row gutter={0} className="w-full">
         <Col xs={1} md={3} />
         <Col xs={22} md={18}>
-          <div className="w-full bg-white md:rounded-2xl md:shadow px-[16px] py-[24px] md:px-[80px] md:py-[37.5px]">
+          <div className="w-full bg-white rounded-2xl shadow-xl px-[16px] py-[24px] md:px-[80px] md:py-[37.5px]">
             {Array.isArray(data?.values) && data.values.length > 1 && (
               <ul className="divide-y divide-gray-200 ">
                 {data.values.slice(1).map((row) => (
@@ -96,11 +96,11 @@ function Download() {
                         </div>
                       </Col>
                       <Col md={4} xs={24}>
-                        <div className="w-full flex justify-end items-center">
+                        <div className=" w-full flex justify-end items-center">
                           <button
                             loading={s_isDownloading}
                             onClick={() => handleDownload(row[1], row[2])}
-                            className="flex items-center bg-[#0b45c2] hover:bg-blue-700 text-white font-bold py-[5.5px] px-3  rounded-lg shadow transition-colors duration-150 text-sm md:text-base"
+                            className="cursor-pointer flex items-center bg-[#0b45c2] hover:bg-blue-700 text-white font-bold py-[5.5px] px-3  rounded-lg shadow transition-colors duration-150 text-sm md:text-base"
                           >
                             下載
                             <DownloadOutlined className="ml-1 md:ml-2 text-lg md:text-xl" />

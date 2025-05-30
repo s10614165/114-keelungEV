@@ -43,7 +43,7 @@ const routes = [
   { path: "/rules", breadcrumbName: "規則說明", element: <Description /> },
   { path: "/download", breadcrumbName: "申請單據下載", element: <Download /> },
   // 活動快訊
-  { path: "/news", breadcrumbName: "活動快訊", element: <News /> },
+  { path: "/news", breadcrumbName: "座談會報名", element: <Seminar /> },
   { path: "/seminar", breadcrumbName: "座談會報名", element: <Seminar /> },
   { path: "/training", breadcrumbName: "培訓課程資訊", element: <Training /> },
   { path: "/lottery", breadcrumbName: "抽獎活動資訊", element: <Lottery /> },

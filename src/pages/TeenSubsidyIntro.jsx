@@ -1,69 +1,106 @@
-import { Link } from 'react-router-dom';
+import React from "react";
+import { Row, Col } from "antd";
+import PageTitle from "../components/PageTitle";
 
-function TeenSubsidyIntro() {
+export default function ApplicationProgress() {
   return (
-    <div className="max-w-4xl mx-auto">
-      <h1 className="text-3xl font-bold text-center mb-8">
-        青年電動機車補助說明
-      </h1>
-
-      <div className="bg-white p-6 rounded-lg shadow-md mb-8">
-        <h2 className="text-xl font-semibold mb-4">補助金額</h2>
-        <div className="space-y-4">
-          <div className="border-b pb-4">
-            <h3 className="font-medium text-lg mb-2">重型電動機車</h3>
-            <p className="text-gray-600">
-              每輛補助新台幣 25,000 元
-            </p>
+    <div className="py-[42px] flex justify-center items-center w-full">
+      <div className="w-[80vw] flex justify-center items-center">
+        {/* 主要卡片容器 */}
+        <div className="bg-white rounded-lg shadow-lg p-8">
+          {/* 標題區域 */}
+          <PageTitle title="申請進度查詢" />
+          {/* 業者名稱區域 */}
+          <div className="mb-8">
+            <div className="flex items-center ">
+              <div className="bg-[#198da1] text-white px-10 py-8 border-1 border-solid rounded-l-lg font-medium shadow-2xl">
+                業者名稱
+              </div>
+              <div className="text-[#198DA1] font-medium px-10 py-8 rounded-r-lg shadow-[0_0_10px_rgba(0,0,0,0.1)]">
+                00000000 雅微微一戶市(政治資金募集的有限公司)雅微分公司
+              </div>
+            </div>
           </div>
-          <div>
-            <h3 className="font-medium text-lg mb-2">輕型電動機車</h3>
-            <p className="text-gray-600">
-              每輛補助新台幣 20,000 元
-            </p>
+
+          <div className="max-w-full mx-auto mt-4 bg-white">
+            <div className="bg-cyan-700 rounded-t-4xl text-white text-center py-3 text-lg font-semibold">
+              114年6月
+            </div>
+
+            <div className="divide-y border-solid boder-[1px]  shadow-2xl divide-gray-200">
+              <div className="flex">
+                <div className="bg-[#D4F8F9] text-[#1B7183] px-6 py-8 flex items-center justify-center min-w-[120px]">
+                  <h2 className="text-lg font-bold text-center">申請進度</h2>
+                </div>
+                <div className="flex-1 bg-white px-15 py-6">
+                  <div className=" rounded-2xl bg-[#14C200] w-[168px] text-center text-white px-5 py-2.5">
+                    已核准 (撥款中)
+                  </div>
+                </div>
+              </div>
+              <div className="flex">
+                <div className="bg-[#D4F8F9] text-[#1B7183] px-6 py-8 flex items-center justify-center min-w-[120px]">
+                  <h2 className="text-lg font-bold text-center">申請進度</h2>
+                </div>
+                <div className="flex-1 bg-white px-15 py-6">8</div>
+              </div>
+              <div className="flex">
+                <div className="bg-[#D4F8F9] text-[#1B7183] px-6 py-8 flex items-center justify-center min-w-[120px]">
+                  <h2 className="text-lg font-bold text-center">核准金額</h2>
+                </div>
+                <div className="flex-1 bg-white px-15 py-6">4800</div>
+              </div>
+              <div className="flex">
+                <div className="bg-[#D4F8F9] text-[#1B7183] px-6 py-8 flex items-center justify-center min-w-[120px]">
+                  <h2 className="text-lg font-bold text-center">核銷期限</h2>
+                </div>
+                <div className="flex-1 bg-white px-15 py-6">
+                  請於114年6月、7月、8月之每月1~10日攜帶證明至產發處進行核銷，最晚需於8/10前核銷完畢
+                </div>
+              </div>
+              <div className="flex">
+                <div className="bg-[#D4F8F9] text-[#1B7183] px-6 py-8 flex items-center justify-center min-w-[120px]">
+                  <h2 className="text-lg font-bold text-center">送件名單</h2>
+                </div>
+                <div className="flex-1 bg-white px-15 py-6">
+                  <ul className="space-y-3">
+                    <li className="flex items-center text-gray-800">
+                      <span className="text-base font-medium">
+                        1.仁愛區 陳Ｏ瑩
+                      </span>
+                    </li>
+                    <li className="flex items-center text-gray-800">
+                      <span className="text-base font-medium">
+                        2.中正區 王Ｏ明
+                      </span>
+                    </li>
+                    <li className="flex items-center text-gray-800">
+                      <span className="text-base font-medium">
+                        3.中山區 邱Ｏ妤
+                      </span>
+                    </li>
+                    <li className="flex items-center text-gray-800">
+                      <span className="text-base font-medium">
+                        4.七堵區 張Ｏ威
+                      </span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div className="bg-[#d4f8f9] rounded-b-4xl text-white text-center py-1 text-lg font-semibold">
+              <div className=" invisible">114年6月</div>
+            </div>
+          </div>
+
+          {/* 回上一頁按鈕 */}
+          <div className="text-center mt-12">
+            <button className="bg-teal-600 text-white px-8 py-3 rounded-full font-medium hover:bg-teal-700 transition-colors">
+              回上一頁
+            </button>
           </div>
         </div>
-      </div>
-
-      <div className="bg-white p-6 rounded-lg shadow-md mb-8">
-        <h2 className="text-xl font-semibold mb-4">申請資格</h2>
-        <ul className="list-disc list-inside space-y-2 text-gray-600">
-          <li>設籍基隆市且年滿18歲至45歲之青年</li>
-          <li>購買全新電動機車</li>
-          <li>車輛需於基隆市完成掛牌</li>
-          <li>每人限申請一次</li>
-          <li>需提供在職證明或學生證</li>
-        </ul>
-      </div>
-
-      <div className="bg-white p-6 rounded-lg shadow-md mb-8">
-        <h2 className="text-xl font-semibold mb-4">應備文件</h2>
-        <ul className="list-disc list-inside space-y-2 text-gray-600">
-          <li>身分證正反面影本</li>
-          <li>戶口名簿影本</li>
-          <li>新車行照影本</li>
-          <li>購車發票影本</li>
-          <li>存摺封面影本</li>
-          <li>在職證明或學生證影本</li>
-        </ul>
-      </div>
-
-      <div className="flex justify-center space-x-4">
-        <Link
-          to="/teen-subsidy"
-          className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700"
-        >
-          立即申請
-        </Link>
-        <Link
-          to="/teen-subsidy-supplement"
-          className="bg-gray-600 text-white px-6 py-3 rounded-lg hover:bg-gray-700"
-        >
-          補充文件
-        </Link>
       </div>
     </div>
   );
 }
-
-export default TeenSubsidyIntro; 
