@@ -34,7 +34,7 @@ const StepBar = () => {
   }, [currentStep, setStep, nextStep]);
 
   return (
-    <div className="w-[300px] md:w-[600px]  mx-auto mt-5  ">
+    <div className="w-[300px] md:w-[600px]  mx-auto mt-9 md:mt-19  ">
       {/* Main step bar container */}
       <div className="relative">
         {/* Background road - full width */}
@@ -91,7 +91,7 @@ const StepBar = () => {
 
         {/* Rider positioned on current step */}
         <div
-          className="absolute -top-7 w-[45px] h-[45px] md:w-24 md:h-24 transform -translate-x-1/2 transition-all duration-500 ease-in-out"
+          className="absolute -top-7 md:-top-17 w-[45px] h-[45px] md:w-24 md:h-24 transform -translate-x-1/2 transition-all duration-500 ease-in-out"
           style={{
             left: `${((currentStep - 1) / 5) * 100 + 100 / 5 / 2}%`,
           }}
