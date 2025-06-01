@@ -22,7 +22,7 @@ const DonutChart = ({ series }) => {
                 <br/>
                 <br/>
                
-                <span style="color:#000000; font-size:48px; font-weight:700">${series?.data[1]?.y}</span>
+                <span style="color:#000000; font-size:48px; font-weight:700">${series?.data.reduce((sum, point) => sum + (point.y || 0), 0)}</span>
                 <span style="color:#000000; font-size:20px; font-weight:700">筆</span>
               </span>`
               )

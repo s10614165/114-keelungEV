@@ -15,74 +15,83 @@ import ChartCard from "../components/ChartCard";
 import "highcharts/highcharts-more";
 import "highcharts/modules/solid-gauge";
 
-const sheetId = import.meta.env.VITE_PowerStation_GogleSheet__ID;
+const sheetId = import.meta.env.VITE_Main_GogleSheet__ID;
 import PolicyIcon from "@/assets/icon/icon-policy.svg";
 
 // 數據處理函數
 function processApiData(apiResponse) {
   if (!apiResponse || !apiResponse.values) return null;
 
-  const values = apiResponse.values;
+  // 過濾掉前三行標題和包含特定文字的行
+  const filteredValues = apiResponse.values.filter((row, index) => {
+    // 跳過前三行
+    if (index < 3) return false;
+    
+    // 跳過包含特定文字的行
+    if (row[1] === "實際%數" || row[1] === "實際申請筆數") return false;
+    
+    return true;
+  });
 
   return {
     // 1. 申請進度總覽
     applicationOverview: {
-      completed: parseInt(values[2][2]) || 0,
-      pending: parseInt(values[2][3]) || 0,
-      completedPercentage: parseInt(values[1][2]?.replace("%", "")) || 0,
-      pendingPercentage: parseInt(values[1][3]?.replace("%", "")) || 0,
+      completed: parseInt(filteredValues[2][2]) || 0,
+      pending: parseInt(filteredValues[2][3]) || 0,
+      completedPercentage: parseInt(filteredValues[1][2]?.replace("%", "")) || 0,
+      pendingPercentage: parseInt(filteredValues[1][3]?.replace("%", "")) || 0,
     },
 
     // 2. 申請核銷狀態
     approvalStatus: {
-      inProgress: parseInt(values[5][2]) || 0,
-      approved: parseInt(values[5][3]) || 0,
-      inProgressPercentage: parseInt(values[4][2]?.replace("%", "")) || 0,
-      approvedPercentage: parseInt(values[4][3]?.replace("%", "")) || 0,
+      inProgress: parseInt(filteredValues[5][2]) || 0,
+      approved: parseInt(filteredValues[5][3]) || 0,
+      inProgressPercentage: parseInt(filteredValues[4][2]?.replace("%", "")) || 0,
+      approvedPercentage: parseInt(filteredValues[4][3]?.replace("%", "")) || 0,
     },
 
     // 3. 各區申請比例
     districtApplication: [
       {
         name: "中山區",
-        value: parseInt(values[8][2]) || 0,
-        percentage: parseInt(values[7][2]?.replace("%", "")) || 0,
+        value: parseInt(filteredValues[8][2]) || 0,
+        percentage: parseInt(filteredValues[7][2]?.replace("%", "")) || 0,
         color: "#7973FF",
       },
       {
         name: "中正區",
-        value: parseInt(values[8][3]) || 0,
-        percentage: parseInt(values[7][3]?.replace("%", "")) || 0,
+        value: parseInt(filteredValues[8][3]) || 0,
+        percentage: parseInt(filteredValues[7][3]?.replace("%", "")) || 0,
         color: "#42E82C",
       },
       {
         name: "仁愛區",
-        value: parseInt(values[8][4]) || 0,
-        percentage: parseInt(values[7][4]?.replace("%", "")) || 0,
+        value: parseInt(filteredValues[8][4]) || 0,
+        percentage: parseInt(filteredValues[7][4]?.replace("%", "")) || 0,
         color: "#FF7B4B",
       },
       {
         name: "安樂區",
-        value: parseInt(values[8][5]) || 0,
-        percentage: parseInt(values[7][5]?.replace("%", "")) || 0,
+        value: parseInt(filteredValues[8][5]) || 0,
+        percentage: parseInt(filteredValues[7][5]?.replace("%", "")) || 0,
         color: "#FF546E",
       },
       {
         name: "信義區",
-        value: parseInt(values[8][6]) || 0,
-        percentage: parseInt(values[7][6]?.replace("%", "")) || 0,
+        value: parseInt(filteredValues[8][6]) || 0,
+        percentage: parseInt(filteredValues[7][6]?.replace("%", "")) || 0,
         color: "#D568FB",
       },
       {
         name: "暖暖區",
-        value: parseInt(values[8][7]) || 0,
-        percentage: parseInt(values[7][7]?.replace("%", "")) || 0,
+        value: parseInt(filteredValues[8][7]) || 0,
+        percentage: parseInt(filteredValues[7][7]?.replace("%", "")) || 0,
         color: "#CDE000",
       },
       {
         name: "七堵區",
-        value: parseInt(values[8][8]) || 0,
-        percentage: parseInt(values[7][8]?.replace("%", "")) || 0,
+        value: parseInt(filteredValues[8][8]) || 0,
+        percentage: parseInt(filteredValues[7][8]?.replace("%", "")) || 0,
         color: "#36CBDA",
       },
     ],
@@ -91,65 +100,65 @@ function processApiData(apiResponse) {
     monthlyApplication: Array.from({ length: 11 }, (_, index) => {
       const colors = ["#42E82C", "#36CBDA", "#7973FF"];
       return {
-        name: values[9][index + 2] || "",
-        value: parseInt(values[11][index + 2]) || 0,
-        percentage: parseInt(values[10][index + 2]?.replace("%", "")) || 0,
+        name: filteredValues[9][index + 2] || "",
+        value: parseInt(filteredValues[11][index + 2]) || 0,
+        percentage: parseInt(filteredValues[10][index + 2]?.replace("%", "")) || 0,
         color: colors[index],
       };
     }),
 
     // 5. 申請平均核准日
     approvalDays: [
-      { name: "0-5天", value: parseInt(values[13][2]) || 0 },
-      { name: "6-10天", value: parseInt(values[13][3]) || 0 },
-      { name: "11天以上", value: parseInt(values[13][4]) || 0 },
+      { name: "0-5天", value: parseInt(filteredValues[13][2]) || 0 },
+      { name: "6-10天", value: parseInt(filteredValues[13][3]) || 0 },
+      { name: "11天以上", value: parseInt(filteredValues[13][4]) || 0 },
     ],
 
     // 6. 核銷平均請領日
     claimDays: [
-      { name: "0-5天", value: parseInt(values[15][2]) || 0 },
-      { name: "6-10天", value: parseInt(values[15][3]) || 0 },
-      { name: "11-15天", value: parseInt(values[15][4]) || 0 },
-      { name: "16-20天", value: parseInt(values[15][5]) || 0 },
-      { name: "21天以上", value: parseInt(values[15][6]) || 0 },
+      { name: "0-5天", value: parseInt(filteredValues[15][2]) || 0 },
+      { name: "6-10天", value: parseInt(filteredValues[15][3]) || 0 },
+      { name: "11-15天", value: parseInt(filteredValues[15][4]) || 0 },
+      { name: "16-20天", value: parseInt(filteredValues[15][5]) || 0 },
+      { name: "21天以上", value: parseInt(filteredValues[15][6]) || 0 },
     ],
 
     // 7. 各區核銷比例
     districtApproval: [
       {
         name: "中山區",
-        inProgress: parseInt(values[17][2]) || 0,
-        completed: parseInt(values[18][2]) || 0,
+        inProgress: parseInt(filteredValues[17][2]) || 0,
+        completed: parseInt(filteredValues[18][2]) || 0,
       },
       {
         name: "中正區",
-        inProgress: parseInt(values[17][3]) || 0,
-        completed: parseInt(values[18][3]) || 0,
+        inProgress: parseInt(filteredValues[17][3]) || 0,
+        completed: parseInt(filteredValues[18][3]) || 0,
       },
       {
         name: "仁愛區",
-        inProgress: parseInt(values[17][4]) || 0,
-        completed: parseInt(values[18][4]) || 0,
+        inProgress: parseInt(filteredValues[17][4]) || 0,
+        completed: parseInt(filteredValues[18][4]) || 0,
       },
       {
         name: "安樂區",
-        inProgress: parseInt(values[17][5]) || 0,
-        completed: parseInt(values[18][5]) || 0,
+        inProgress: parseInt(filteredValues[17][5]) || 0,
+        completed: parseInt(filteredValues[18][5]) || 0,
       },
       {
         name: "信義區",
-        inProgress: parseInt(values[17][6]) || 0,
-        completed: parseInt(values[18][6]) || 0,
+        inProgress: parseInt(filteredValues[17][6]) || 0,
+        completed: parseInt(filteredValues[18][6]) || 0,
       },
       {
         name: "暖暖區",
-        inProgress: parseInt(values[17][7]) || 0,
-        completed: parseInt(values[18][7]) || 0,
+        inProgress: parseInt(filteredValues[17][7]) || 0,
+        completed: parseInt(filteredValues[18][7]) || 0,
       },
       {
         name: "七堵區",
-        inProgress: parseInt(values[17][8]) || 0,
-        completed: parseInt(values[18][8]) || 0,
+        inProgress: parseInt(filteredValues[17][8]) || 0,
+        completed: parseInt(filteredValues[18][8]) || 0,
       },
     ],
 
@@ -157,33 +166,33 @@ function processApiData(apiResponse) {
     brandApplication: [
       {
         name: "YAMAHA山葉",
-        value: parseInt(values[21][3]) || 0,
-        percentage: parseInt(values[20][3]) || 0,
+        value: parseInt(filteredValues[21][3]) || 0,
+        percentage: parseInt(filteredValues[20][3]) || 0,
       },
       {
         name: "SYM三陽",
-        value: parseInt(values[21][2]) || 0,
-        percentage: parseInt(values[20][2]) || 0,
+        value: parseInt(filteredValues[21][2]) || 0,
+        percentage: parseInt(filteredValues[20][2]) || 0,
       },
       {
         name: "Ionex光陽",
-        value: parseInt(values[21][6]) || 0,
-        percentage: parseInt(values[20][6]) || 0,
+        value: parseInt(filteredValues[21][6]) || 0,
+        percentage: parseInt(filteredValues[20][6]) || 0,
       },
       {
         name: "Gogoro睿能",
-        value: parseInt(values[21][9]) || 0,
-        percentage: parseInt(values[20][9]) || 0,
+        value: parseInt(filteredValues[21][9]) || 0,
+        percentage: parseInt(filteredValues[20][9]) || 0,
       },
       {
         name: "eMOVING中華",
-        value: parseInt(values[21][4]) || 0,
-        percentage: parseInt(values[20][4]) || 0,
+        value: parseInt(filteredValues[21][4]) || 0,
+        percentage: parseInt(filteredValues[20][4]) || 0,
       },
       {
         name: "AeonMOTOR宏佳騰",
-        value: parseInt(values[21][7]) || 0,
-        percentage: parseInt(values[20][7]) || 0,
+        value: parseInt(filteredValues[21][7]) || 0,
+        percentage: parseInt(filteredValues[20][7]) || 0,
       },
     ],
   };
@@ -377,7 +386,7 @@ const StackedColumnChart = ({ data, title }) => {
 
 function PolicyEffect() {
   const { data, loading, error } = useGoogleSheet({
-    range: "5-1轉型成效數據",
+    range: "0.數據",
     sheetId,
   });
 

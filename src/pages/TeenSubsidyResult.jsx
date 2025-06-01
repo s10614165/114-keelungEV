@@ -1,15 +1,86 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { Select } from "antd";
+import { SearchOutlined } from "@ant-design/icons";
 
 const TeenSubsidyResult = ({ onBack, data }) => {
-  const result = data?.[0] || {}; // 使用可選串聯避免錯誤
-  console.log(result);
+  const sortedData =
+    [...data]?.sort((a, b) => parseInt(b["月份"]) - parseInt(a["月份"])) || [];
 
+  const [selectedMonth, setSelectedMonth] = useState("");
+  const [result, setResult] = useState(sortedData[0] || {});
+
+  // 根據 selectedMonth 取得對應的資料
+  const getResult = () => {
+    if (!selectedMonth) {
+      return sortedData[0] || {}; // 預設顯示第一筆資料
+    }
+    const [year, month] = selectedMonth.split("年");
+    // 移除月份中的"月"字，並確保是數字格式
+    const monthNumber = month.replace("月", "");
+    console.log("搜尋條件:", { year, monthNumber });
+    console.log("當前資料:", sortedData);
+    
+    const foundResult = sortedData.find(item => {
+      const itemMonth = item["月份"].replace("月", "");
+      const itemYear = item["年度"].toString();
+      console.log("比較:", { 
+        itemYear, 
+        year, 
+        itemMonth, 
+        monthNumber,
+        isMatch: itemYear === year && itemMonth === monthNumber 
+      });
+      return itemYear === year && itemMonth === monthNumber;
+    });
+    
+    console.log("找到的結果:", foundResult);
+    return foundResult || sortedData[0] || {};
+  };
+
+  useEffect(() => {
+    const newResult = getResult();
+    console.log("更新 result:", newResult);
+    setResult(newResult);
+  }, [selectedMonth]);
+
+  useEffect(() => {
+    if (result && result["月份"]) {
+      const year = result["年度"] || "114";
+      const month = result["月份"];
+      setSelectedMonth(`${year}年${month}`);
+    }
+  }, [result]);
+  console.log(result);
+ console.log(sortedData)
   // 計算核銷期限相關日期
   const year = result?.["年度"];
   const month = parseInt(result?.["月份"]);
   const nextMonth1 = month + 1;
   const nextMonth2 = month + 2;
   const nextMonth3 = month + 3;
+
+  // 生成月份選項
+  const generateMonthOptions = () => {
+    const months = [];
+
+    // 根據 sortedData 生成月份選項
+    sortedData.forEach((item) => {
+      const year = item["年度"];
+      const month = item["月份"];
+      months.push({
+        value: `${year}年${month}`,
+        label: `${year}年${month}`,
+      });
+    });
+
+    return months;
+  };
+
+  const monthOptions = generateMonthOptions();
+
+  const handleChange = (value) => {
+    setSelectedMonth(value);
+  };
 
   return (
     <div className="w-[90%] md:w-[80%]">
@@ -37,6 +108,47 @@ const TeenSubsidyResult = ({ onBack, data }) => {
           </div>
           <div className="text-[#198DA1] flex-1 font-bold text-xs md:text-base px-4 py-3 md:px-10 md:py-8 rounded-r-lg shadow-[0_0_10px_rgba(0,0,0,0.1)]">
             {result?.["營利事業統一編碼*"]} {result?.["申請單位全名*"]}
+          </div>
+        </div>
+      </div>
+      <div className="w-full max-w-4xl  py-4">
+        <div className="flex items-center gap-3 sm:gap-4">
+          {/* 搜尋圖示 */}
+          <div className="flex-shrink-0">
+            <SearchOutlined
+              className="text-[#198DA1] text-xl sm:text-2xl"
+              style={{ fontSize: "clamp(18px, 4vw, 24px)" }}
+            />
+          </div>
+
+          {/* 查詢月份文字 */}
+          <div className="flex-shrink-0">
+            <span className="text-[#198DA1] font-bold text-[14px] md:text-base whitespace-nowrap">
+              查詢月份
+            </span>
+          </div>
+
+          {/* Select 下拉選單 */}
+          <div className="flex-grow min-w-0">
+            <Select
+              value={selectedMonth}
+              onChange={handleChange}
+              options={monthOptions}
+              className="w-full"
+              size="large"
+              showSearch
+              placeholder="請選擇月份"
+              filterOption={(input, option) =>
+                option?.label?.toLowerCase().includes(input.toLowerCase())
+              }
+              style={{
+                minWidth: "120px",
+              }}
+              dropdownStyle={{
+                maxHeight: 300,
+                overflow: "auto",
+              }}
+            />
           </div>
         </div>
       </div>
