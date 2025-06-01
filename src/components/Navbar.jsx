@@ -10,6 +10,7 @@ import ToogleUP from "@/assets/icon/icon-toogle-up.png";
 import ToogleDown from "@/assets/icon/icon-toogle-down.png";
 import LinkButton from "@/components/LinkButton";
 import MapStepSelect from "@/pages/MapStepSelect";
+import RiderStep from "@/pages/RiderStep";
 // 麵包屑元件
 const Breadcrumb = ({ routes, location, menuItems }) => {
   const currentPath = location.pathname;
@@ -232,6 +233,7 @@ function Navbar({ routes }) {
 
     const subNav = {
       "/map": <MapStepSelect />,
+      "/subsidy-intro": <RiderStep />,
     }
 
     return subNav[currentPath] || null;
