@@ -2,7 +2,7 @@ import { useState, useCallback, useEffect } from "react";
 import axios from "axios";
 
 const GAS_BASE_URL =
-  "https://script.google.com/macros/s/AKfycbyYXSWIWh9WY789IRV4rsfRuhBkCV7I0kzjjn7R2YKY0ZQKZzpubuExJO5DqD7_LBNo2g/exec";
+  "https://script.google.com/macros/s/AKfycbzfWdUpDK5tJvl1UZCjT5LI3cX6J4D7IOB1ZmF1Yfvz-1Kche5bCtHjEeIqslBipjPttw/exec";
 
 const useGoogleSheetQuery = (baseUrl = GAS_BASE_URL) => {
   const [data, setData] = useState(null);
@@ -18,7 +18,7 @@ const useGoogleSheetQuery = (baseUrl = GAS_BASE_URL) => {
   const refetch = useCallback(async (queryParams = {}, actions = "find") => {
     setLoading(true);
     setError(null);
-
+    console.log(actions)
     try {
       // 建立查詢參數
       const params = new URLSearchParams();
@@ -41,6 +41,8 @@ const useGoogleSheetQuery = (baseUrl = GAS_BASE_URL) => {
         setStatus(result.status)
       } else {
         setData([]);
+        setStatus(result.status)
+
       }
     } catch (err) {
       setError(err);

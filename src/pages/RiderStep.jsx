@@ -1,10 +1,10 @@
-import React,{useEffect} from "react";
+import React, { useEffect } from "react";
 import { create } from "zustand";
 import Rider from "../assets/img/rider.svg";
 
 // Zustand store for managing step progress
 export const useStepStore = create((set) => ({
-  currentStep: 5, // 設為第2步以便看到已完成步驟的效果
+  currentStep: 1, // 設為第2步以便看到已完成步驟的效果
   setStep: (step) => set({ currentStep: step }),
   nextStep: () =>
     set((state) => ({
@@ -20,18 +20,6 @@ const StepBar = () => {
   const { currentStep, setStep, nextStep, prevStep } = useStepStore();
 
   const steps = ["填寫資料", "申請條件", "試算金額", "檢附文件", "送出申請"];
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      if (currentStep === 5) {
-        setStep(1);
-      } else {
-        nextStep();
-      }
-    }, 5000);
-
-    return () => clearInterval(timer);
-  }, [currentStep, setStep, nextStep]);
 
   return (
     <div className="w-[300px] md:w-[600px]  mx-auto mt-9 md:mt-19  ">

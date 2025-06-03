@@ -17,8 +17,8 @@ const DonutChart = ({ series, title }) => {
             customLabel = chart.options.chart.custom.label = chart.renderer
               .label(
                 `
-                <span style="color:#26CF13; font-size:48px; font-weight:700">${series?.data[0]?.y}</span> /
-                <span style="color:#000000; font-size:16px; font-weight:700">${series?.data[1]?.y}筆</span>
+                <span style="color:#26CF13; font-size:clamp(34px, 5vw, 48px); font-weight:700">${series?.data[0]?.y}</span> /
+                <span style="color:#000000; font-size:clamp(10px, 2vw, 16px); font-weight:700">${series?.data[1]?.y}筆</span>
               </span>`
               )
               .css({
@@ -84,7 +84,7 @@ const DonutChart = ({ series, title }) => {
     },
     series,
     credits: {
-        enabled: false
+      enabled: false,
     },
   };
 

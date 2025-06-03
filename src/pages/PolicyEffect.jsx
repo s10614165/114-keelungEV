@@ -26,19 +26,20 @@ function processApiData(apiResponse) {
   const filteredValues = apiResponse.values.filter((row, index) => {
     // 跳過前三行
     if (index < 3) return false;
-    
+
     // 跳過包含特定文字的行
     if (row[1] === "實際%數" || row[1] === "實際申請筆數") return false;
-    
+
     return true;
   });
-
+  console.log(filteredValues);
   return {
     // 1. 申請進度總覽
     applicationOverview: {
       completed: parseInt(filteredValues[2][2]) || 0,
       pending: parseInt(filteredValues[2][3]) || 0,
-      completedPercentage: parseInt(filteredValues[1][2]?.replace("%", "")) || 0,
+      completedPercentage:
+        parseInt(filteredValues[1][2]?.replace("%", "")) || 0,
       pendingPercentage: parseInt(filteredValues[1][3]?.replace("%", "")) || 0,
     },
 
@@ -46,7 +47,8 @@ function processApiData(apiResponse) {
     approvalStatus: {
       inProgress: parseInt(filteredValues[5][2]) || 0,
       approved: parseInt(filteredValues[5][3]) || 0,
-      inProgressPercentage: parseInt(filteredValues[4][2]?.replace("%", "")) || 0,
+      inProgressPercentage:
+        parseInt(filteredValues[4][2]?.replace("%", "")) || 0,
       approvedPercentage: parseInt(filteredValues[4][3]?.replace("%", "")) || 0,
     },
 
@@ -102,7 +104,8 @@ function processApiData(apiResponse) {
       return {
         name: filteredValues[9][index + 2] || "",
         value: parseInt(filteredValues[11][index + 2]) || 0,
-        percentage: parseInt(filteredValues[10][index + 2]?.replace("%", "")) || 0,
+        percentage:
+          parseInt(filteredValues[10][index + 2]?.replace("%", "")) || 0,
         color: colors[index],
       };
     }),
@@ -165,24 +168,14 @@ function processApiData(apiResponse) {
     // 8. 各品牌申請比例
     brandApplication: [
       {
-        name: "YAMAHA山葉",
-        value: parseInt(filteredValues[21][3]) || 0,
-        percentage: parseInt(filteredValues[20][3]) || 0,
-      },
-      {
         name: "SYM三陽",
         value: parseInt(filteredValues[21][2]) || 0,
         percentage: parseInt(filteredValues[20][2]) || 0,
       },
       {
-        name: "Ionex光陽",
-        value: parseInt(filteredValues[21][6]) || 0,
-        percentage: parseInt(filteredValues[20][6]) || 0,
-      },
-      {
-        name: "Gogoro睿能",
-        value: parseInt(filteredValues[21][9]) || 0,
-        percentage: parseInt(filteredValues[20][9]) || 0,
+        name: "YAMAHA山葉",
+        value: parseInt(filteredValues[21][3]) || 0,
+        percentage: parseInt(filteredValues[20][3]) || 0,
       },
       {
         name: "eMOVING中華",
@@ -190,9 +183,35 @@ function processApiData(apiResponse) {
         percentage: parseInt(filteredValues[20][4]) || 0,
       },
       {
+        name: "eReady台鈴",
+        value: parseInt(filteredValues[21][5]) || 0,
+        percentage: parseInt(filteredValues[20][5]) || 0,
+      },
+
+      {
+        name: "Ionex光陽",
+        value: parseInt(filteredValues[21][6]) || 0,
+        percentage: parseInt(filteredValues[20][6]) || 0,
+      },
+      {
         name: "AeonMOTOR宏佳騰",
         value: parseInt(filteredValues[21][7]) || 0,
         percentage: parseInt(filteredValues[20][7]) || 0,
+      },
+      {
+        name: "Zau泓創綠能",
+        value: parseInt(filteredValues[21][8]) || 0,
+        percentage: parseInt(filteredValues[20][8]) || 0,
+      },
+      {
+        name: "Gogoro睿能",
+        value: parseInt(filteredValues[21][9]) || 0,
+        percentage: parseInt(filteredValues[20][9]) || 0,
+      },
+      {
+        name: "PGO 摩特動力",
+        value: parseInt(filteredValues[21][10]) || 0,
+        percentage: parseInt(filteredValues[20][10]) || 0,
       },
     ],
   };
@@ -325,7 +344,6 @@ const StackedColumnChart = ({ data, title }) => {
         },
       },
     },
-  
 
     tooltip: {
       headerFormat: "<b>{point.x}</b><br/>",
@@ -351,13 +369,13 @@ const StackedColumnChart = ({ data, title }) => {
         color: "#42E82C",
         dataLabels: {
           enabled: true,
-          format: '{point.y}',
+          format: "{point.y}",
           style: {
-            fontSize: '12px',
-            fontWeight: 'bold',
-            color: '#374151'
-          }
-        }
+            fontSize: "12px",
+            fontWeight: "bold",
+            color: "#374151",
+          },
+        },
       },
       {
         name: "已核銷",
@@ -365,13 +383,13 @@ const StackedColumnChart = ({ data, title }) => {
         color: "#19A4B4",
         dataLabels: {
           enabled: true,
-          format: '{point.y}',
+          format: "{point.y}",
           style: {
-            fontSize: '12px',
-            fontWeight: 'bold',
-            color: '#374151'
-          }
-        }
+            fontSize: "12px",
+            fontWeight: "bold",
+            color: "#374151",
+          },
+        },
       },
     ],
     credits: { enabled: false },
@@ -425,13 +443,14 @@ function PolicyEffect() {
         title="成效總覽"
       />
       <div className="text-right text-gray-500 text-sm mb-4">
-        更新時間：{new Date().toLocaleString('zh-TW', { 
-          year: 'numeric',
-          month: '2-digit',
-          day: '2-digit',
-          hour: '2-digit',
-          minute: '2-digit',
-          hour12: false
+        更新時間：
+        {new Date().toLocaleString("zh-TW", {
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: false,
         })}
       </div>
       <Row gutter={0} className="w-full">
@@ -472,7 +491,7 @@ function PolicyEffect() {
                 </Col>
                 <Col xs={24} lg={12}>
                   <ChartCard
-                    title="申請進度總覽"
+                    title="申請核銷狀態"
                     chartComponent={
                       <DonutChart
                         title="申請核銷狀態"
@@ -572,52 +591,49 @@ function PolicyEffect() {
               {/* 堆疊圖表和品牌圓餅圖 */}
               <Row gutter={[24, 24]}>
                 <Col xs={24} lg={12}>
-                <ChartCard
-                    title="核銷平均請領日"
+                  <ChartCard
+                    title="各區核銷比例"
                     chartComponent={
                       <StackedColumnChart
-                      data={processedData.districtApproval}
-                      title="各區核銷比例"
-                    />
+                        data={processedData.districtApproval}
+                        title="各區核銷比例"
+                      />
                     }
                   />
-                 
                 </Col>
                 <Col xs={24} lg={12}>
-                <ChartCard
+                  <ChartCard
                     title="各品牌申請比例"
                     chartComponent={
                       <DonutChartNone
-                 
-                    series={[
-                      {
-                    
-                        name: "各區申請",
-                        colorByPoint: true,
-                        innerSize: "75%",
-                        data: processedData.brandApplication.map(
-                          (item) => ({
-                            name: item.name,
-                            y: item.value,
-                            color: {
-                              "SYM三陽": "#2caffe",
-                              "YAMAHA山葉": "#544fc5",
-                              "eMOVING中華": "#fe6a35",
-                              "eReady台鈴": "#fa4b42",
-                              "Ionex光陽": "#6b8abc",
-                              "AeonMOTOR宏佳騰": "#2ee0ca",
-                              "Zau泓創綠能": "#feb56a",
-                              "Gogoro睿能": "#d568fb",
-                              "PGO 摩特動力": "#feb56a"
-                            }[item.name] || "#feb56a" // 預設顏色
-                          })
-                        ),
-                      },
-                    ]}
-                  />
+                        series={[
+                          {
+                            name: "各區申請",
+                            colorByPoint: true,
+                            innerSize: "75%",
+                            data: processedData.brandApplication.map(
+                              (item) => ({
+                                name: item.name,
+                                y: item.value,
+                                color:
+                                  {
+                                    SYM三陽: "#2caffe",
+                                    YAMAHA山葉: "#544fc5",
+                                    eMOVING中華: "#fe6a35",
+                                    eReady台鈴: "#fa4b42",
+                                    Ionex光陽: "#6b8abc",
+                                    AeonMOTOR宏佳騰: "#2ee0ca",
+                                    Zau泓創綠能: "#feb56a",
+                                    Gogoro睿能: "#d568fb",
+                                    "PGO 摩特動力": "#feb56a",
+                                  }[item.name] || "#feb56a", // 預設顏色
+                              })
+                            ),
+                          },
+                        ]}
+                      />
                     }
                   />
-                
                 </Col>
               </Row>
             </div>

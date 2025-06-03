@@ -1,67 +1,203 @@
-import { Link } from 'react-router-dom';
+import React from "react";
+import { Row, Col, Form } from "antd";
+import PageTitle from "../components/PageTitle";
+import TeenSubsidyResult from "./TeenSubsidyResult";
+const sheetId = import.meta.env.VITE_PowerStation_GogleSheet__ID;
+import useGoogleSheetFind from "@/hooks/useGoogleSheetFind";
+import SubsidyIntroSearch from "@/assets/img/subsidyIntroSearch.svg";
+import Loading from "@/components/Loading";
+import PageError from "@/components/PageError";
+import Notfound from "@/pages/NotFound";
+import KeelungSubsidyInfo from "@/pages/KeelungSubsidyInfo";
+import { useButtonStore } from "./SubsidyNavBar";
+
+const title = {
+  helper: "產業轉型申請補助說明",
+  progressSearch: "申請進度查詢",
+  subsiding: "填寫車行基本資料",
+};
 
 function SubsidyIntro() {
+  const { data, loading, error, refetch, status, cleanToinit } =
+    useGoogleSheetFind();
+
+  const { activeButton, setActiveButton } = useButtonStore();
+  const [form] = Form.useForm();
+
+  const uniformNumbers_verification = (uniformNumbers) => {
+    // 檢查字元是否符合規則
+    const regex = /^[0-9]{8}$/;
+
+    // 統一編號 邏輯乘數
+    const logicMultipliers = [1, 2, 1, 2, 1, 2, 4, 1];
+
+    // 計算陣列總和
+    const sum = (numbers) => {
+      const initialValue = 0;
+      const sumWithInitial = numbers.reduce(
+        (accumulator, currentValue) =>
+          Number(accumulator) + Number(currentValue),
+        initialValue
+      );
+      return sumWithInitial;
+    };
+
+    if (!uniformNumbers) {
+      return "統編未填寫";
+    }
+    if (uniformNumbers.length !== 8 || !regex.test(uniformNumbers)) {
+      return "統編格式不正確";
+    }
+
+    let logicProductArr = [];
+    let logicProduct = 0;
+    // 通一編號倒數第二位為7時，乘積之和最後第二位數取0或1均可，其中之一和能被5整除，則符合統編邏輯
+    if (uniformNumbers[6] == "7") {
+      for (let i = 0; i < uniformNumbers.length; i++) {
+        if (i != 6) {
+          logicProductArr.push(
+            parseInt(uniformNumbers[i]) * logicMultipliers[i]
+          );
+        }
+      }
+    } else {
+      for (let i = 0; i < uniformNumbers.length; i++) {
+        logicProductArr.push(parseInt(uniformNumbers[i]) * logicMultipliers[i]);
+      }
+    }
+
+    for (const item of logicProductArr) {
+      logicProduct += sum(item.toString().split(""));
+    }
+
+    if (
+      uniformNumbers[6] === "7" &&
+      (logicProduct % 5 === 0 || (logicProduct + 1) % 5 === 0)
+    ) {
+      return "統編驗證通過";
+    } else if (logicProduct % 5 === 0) {
+      return "統編驗證通過";
+    }
+
+    return "統編驗證失敗";
+  };
+
+  const onFinish = (values) => {
+    console.log("表單值:", values);
+    // 在這裡處理表單提交邏輯
+    refetch(values, "findSubsidy");
+  };
+
+  if (loading) {
+    return <Loading />;
+  }
+
+  if (error !== null) {
+    return <PageError />;
+  }
+  console.log(status);
   return (
-    <div className="max-w-4xl mx-auto">
-      <h1 className="text-3xl font-bold text-center mb-8">
-        一般民眾電動機車補助說明
-      </h1>
+    <div className="py-[42px] flex justify-center items-center w-full">
+      <div className=" w-[100vw] md:w-[80vw] flex justify-center items-center">
+        {/* 主要卡片容器 */}
+        <div className="bg-white flex flex-col items-center w-4/5 rounded-lg shadow-[0_0_15px_rgba(0,0,0,0.2)] p-2 pt-[50px] md:p-8">
+          {/* 標題區域 */}
+          <PageTitle title={title[activeButton]} />
 
-      <div className="bg-white p-6 rounded-lg shadow-md mb-8">
-        <h2 className="text-xl font-semibold mb-4">補助金額</h2>
-        <div className="space-y-4">
-          <div className="border-b pb-4">
-            <h3 className="font-medium text-lg mb-2">重型電動機車</h3>
-            <p className="text-gray-600">
-              每輛補助新台幣 20,000 元
-            </p>
-          </div>
-          <div>
-            <h3 className="font-medium text-lg mb-2">輕型電動機車</h3>
-            <p className="text-gray-600">
-              每輛補助新台幣 15,000 元
-            </p>
-          </div>
+          {activeButton === "subsiding" ? <div>開始聲請的東ㄒ</div> : <></>}
+
+          {activeButton !== "subsiding" && (
+            <>
+              {activeButton === "helper" ? (
+                <KeelungSubsidyInfo />
+              ) : status === "404" ? (
+                <Notfound
+                  onClick={() => {
+                    setActiveButton("subsiding");
+                  }}
+                  buttonText="進行申請"
+                />
+              ) : (
+                <div className="flex w-[90%] md:w-[50%]   justify-center items-center flex-col">
+                  <Form
+                    form={form}
+                    onFinish={onFinish}
+                    layout="vertical"
+                    className="w-full"
+                  >
+                    <Form.Item
+                      name="uniformNumbers"
+                      label={
+                        <span style={{ fontSize: "16px", fontWeight: 600 }}>
+                          申請單位統編
+                        </span>
+                      }
+                      rules={[
+                        { required: true, message: "請輸入申請單位統編" },
+                        {
+                          validator: (_, value) => {
+                            const result = uniformNumbers_verification(value);
+                            if (result === "統編驗證通過") {
+                              return Promise.resolve();
+                            }
+                            return Promise.reject(new Error(result));
+                          },
+                        },
+                      ]}
+                    >
+                      <input
+                        type="text"
+                        className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-[#EBFEE7]"
+                        placeholder="請輸入統編"
+                      />
+                    </Form.Item>
+
+                    <Form.Item
+                      name="phone"
+                      label={
+                        <span style={{ fontSize: "16px", fontWeight: 600 }}>
+                          負責人手機號碼
+                        </span>
+                      }
+                      rules={[
+                        { required: true, message: "請輸入負責人手機號碼" },
+                        {
+                          pattern: /^09\d{8}$/,
+                          message: "請輸入有效的台灣手機號碼",
+                        },
+                      ]}
+                    >
+                      <input
+                        type="tel"
+                        className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-[#EBFEE7]"
+                        placeholder="請輸入手機號碼"
+                      />
+                    </Form.Item>
+
+                    <Form.Item className="flex justify-center">
+                      <button
+                        type="submit"
+                        className="w-[155px] md:w-[180px]  mt-[40px] bg-[#E69B06] text-white py-2 px-4 rounded-full hover:bg-[#E69B06]/90 transition-colors"
+                      >
+                        立即查詢
+                      </button>
+                    </Form.Item>
+                  </Form>
+                  <div className="mt-8">
+                    <img
+                      src={SubsidyIntroSearch}
+                      alt="搜尋示意圖"
+                      className="w-full max-w-md mx-auto"
+                    />
+                  </div>
+                </div>
+              )}
+            </>
+          )}
         </div>
-      </div>
-
-      <div className="bg-white p-6 rounded-lg shadow-md mb-8">
-        <h2 className="text-xl font-semibold mb-4">申請資格</h2>
-        <ul className="list-disc list-inside space-y-2 text-gray-600">
-          <li>設籍基隆市且年滿18歲之市民</li>
-          <li>購買全新電動機車</li>
-          <li>車輛需於基隆市完成掛牌</li>
-          <li>每人限申請一次</li>
-        </ul>
-      </div>
-
-      <div className="bg-white p-6 rounded-lg shadow-md mb-8">
-        <h2 className="text-xl font-semibold mb-4">應備文件</h2>
-        <ul className="list-disc list-inside space-y-2 text-gray-600">
-          <li>身分證正反面影本</li>
-          <li>戶口名簿影本</li>
-          <li>新車行照影本</li>
-          <li>購車發票影本</li>
-          <li>存摺封面影本</li>
-        </ul>
-      </div>
-
-      <div className="flex justify-center space-x-4">
-        <Link
-          to="/subsidy-form"
-          className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700"
-        >
-          立即申請
-        </Link>
-        <Link
-          to="/subsidy-supplement"
-          className="bg-gray-600 text-white px-6 py-3 rounded-lg hover:bg-gray-700"
-        >
-          補充文件
-        </Link>
       </div>
     </div>
   );
 }
 
-export default SubsidyIntro; 
+export default SubsidyIntro;

@@ -11,6 +11,7 @@ import ToogleDown from "@/assets/icon/icon-toogle-down.png";
 import LinkButton from "@/components/LinkButton";
 import MapStepSelect from "@/pages/MapStepSelect";
 import RiderStep from "@/pages/RiderStep";
+import SubsidyNavBar from "@/pages/SubsidyNavBar";
 // 麵包屑元件
 const Breadcrumb = ({ routes, location, menuItems }) => {
   const currentPath = location.pathname;
@@ -233,7 +234,7 @@ function Navbar({ routes }) {
 
     const subNav = {
       "/map": <MapStepSelect />,
-      "/subsidy-intro": <RiderStep />,
+      "/subsidy-intro": <SubsidyNavBar />,
     }
 
     return subNav[currentPath] || null;
@@ -329,7 +330,7 @@ function Navbar({ routes }) {
         {location.pathname !== "/" && (
           <>
             <div
-              className="relative z-10 flex flex-col text-center bg-[#eefdfd] min-w-[100px] md:min-w-[300px] md:pt-[24px] bg md:pb-16 min-h-[200px] bg-bottom bg-cover"
+              className="relative z-10 flex flex-col text-center bg-[#eefdfd] min-w-[100px] md:min-w-[300px] pt-[24px] pb-16 min-h-[200px] bg-bottom bg-cover"
               style={{ backgroundImage: `url(${StepBar})` }}
             >
               <Breadcrumb

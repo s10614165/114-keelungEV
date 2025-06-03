@@ -73,7 +73,7 @@ const PowerStationInfo = () => {
   }));
 
   return (
-    <div className="min-h-screen bg-[#e4fbfb] relative">
+    <div className=" bg-[#e4fbfb] relative">
       {/* 主要內容區塊 */}
       <div className="flex w-full min-h-screen">
         {/* 左側紅色背景 */}
