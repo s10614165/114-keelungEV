@@ -4,16 +4,16 @@ import { create } from "zustand";
 
 // Zustand store 管理按鈕狀態
 export const useButtonStore = create((set) => ({
-  activeButton: "helper", // 'helper' 或 'partner'
+  activeButton: "helper", // 'helper' 或 'verify' 或 'progressSearch'
   setActiveButton: (button) => set({ activeButton: button }),
 }));
 
 const SubsidyNavBar = () => {
   const { activeButton, setActiveButton } = useButtonStore();
-
+// activeButton === "step1"
   return (
     <>
-      {activeButton === "subsiding" ? (
+      {activeButton ? (
         <RiderStep />
       ) : (
         <div className="flex items-center justify-center ">
@@ -25,7 +25,7 @@ const SubsidyNavBar = () => {
              w-[84px] h-[84px] md:h-full md:w-[180px] md:py-[10px] rounded-full font-medium text-sm transition-all duration-200 ease-in-out
             border-2 md:aspect-auto
             ${
-              activeButton === "helper"
+              activeButton === "helper" || activeButton === "verify"
                 ? "bg-cyan-500 text-white text-base font-bold md:text-xl border-cyan-500 shadow-lg "
                 : "bg-white text-[#19A4B4] text-base font-bold md:text-xl border-[#19A4B4] shadow-lg "
             }

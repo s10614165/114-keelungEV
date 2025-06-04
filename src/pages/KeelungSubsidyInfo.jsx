@@ -117,9 +117,9 @@ const KeelungSubsidyInfo = () => {
 
           <div className="flex justify-center my-8">
             <button
-              className="bg-[#E69B06] text-white font-bold text-[20px] rounded-full px-8 py-3 hover:bg-[#d18a05] transition-colors duration-200 shadow-lg"
+              className="bg-[#E69B06] text-white font-bold text-[20px] rounded-full px-3 py-3 md:px-8 md:py-3 hover:bg-[#d18a05] transition-colors duration-200 shadow-lg"
               style={{ width: "220px", height: "50px" }}
-              onClick={() => setActiveButton("progressSearch")}
+              onClick={() => setActiveButton("verify")}
             >
               立即申請補助
             </button>

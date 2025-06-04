@@ -57,6 +57,7 @@ import SiderLine from "@/assets/icon/Line.svg";
  * @param {string} [props.imgClass=""] - 圖片元素的額外 CSS 類別
  * @param {"_blank"|"_self"|"_parent"|"_top"} [props.target="_blank"] - 連結的開啟方式
  * @param {Function} [props.onClick=null] - 點擊事件處理函式
+ * @param {React.ReactNode} [props.children] - 子元素
  * 
  * @returns {React.ReactElement} 返回一個包含圖標的連結元素
  */
@@ -68,7 +69,8 @@ const LinkButton = ({
   linkClass = "hover:scale-110 transition-transform",
   imgClass = "",
   target = "_blank",
-  onClick = null
+  onClick = null,
+  children
 }) => {
   /**
    * 圖標對應表
@@ -123,6 +125,7 @@ const LinkButton = ({
         alt={alt} 
         className={`${size} ${imgClass}`} 
       />
+      {children}
     </a>
   )
 }
