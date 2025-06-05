@@ -10,6 +10,7 @@ import KeelungSubsidyInfo from "@/pages/KeelungSubsidyInfo";
 import { useButtonStore } from "./SubsidyNavBar";
 import LinkButton from "@/components/LinkButton";
 import Step1Form from "@/pages/Step1Form";
+import SubsidyResult from "@/pages/SubsidyResult";
 
 const UniformNumberForm = ({
   onFinish,
@@ -205,8 +206,8 @@ function SubsidyIntro() {
           <PageTitle title={title[activeButton]} />
 
           {/* 步驟1表單 */}
-          {/* <div className={`${activeButton === "step1" ? "block" : "hidden"}`}> */}
-          <div className={``}>
+          <div className={`${activeButton === "step1" ? "block" : "hidden"}`}>
+            {/* <div className={``}> */}
             <Step1Form form={step1Form} />
           </div>
 
@@ -239,10 +240,27 @@ function SubsidyIntro() {
               <KeelungSubsidyInfo />
             </div>
 
+            {/* 申請進度結果 */}
+            <div
+              className={`${
+                activeButton === "progressSearch" && status === "200"
+                  ? "block"
+                  : "hidden"
+              } flex flex-col justify-center items-center`}
+            >
+              <SubsidyResult
+                onBack={() => {
+                  cleanToinit();
+                }}
+              />
+            </div>
+
             {/* 申請進度查詢 */}
             <div
               className={`${
-                activeButton === "progressSearch" && status !== "404"
+                activeButton === "progressSearch" &&
+                status !== "404" &&
+                status === ""
                   ? "block"
                   : "hidden"
               } flex flex-col justify-center items-center`}
@@ -256,7 +274,7 @@ function SubsidyIntro() {
                     <img
                       src={SubsidyIntroSearch}
                       alt="搜尋示意圖"
-                      className="w-full max-w-md mx-auto"
+                      className="w-full max-w-md mx-auto mb-[72px]"
                     />
                   </div>
                 }

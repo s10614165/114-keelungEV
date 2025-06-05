@@ -98,7 +98,7 @@ const TeenSubsidyResult = ({ onBack, data }) => {
           })}
         </div>
         <div className="flex">
-          <div className="bg-[#198da1]   text-white flex justify-center items-center px-3 md:px-10 md:py-8 md  min-w-[78px] :md:min-w-[120px]   border-1 border-solid rounded-l-lg font-bold shadow-2xl text-[12px] md:text-base">
+          <div className="bg-[#198da1]   text-white flex justify-center items-center py-2  md:py-8   min-w-[78px] md:min-w-[120px]   border-1 border-solid rounded-l-lg font-bold shadow-2xl text-[12px] md:text-base">
             <span className="hidden md:inline">業者名稱</span>
             <span className="md:hidden">
               業者

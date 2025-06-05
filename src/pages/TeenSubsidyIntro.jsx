@@ -2,7 +2,6 @@ import React from "react";
 import { Row, Col, Form } from "antd";
 import PageTitle from "../components/PageTitle";
 import TeenSubsidyResult from "./TeenSubsidyResult";
-const sheetId = import.meta.env.VITE_PowerStation_GogleSheet__ID;
 import useGoogleSheetFind from "@/hooks/useGoogleSheetFind";
 import SearchImg from "@/assets/img/searchImg.svg";
 import Loading from "@/components/Loading";

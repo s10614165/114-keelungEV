@@ -56,13 +56,13 @@ const CarDealerForm = () => {
   const handleNext = async () => {
     try {
       setLoading(true);
-      nextStep();
       const values = await form.validateFields();
       console.log("表單資料:", values);
       setFormData(prev => ({
         ...prev,
         ...values
       }));
+      nextStep();
       setCurrentStep(prev => prev + 1);
     } catch (error) {
       console.log("驗證失敗:", error);
@@ -309,7 +309,7 @@ const CarDealerForm = () => {
       layout="vertical"
       requiredMark="default"
       size="large"
-      className="w-[90%] md:w-[80%] text-[16px]"
+      className="w-[90%] md:w-[100%] text-[16px]"
     >
       <Title level={4} className="mb-6">
         申請條件
@@ -446,15 +446,15 @@ const CarDealerForm = () => {
       return (
         <div className="flex justify-center my-8">
           <button
-            className="bg-gray-500 text-white font-bold text-[20px] rounded-full px-3 py-3 md:px-8 md:py-3 hover:bg-gray-600 transition-colors duration-200 shadow-lg mr-4"
-            style={{ width: "220px", height: "50px" }}
+            className="bg-[#198DA1] text-white font-bold text-[20px] rounded-full px-3 py-3 md:px-8 md:py-3 hover:bg-gray-600 transition-colors duration-200 shadow-lg mr-4"
+            
             onClick={handlePrev}
           >
             返回上一步
           </button>
           <button
             className="bg-[#E69B06] text-white font-bold text-[20px] rounded-full px-3 py-3 md:px-8 md:py-3 hover:bg-[#d18a05] transition-colors duration-200 shadow-lg"
-            style={{ width: "220px", height: "50px" }}
+            
             onClick={handleSubmit}
           >
             確認提交
@@ -467,20 +467,20 @@ const CarDealerForm = () => {
       <div className="flex justify-center my-8">
         {currentStep > 1 && (
           <button
-            className="bg-gray-500 text-white font-bold text-[20px] rounded-full px-3 py-3 md:px-8 md:py-3 hover:bg-gray-600 transition-colors duration-200 shadow-lg mr-4"
-            style={{ width: "220px", height: "50px" }}
+            className="bg-[#198DA1] text-white font-bold text-base  md:text-[20px] rounded-full px-3 py-3 md:px-8 md:py-3 hover:bg-gray-600 transition-colors duration-200 shadow-lg mr-4"
+           
             onClick={handlePrev}
           >
-            返回上一步
+            回上一步
           </button>
         )}
         <button
-          className="bg-[#E69B06] text-white font-bold text-[20px] rounded-full px-3 py-3 md:px-8 md:py-3 hover:bg-[#d18a05] transition-colors duration-200 shadow-lg"
-          style={{ width: "220px", height: "50px" }}
+          className="bg-[#E69B06] text-white font-bold  text-base  md:text-[20px] rounded-full px-3 py-3 md:px-8 md:py-3 hover:bg-[#d18a05] transition-colors duration-200 shadow-lg"
+         
           onClick={handleNext}
           loading={loading}
         >
-          {currentStep === 3 ? '下一步，確認資料' : '下一步'}
+          {'下一步'}
         </button>
       </div>
     );

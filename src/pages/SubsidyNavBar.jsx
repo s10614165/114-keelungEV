@@ -13,7 +13,7 @@ const SubsidyNavBar = () => {
 // activeButton === "step1"
   return (
     <>
-      {activeButton ? (
+      {activeButton === "step1" ? (
         <RiderStep />
       ) : (
         <div className="flex items-center justify-center ">
