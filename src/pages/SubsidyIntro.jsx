@@ -151,6 +151,10 @@ const title = {
   progressSearch: "申請進度查詢",
   verify: "身分驗證",
   step1: "填寫車行基本資料",
+  step2: "12356",
+  step3: "填寫車行基本資料",
+  step4: "填寫車行基本資料",
+  step5: "填寫車行基本資料",
 };
 
 function SubsidyIntro() {
@@ -203,7 +207,10 @@ function SubsidyIntro() {
     <div className="py-[42px] flex justify-center items-center w-full">
       <div className="w-[100vw] md:w-[80vw] flex justify-center items-center">
         <div className="bg-white flex flex-col items-center w-4/5 rounded-lg shadow-[0_0_15px_rgba(0,0,0,0.2)] p-2 pt-[50px] md:p-8">
-          <PageTitle title={title[activeButton]} />
+          <div className={`${activeButton === "step1" ? "hidden" : "block"}`}>
+            {/* <div className={``}> */}
+            <PageTitle title={title[activeButton]} />
+          </div>
 
           {/* 步驟1表單 */}
           <div className={`${activeButton === "step1" ? "block" : "hidden"}`}>

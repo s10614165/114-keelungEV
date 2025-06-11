@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Form,
   Input,
@@ -6,51 +6,148 @@ import {
   Checkbox,
   Button,
   Card,
+  Radio,
   Space,
   Row,
   Col,
   DatePicker,
   Typography,
   Steps,
+  Tooltip,
+  Divider,
+  InputNumber,
 } from "antd";
-import PageTitle from "@/components/PageTitle";
-import {useStepStore} from"@/pages/RiderStep"
+import { useStepStore } from "@/pages/RiderStep";
+import { QuestionCircleOutlined } from "@ant-design/icons";
 const { Title } = Typography;
-const { Step } = Steps;
+
+const title = {
+  1: "填寫車行基本資料",
+  2: "相關補助計畫及\n補助類別調查",
+  3: "申請補助經費概算及\n相關預期效益",
+  4: "上傳基本文件",
+  5: "申請成功",
+};
+
+const PageTitle = ({ title, icon = "", iconClassName = "" }) => {
+  return (
+    <div className="w-full flex items-center justify-center">
+      <h1 className="border-b-[8px] pb-[11px] flex items-center gap-2 md:pb-[16px] w-fit border-[#1b7183] text-[22px] md:text-[32px] font-bold text-center text-[#1B7183] mb-8 whitespace-pre-line">
+        {icon !== "" && (
+          <img src={icon} alt="icon" className={`${iconClassName}`}></img>
+        )}
+        {title}
+      </h1>
+    </div>
+  );
+};
 
 const CarDealerForm = () => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState({});
-  const {  nextStep, prevStep } = useStepStore();
+  const { nextStep, prevStep } = useStepStore();
+
+  const [showAdditional, setShowAdditional] = useState(false);
+  const [isOtherAmount, setIsOtherAmount] = useState(false);
+  const [isOtherRental, setIsOtherRental] = useState(false);
+  const [isOtherRenovation, setIsOtherRenovation] = useState(false);
+
+  // 在組件掛載時設置初始值
+  useEffect(() => {
+    form.setFieldsValue({
+      greenTransport: "公益青年機車推廣",
+      greenTransformation: "100000",
+    });
+  }, []);
+
+  useEffect(() => {
+    if (currentStep === 2) {
+      form.setFieldsValue({ ...formData });
+
+      setIsOtherAmount(formData.maintenanceTools === "other");
+      setIsOtherRental(formData.maintenanceSystemRental === "other");
+      setIsOtherRenovation(formData.storeRenovation === "other");
+      setShowAdditional(formData.subsidyStatus === "曾向其他機關提出補助申請");
+    }
+  }, [currentStep, formData]);
+
+  const onSubsidyStatusChange = (e) => {
+    const isApplied = e.target.value === "曾向其他機關提出補助申請";
+    setShowAdditional(isApplied);
+
+    if (!isApplied) {
+      form.setFieldsValue({ applicationResults: "" });
+    }
+  };
+
+  // Radio.Group options 配置
+  const subsidyStatusOptions = [
+    { value: "曾向其他機關提出補助申請", label: "曾向其他機關提出補助申請" },
+    { value: "不曾向其他機關申請補助", label: "不曾向其他機關申請補助" },
+  ];
+
+  const priorityItemOptions = [
+    { value: "已通過，並持有結訓證書", label: "已通過，並持有結訓證書" },
+    { value: "未通過，未持有結訓證書", label: "未通過，未持有結訓證書" },
+  ];
+
+  const greenTransformationOptions = [{ value: "100000", label: "10萬" }];
+
+  const talentRetentionOptions = [
+    { value: "0", label: "不申請" },
+    { value: "20000", label: "2萬" },
+  ];
+
+  const maintenanceToolsOptions = [
+    { value: "0", label: "不申請" },
+    { value: "40000", label: "4萬" },
+    { value: "other", label: "其他金額(上限4萬)" },
+  ];
+
+  const maintenanceSystemRentalOptions = [
+    { value: "0", label: "不申請" },
+    { value: "10000", label: "1萬" },
+    { value: "other", label: "其他金額(上限1萬)" },
+  ];
+
+  const storeRenovationOptions = [
+    { value: "0", label: "不申請" },
+    { value: "30000", label: "3萬" },
+    { value: "other", label: "其他金額(上限3萬)" },
+  ];
 
   // 行政區選項
-  const districts = [
-    "信義區",
-    "仁愛區",
-    "中正區",
-    "安樂區",
-    "中山區",
-    "七堵區",
-    "暖暖區",
+  const districtOptions = [
+    { value: "信義區", label: "信義區" },
+    { value: "仁愛區", label: "仁愛區" },
+    { value: "中正區", label: "中正區" },
+    { value: "安樂區", label: "安樂區" },
+    { value: "中山區", label: "中山區" },
+    { value: "七堵區", label: "七堵區" },
+    { value: "暖暖區", label: "暖暖區" },
   ];
 
   // 車行類型選項
-  const shopTypes = ["純油車行", "油電合一", "純電車行"];
+  const shopTypeOptions = [
+    { value: "純油車行", label: "純油車行" },
+    { value: "油電合一", label: "油電合一" },
+    { value: "純電車行", label: "純電車行" },
+  ];
 
   // 車廠品牌選項
   const brandOptions = [
-    { label: "SANYANG 三陽", value: "SANYANG 三陽" },
-    { label: "YAMAHA 山葉", value: "YAMAHA 山葉" },
-    { label: "emoving 中華電動二輪車", value: "emoving 中華電動二輪車" },
-    { label: "eReady 台鈴智慧電車", value: "eReady 台鈴智慧電車" },
-    { label: "光陽電動車 ionex (光陽)", value: "ionex 光陽" },
-    { label: "KYMCO 光陽", value: "KYMCO 光陽" },
-    { label: "睿能 gogoro", value: "gogoro" },
-    { label: "PGO 摩特動力", value: "PGO 摩特動力" },
-    { label: "宏佳騰機車", value: "宏佳騰" },
-    { label: "Zau 泓創綠能", value: "Zau 泓創綠能" },
+    { value: "SANYANG 三陽", label: "SANYANG 三陽" },
+    { value: "YAMAHA 山葉", label: "YAMAHA 山葉" },
+    { value: "emoving 中華電動二輪車", label: "emoving 中華電動二輪車" },
+    { value: "eReady 台鈴智慧電車", label: "eReady 台鈴智慧電車" },
+    { value: "ionex 光陽", label: "光陽電動車 ionex (光陽)" },
+    { value: "KYMCO 光陽", label: "KYMCO 光陽" },
+    { value: "gogoro", label: "睿能 gogoro" },
+    { value: "PGO 摩特動力", label: "PGO 摩特動力" },
+    { value: "宏佳騰", label: "宏佳騰機車" },
+    { value: "Zau 泓創綠能", label: "Zau 泓創綠能" },
   ];
 
   const handleNext = async () => {
@@ -58,12 +155,14 @@ const CarDealerForm = () => {
       setLoading(true);
       const values = await form.validateFields();
       console.log("表單資料:", values);
-      setFormData(prev => ({
+      setFormData((prev) => ({
         ...prev,
-        ...values
+        ...values,
       }));
       nextStep();
-      setCurrentStep(prev => prev + 1);
+      setCurrentStep((prev) => prev + 1);
+      // 自動滾動到頁面頂部
+      window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (error) {
       console.log("驗證失敗:", error);
     } finally {
@@ -72,7 +171,15 @@ const CarDealerForm = () => {
   };
 
   const handlePrev = () => {
-    setCurrentStep(prev => prev - 1);
+    // 保存當前步驟的表單資料
+    const currentValues = form.getFieldsValue();
+    setFormData((prev) => ({
+      ...prev,
+      ...currentValues,
+    }));
+
+    const newStep = currentStep - 1;
+    setCurrentStep(newStep);
     prevStep();
   };
 
@@ -81,18 +188,16 @@ const CarDealerForm = () => {
       const values = await form.validateFields();
       const finalData = {
         ...formData,
-        ...values
+        ...values,
       };
-      console.log('最終表單數據：', finalData);
+      console.log("最終表單數據：", finalData);
       // 這裡處理最終的表單提交邏輯
     } catch (error) {
-      console.error('提交失敗：', error);
+      console.error("提交失敗：", error);
     }
   };
 
- 
-
-  const renderStep1 = () => (
+  const renderStep1 = (state) => (
     <Form
       form={form}
       layout="vertical"
@@ -137,13 +242,7 @@ const CarDealerForm = () => {
             name="district"
             rules={[{ required: true, message: "請選擇所屬行政區" }]}
           >
-            <Select placeholder="請選擇行政區">
-              {districts.map((district) => (
-                <Select.Option key={district} value={district}>
-                  {district}
-                </Select.Option>
-              ))}
-            </Select>
+            <Select placeholder="請選擇行政區" options={districtOptions} />
           </Form.Item>
         </Col>
 
@@ -153,13 +252,7 @@ const CarDealerForm = () => {
             name="shop"
             rules={[{ required: true, message: "請選擇車行類型" }]}
           >
-            <Select placeholder="請選擇車行類型">
-              {shopTypes.map((type) => (
-                <Select.Option key={type} value={type}>
-                  {type}
-                </Select.Option>
-              ))}
-            </Select>
+            <Select placeholder="請選擇車行類型" options={shopTypeOptions} />
           </Form.Item>
         </Col>
       </Row>
@@ -169,21 +262,11 @@ const CarDealerForm = () => {
         name="brand"
         rules={[{ required: true, message: "請至少選擇一個車廠品牌" }]}
       >
-        <Checkbox.Group className="w-full">
-          <Row>
-            {brandOptions.map((option, index) => (
-              <Col span={12} key={index}>
-                <Checkbox
-                  value={option.value}
-                  className=" font-medium"
-                  style={{ fontSize: "16px" }}
-                >
-                  {option.label}
-                </Checkbox>
-              </Col>
-            ))}
-          </Row>
-        </Checkbox.Group>
+        <Checkbox.Group
+          options={brandOptions}
+          className="w-full grid grid-cols-2 gap-2"
+          style={{ fontSize: "16px" }}
+        />
       </Form.Item>
 
       <Form.Item
@@ -303,113 +386,693 @@ const CarDealerForm = () => {
     </Form>
   );
 
-  const renderStep2 = () => (
+  const renderStep2 = (state) => (
     <Form
       form={form}
       layout="vertical"
       requiredMark="default"
       size="large"
-      className="w-[90%] md:w-[100%] text-[16px]"
+      className="w-[90%] md:w-[70%] text-[16px] "
     >
-      <Title level={4} className="mb-6">
-        申請條件
-      </Title>
-      
+      <div className="mb-6 text-base">
+        <h3 className="text-red-500 mb-4">⚠️ 重要提醒</h3>
+        <ol className="list-decimal pl-6 space-y-2">
+          <li>
+            本補助申請系統
+            <span style={{ color: "red" }}>每間業者僅限申請一次</span>
+            ，送出後即不得修改或重複申請。請您於填寫送出前
+            <span style={{ color: "red" }}>
+              詳加確認所有資料內容，並確保所填資訊屬實
+            </span>
+            。若申請內容與後續實地核銷時檢附之文件有重大差異，可能導致補助款項調整或不予核發，請務必審慎填報。
+          </li>
+          <li>
+            <span style={{ color: "red" }}>設備補助申請金額僅為核銷上限</span>
+            ，最終補助金額將以您實際購置設備時所檢附之有效發票與憑證為準，並依現場核銷結果核定。
+          </li>
+          <li>
+            核銷作業須至市政府現場辦理，請依通知準備，
+            <a
+              href="https://drive.google.com/file/d/1FCLEASfvG0nvU5mD2IHujIN4kYRRtmsd/view?usp=sharing"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              【核銷文件自我檢核表】
+            </a>
+            ，攜帶至指定地點完成核銷流程。
+          </li>
+        </ol>
+      </div>
       <Form.Item
-        label={<span className="text-base">營業面積</span>}
-        name="businessArea"
-        rules={[{ required: true, message: "請輸入營業面積" }]}
+        label={
+          <span style={{ fontSize: "16px", fontWeight: 600 }}>
+            相關計畫補助情形
+          </span>
+        }
+        name="subsidyStatus"
+        rules={[
+          {
+            required: true,
+            message: "請選擇相關計畫補助情形",
+          },
+        ]}
       >
-        <Input placeholder="請輸入營業面積（平方公尺）" />
+        <Radio.Group
+          options={subsidyStatusOptions}
+          onChange={onSubsidyStatusChange}
+          optionType="default"
+          className="flex flex-col space-y-2"
+        />
+      </Form.Item>
+      {showAdditional && (
+        <Form.Item
+          label={
+            <span style={{ fontSize: "16px", fontWeight: 600 }}>
+              承上題 請說明向其他機關提出補助申請情形（曾申請者選填）
+            </span>
+          }
+          name="applicationResults"
+        >
+          <Radio.Group>
+            <Space direction="horizontal" size="middle">
+              <Radio value="曾申請且核定通過">
+                曾申請且核定通過
+                <Tooltip title="請提供相關證明文件">
+                  <QuestionCircleOutlined
+                    style={{ marginLeft: "8px", color: "#1890ff" }}
+                  />
+                </Tooltip>
+              </Radio>
+              <Radio value="曾申請但未通過">
+                曾申請但未通過
+                <Tooltip title="曾申請但未通過">
+                  <QuestionCircleOutlined
+                    style={{ marginLeft: "8px", color: "#1890ff" }}
+                  />
+                </Tooltip>
+              </Radio>
+            </Space>
+          </Radio.Group>
+        </Form.Item>
+      )}
+      <Form.Item
+        label={
+          <div>
+            <span style={{ fontSize: "16px", fontWeight: 600 }}>優先項目</span>
+            <div className="text-gray-600 text-sm mb-5">
+              是否通過「經濟部主辦機車行升級轉型輔導—機車維修訓練課程」並檢附經濟部、勞動部、環境部共同頒予之第一階段機車維修技術課程結訓證書
+            </div>
+          </div>
+        }
+        name="priorityItem"
+        rules={[{ required: true, message: "請選擇優先項目" }]}
+        colon={false}
+      >
+        <Radio.Group
+          options={priorityItemOptions}
+          optionType="default"
+          className="flex flex-col space-y-2"
+        />
       </Form.Item>
 
       <Form.Item
-        label={<span className="text-base">營業時間</span>}
-        name="businessHours"
-        rules={[{ required: true, message: "請選擇營業時間" }]}
+        label={
+          <span style={{ fontSize: "16px", fontWeight: 600 }}>綠能轉型</span>
+        }
+        name="greenTransformation"
+        rules={[{ required: true, message: "請選擇綠能轉型金額" }]}
       >
-        <Select placeholder="請選擇營業時間">
-          <Select.Option value="morning">上午 (08:00-12:00)</Select.Option>
-          <Select.Option value="afternoon">下午 (12:00-17:00)</Select.Option>
-          <Select.Option value="evening">晚上 (17:00-21:00)</Select.Option>
-          <Select.Option value="full">全天 (08:00-21:00)</Select.Option>
-        </Select>
+        <Radio.Group options={greenTransformationOptions} />
       </Form.Item>
 
       <Form.Item
-        label={<span className="text-base">是否具備維修能力</span>}
-        name="hasRepairAbility"
-        rules={[{ required: true, message: "請選擇是否具備維修能力" }]}
+        rules={[{ required: true, message: "請選擇留才獎勵" }]}
+        label={
+          <span style={{ fontSize: "16px", fontWeight: 600 }}>留才獎勵</span>
+        }
+        name="talentRetention"
       >
-        <Select placeholder="請選擇">
-          <Select.Option value="yes">是</Select.Option>
-          <Select.Option value="no">否</Select.Option>
-        </Select>
+        <Radio.Group options={talentRetentionOptions} />
+      </Form.Item>
+
+      <div className="mb-2" style={{ fontSize: "16px", fontWeight: 600 }}>
+        設備項目
+        <Tooltip
+          title={
+            <div>
+              <p>【保養維修診斷器材工具】</p>
+              <p>
+                1.僅限
+                <a
+                  href="https://www.lev.org.tw/shop/files/repairtools"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  公告新品
+                </a>
+                ，不得轉售
+              </p>
+              <p>2.補助上限為採購項目未稅金額50%，不限數量</p>
+              <p>【維修系統租賃】</p>
+              <p>1.限採年繳方式</p>
+              <p>【店面改造及識別標誌】</p>
+              <p>1.限廠牌認證之電動機車標誌</p>
+              <p>2.補助上限為未稅金額50%</p>
+              <p>3.裝修限營運空間內，非移動式設備(車廠必要營運系統除外)</p>
+            </div>
+          }
+        >
+          <QuestionCircleOutlined
+            style={{ marginLeft: "8px", color: "#1890ff" }}
+          />
+        </Tooltip>
+      </div>
+
+      <div className="flex items-center">
+        <Form.Item
+          label={
+            <span style={{ fontSize: "16px", fontWeight: 600 }}>
+              【保養維修診斷器材工具】
+            </span>
+          }
+          name="maintenanceTools"
+          rules={[{ required: true, message: "請選擇或輸入金額" }]}
+        >
+          <Radio.Group
+            options={maintenanceToolsOptions}
+            onChange={(e) => {
+              setIsOtherAmount(e.target.value === "other");
+              // 不要手動設置form值，讓Form.Item自己控制
+              if (e.target.value !== "other") {
+                // 只清空其他金額輸入框
+                form.setFieldsValue({
+                  maintenanceToolsOtherAmount: null,
+                });
+              }
+            }}
+          />
+        </Form.Item>
+
+        <Form.Item
+          name="maintenanceToolsOtherAmount"
+          rules={[
+            { required: isOtherAmount, message: "請輸入金額" },
+            {
+              type: "number",
+              min: 0,
+              max: 40000,
+              message: "金額必須在0-40000之間",
+            },
+          ]}
+          style={{ marginBottom: "0px" }}
+          className="w-[90%] md:w-[40%] mb-0"
+        >
+          <InputNumber
+            style={{ width: "100%" }}
+            addonAfter="元"
+            max={40000}
+            min={0}
+            disabled={!isOtherAmount}
+          />
+        </Form.Item>
+      </div>
+
+      <div className="flex items-center">
+        <Form.Item
+          label={
+            <span style={{ fontSize: "16px", fontWeight: 600 }}>
+              【維修系統租賃費】
+            </span>
+          }
+          name="maintenanceSystemRental"
+          rules={[{ required: true, message: "請選擇或輸入金額" }]}
+        >
+          <Radio.Group
+            options={maintenanceSystemRentalOptions}
+            onChange={(e) => {
+              setIsOtherRental(e.target.value === "other");
+              if (e.target.value !== "other") {
+                form.setFieldsValue({
+                  maintenanceSystemRentalOtherAmount: null,
+                });
+              }
+            }}
+          />
+        </Form.Item>
+
+        <Form.Item
+          name="maintenanceSystemRentalOtherAmount"
+          rules={[
+            { required: isOtherRental, message: "請輸入金額" },
+            {
+              type: "number",
+              min: 0,
+              max: 10000,
+              message: "金額必須在0-10000之間",
+            },
+          ]}
+          style={{ marginBottom: "0px" }}
+          className="w-[90%] md:w-[40%] mb-0"
+        >
+          <InputNumber
+            style={{ width: "100%" }}
+            addonAfter="元"
+            max={10000}
+            min={0}
+            disabled={!isOtherRental}
+          />
+        </Form.Item>
+      </div>
+
+      <div className="flex items-center">
+        <Form.Item
+          label="【店面改造及識別標誌】"
+          name="storeRenovation"
+          rules={[{ required: true, message: "請選擇或輸入金額" }]}
+          className="flex items-center"
+        >
+          <Radio.Group
+            options={storeRenovationOptions}
+            onChange={(e) => {
+              setIsOtherRenovation(e.target.value === "other");
+              if (e.target.value !== "other") {
+                form.setFieldsValue({
+                  storeRenovationOtherAmount: null,
+                });
+              }
+            }}
+          />
+        </Form.Item>
+
+        <Form.Item
+          name="storeRenovationOtherAmount"
+          rules={[
+            { required: isOtherRenovation, message: "請輸入金額" },
+            {
+              type: "number",
+              min: 0,
+              max: 30000,
+              message: "金額必須在0-30000之間",
+            },
+          ]}
+          style={{ marginBottom: "0px" }}
+          className="w-[90%] md:w-[40%] mb-0"
+        >
+          <InputNumber
+            style={{ width: "100%" }}
+            className="w-full md:w-[120px]"
+            addonAfter="元"
+            max={30000}
+            min={0}
+            disabled={!isOtherRenovation}
+          />
+        </Form.Item>
+      </div>
+
+      {/* 綠能交通產業推廣 */}
+      <Form.Item
+        label={<span>綠能交通產業推廣(名理所需補助項目)</span>}
+        name="greenTransport"
+        rules={[{ required: true, message: "請選擇綠能交通產業推廣項目" }]}
+      >
+        <Radio.Group>
+          <Radio value="公益青年機車推廣">
+            公益青年機車推廣
+            <Tooltip title="推廣計畫詳情">
+              <QuestionCircleOutlined
+                style={{ marginLeft: "8px", color: "#1890ff" }}
+              />
+            </Tooltip>
+          </Radio>
+        </Radio.Group>
+      </Form.Item>
+      <Form.Item
+        label={
+          <span>
+            申請品牌車廠類別(可複選)
+            {/* <span style={{ color: '#ff4d4f' }}>*</span> */}
+          </span>
+        }
+        name="carBrandCategories"
+        rules={[{ required: true, message: "請選擇至少一個品牌車廠" }]}
+      >
+        <Checkbox.Group
+          options={brandOptions}
+          className="w-full grid grid-cols-2 gap-2"
+          style={{ fontSize: "16px" }}
+        />
       </Form.Item>
     </Form>
   );
 
-  const renderStep3 = () => (
-    <Form
-      form={form}
-      layout="vertical"
-      requiredMark="default"
-      size="large"
-      className="w-[90%] md:w-[80%] text-[16px]"
-    >
-      <Title level={4} className="mb-6">
-        充電設備清單
-      </Title>
+  const renderStep3 = (state) => {
+    // 計算設備補助總額的函數
+    const calculateEquipmentSubsidy = () => {
+      const maintenanceTools = form.getFieldValue("maintenanceTools");
+      const maintenanceToolsOther =
+        form.getFieldValue("maintenanceToolsOtherAmount") || 0;
+      const maintenanceSystemRental = form.getFieldValue(
+        "maintenanceSystemRental"
+      );
+      const maintenanceSystemRentalOther =
+        form.getFieldValue("maintenanceSystemRentalOtherAmount") || 0;
+      const storeRenovation = form.getFieldValue("storeRenovation");
+      const storeRenovationOther =
+        form.getFieldValue("storeRenovationOtherAmount") || 0;
 
-      <Form.Item
-        label={<span className="text-base">充電樁數量</span>}
-        name="chargerCount"
-        rules={[{ required: true, message: "請輸入充電樁數量" }]}
-      >
-        <Input type="number" placeholder="請輸入充電樁數量" />
-      </Form.Item>
+      let maintenanceToolsAmount = 0;
+      let maintenanceSystemRentalAmount = 0;
+      let storeRenovationAmount = 0;
 
-      <Form.Item
-        label={<span className="text-base">充電樁類型</span>}
-        name="chargerTypes"
-        rules={[{ required: true, message: "請選擇充電樁類型" }]}
-      >
-        <Checkbox.Group>
-          <Row>
-            <Col span={8}>
-              <Checkbox value="type1">Type 1</Checkbox>
-            </Col>
-            <Col span={8}>
-              <Checkbox value="type2">Type 2</Checkbox>
-            </Col>
-            <Col span={8}>
-              <Checkbox value="ccs1">CCS1</Checkbox>
-            </Col>
-            <Col span={8}>
-              <Checkbox value="ccs2">CCS2</Checkbox>
-            </Col>
-            <Col span={8}>
-              <Checkbox value="chademo">CHAdeMO</Checkbox>
-            </Col>
-          </Row>
-        </Checkbox.Group>
-      </Form.Item>
+      // 計算保養維修診斷器材工具金額
+      if (maintenanceTools === "other") {
+        maintenanceToolsAmount = maintenanceToolsOther;
+      } else {
+        // 現在值是字串，需要轉換為數字
+        maintenanceToolsAmount = parseInt(maintenanceTools) || 0;
+      }
 
-      <Form.Item
-        label={<span className="text-base">充電功率</span>}
-        name="chargingPower"
-        rules={[{ required: true, message: "請選擇充電功率" }]}
+      // 計算維修系統租賃費金額
+      if (maintenanceSystemRental === "other") {
+        maintenanceSystemRentalAmount = maintenanceSystemRentalOther;
+      } else {
+        // 現在值是字串，需要轉換為數字
+        maintenanceSystemRentalAmount = parseInt(maintenanceSystemRental) || 0;
+      }
+
+      // 計算店面改造及識別標誌金額
+      if (storeRenovation === "other") {
+        storeRenovationAmount = storeRenovationOther;
+      } else {
+        // 現在值是字串，需要轉換為數字
+        storeRenovationAmount = parseInt(storeRenovation) || 0;
+      }
+
+      return (
+        maintenanceToolsAmount +
+        maintenanceSystemRentalAmount +
+        storeRenovationAmount
+      );
+    };
+
+    // 計算申請補助總額
+    const calculateTotalSubsidy = () => {
+      const greenTransformation =
+        parseInt(form.getFieldValue("greenTransformation")) || 0;
+      const talentRetention =
+        parseInt(form.getFieldValue("talentRetention")) || 0;
+      const equipmentSubsidy = calculateEquipmentSubsidy();
+      return greenTransformation + talentRetention + equipmentSubsidy;
+    };
+
+    return (
+      <Form
+        form={form}
+        layout="vertical"
+        requiredMark="default"
+        size="large"
+        className="w-[90%] md:w-[80%] text-[16px]"
       >
-        <Select placeholder="請選擇充電功率">
-          <Select.Option value="7">7kW</Select.Option>
-          <Select.Option value="22">22kW</Select.Option>
-          <Select.Option value="50">50kW</Select.Option>
-          <Select.Option value="100">100kW</Select.Option>
-          <Select.Option value="150">150kW</Select.Option>
-        </Select>
-      </Form.Item>
-    </Form>
-  );
+        {/* 申請補助經費概算 */}
+        <Title level={4} className="mb-6">
+          申請補助經費概算
+        </Title>
+
+        <Row gutter={[16, 0]}>
+          <Col xs={24} md={12}>
+            <div className="text-base mb-2">綠能轉型 申請補助費用</div>
+            <InputNumber
+              className="w-full"
+              addonAfter="元"
+              value={parseInt(form.getFieldValue("greenTransformation")) || 0}
+              disabled
+              formatter={(value) =>
+                `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+              }
+            />
+          </Col>
+
+          <Col xs={24} md={12}>
+            <div className="text-base mb-2">留才獎勵 申請補助費用</div>
+            <InputNumber
+              className="w-full"
+              addonAfter="元"
+              value={parseInt(form.getFieldValue("talentRetention")) || 0}
+              disabled
+              formatter={(value) =>
+                `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+              }
+            />
+          </Col>
+        </Row>
+
+        <Row gutter={[16, 0]}>
+          <Col xs={24} md={12}>
+            <div className="text-base mb-2">設備補助 申請補助費用</div>
+            <InputNumber
+              className="w-full"
+              addonAfter="元"
+              value={calculateEquipmentSubsidy()}
+              disabled
+              formatter={(value) =>
+                `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+              }
+            />
+          </Col>
+
+          <Col xs={24} md={12}>
+            <div className="text-base mb-2">申請補助總額(系統計算)</div>
+            <InputNumber
+              className="w-full"
+              addonAfter="元"
+              value={calculateTotalSubsidy()}
+              disabled
+              formatter={(value) =>
+                `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+              }
+            />
+          </Col>
+        </Row>
+
+        {/* 相關預期效益 */}
+        <div className="mt-10">
+          <Title level={4} className="mb-6">
+            相關預期效益
+          </Title>
+        </div>
+
+        <Row gutter={[16, 0]}>
+          <Col xs={24} md={12}>
+            <Form.Item
+              label={
+                <span className="text-base">
+                  目前「每月來詢問電動機車維修相關問題」之客人預估為幾位？
+                </span>
+              }
+              name="monthlyInquiryCustomers"
+              rules={[
+                { required: true, message: "請輸入每月來詢問的客人數量" },
+              ]}
+            >
+              <InputNumber
+                className="w-full"
+                addonAfter="位"
+                min={0}
+                placeholder="請輸入數量"
+              />
+            </Form.Item>
+          </Col>
+
+          <Col xs={24} md={12}>
+            <Form.Item
+              label={
+                <span className="text-base">
+                  目前「每月前來維修電動機車」之車輛為幾台？
+                </span>
+              }
+              name="monthlyRepairVehicles"
+              rules={[{ required: true, message: "請輸入每月維修的車輛數量" }]}
+            >
+              <InputNumber
+                className="w-full"
+                addonAfter="台"
+                min={0}
+                placeholder="請輸入數量"
+              />
+            </Form.Item>
+          </Col>
+        </Row>
+
+        <Row gutter={[16, 0]}>
+          <Col xs={24} md={12}>
+            <Form.Item
+              label={
+                <span className="text-base">
+                  車行內曾受過「電動機車維修技術培訓」員工為幾位？
+                </span>
+              }
+              name="trainedEmployees"
+              rules={[{ required: true, message: "請輸入受過培訓的員工數量" }]}
+            >
+              <InputNumber
+                className="w-full"
+                addonAfter="位"
+                min={0}
+                placeholder="請輸入數量"
+              />
+            </Form.Item>
+          </Col>
+
+          <Col xs={24} md={12}>
+            <Form.Item
+              label={
+                <span className="text-base">
+                  車行內目前會「維修電動機車」之員工為幾位？
+                </span>
+              }
+              name="repairCapableEmployees"
+              rules={[{ required: true, message: "請輸入會維修的員工數量" }]}
+            >
+              <InputNumber
+                className="w-full"
+                addonAfter="位"
+                min={0}
+                placeholder="請輸入數量"
+              />
+            </Form.Item>
+          </Col>
+        </Row>
+
+        <Row gutter={[16, 0]}>
+          <Col xs={24} md={12}>
+            <Form.Item
+              label={
+                <span className="text-base">
+                  期望「未來每月前來維修電動機車」之車輛能增加幾台？
+                </span>
+              }
+              name="expectedMonthlyIncrease"
+              rules={[{ required: true, message: "請輸入期望增加的車輛數量" }]}
+            >
+              <InputNumber
+                className="w-full"
+                addonAfter="台"
+                min={0}
+                placeholder="請輸入數量"
+              />
+            </Form.Item>
+          </Col>
+
+          <Col xs={24} md={12}>
+            <Form.Item
+              label={
+                <span className="text-base">
+                  目前車行內有「維修電動機車之硬體設備」為幾項？
+                </span>
+              }
+              name="hardwareEquipmentCount"
+              rules={[{ required: true, message: "請輸入硬體設備數量" }]}
+            >
+              <InputNumber
+                className="w-full"
+                addonAfter="項"
+                min={0}
+                placeholder="請輸入數量"
+              />
+            </Form.Item>
+          </Col>
+        </Row>
+
+        <Form.Item
+          label={
+            <span className="text-base">
+              目前車行內有「維修電動機車之軟體設備」為幾項？
+            </span>
+          }
+          name="softwareEquipmentCount"
+          rules={[{ required: true, message: "請輸入軟體設備數量" }]}
+        >
+          <InputNumber
+            className="w-full"
+            addonAfter="項"
+            min={0}
+            placeholder="請輸入數量"
+          />
+        </Form.Item>
+
+        {/* 申請資格暨責任聲明 */}
+        <div className="mt-10">
+          <Divider />
+          <div className="bg-gray-50 p-6 rounded-lg">
+            <h3 className="text-lg font-bold mb-4 text-center">
+              申請資格暨責任聲明
+            </h3>
+            <div className="text-base leading-relaxed mb-4">
+              本人已詳閱「114年度基隆市機車產業輔導綠能轉型產業補助計畫」補助規定及申請須知，確認符合申請資格，並了解本網站僅供線上單次申請用途。本人同意並承諾如下事項：
+            </div>
+
+            <div className="space-y-3 mb-4">
+              <div>
+                1️⃣ 本補助申請一經送出，不得重複申請，亦不得任意修改申請內容。
+              </div>
+              <div>
+                2️⃣
+                本次申請項目，所填列之資料及檢附文件均屬實，若有虛偽不實，願承擔相關法律責任，並配合退還補助款項。
+              </div>
+              <div>
+                3️⃣
+                本人承諾將配合申請作業流程，於核銷作業時繳付以下相關證明文件：
+                <ul className="list-disc ml-6 mt-2 space-y-1">
+                  <li>
+                    中央第一階段技術結訓證書，及各車廠證書，並確保證書期限符合本計畫要求。
+                  </li>
+                  <li>
+                    車行員工之中央第一階段技術結訓證書，及綁定6個月之工作在職證明文件。
+                  </li>
+                  <li>
+                    依本計畫購置之保養維修診斷器材工具、維修系統租賃設備、店面改造及識別標誌之相關核銷文件。
+                  </li>
+                </ul>
+              </div>
+              <div>
+                4️⃣
+                本人同意依規定期限完成相關計畫項目，並依市府規定辦理現場核銷。
+              </div>
+              <div>
+                5️⃣
+                本人同意配合市府及主管機關辦理之審核作業流程及結果，並妥善保存相關佐證資料。
+              </div>
+              <div>
+                6️⃣
+                本補助器材、設備將列為公司財產，並於取得後2年內不得轉讓；留才人員於核准後6個月內不得轉調。
+              </div>
+              <div>
+                7️⃣ 補助項目不得重複申請其他政府補助，不得挪作非本計畫用途。
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <Form.Item
+          name="agreementConfirmation"
+          valuePropName="checked"
+          rules={[
+            {
+              validator: (_, value) =>
+                value
+                  ? Promise.resolve()
+                  : Promise.reject(new Error("請確認同意聲明內容")),
+            },
+          ]}
+          className="mt-6"
+        >
+          <Checkbox className="text-base">
+            本人已閱讀並充分理解上述同意聲明內容，確認符合資格並提交本次補助申請。
+          </Checkbox>
+        </Form.Item>
+      </Form>
+    );
+  };
 
   const renderStep4 = () => (
     <div className="w-[90%] md:w-[80%] text-[16px]">
@@ -429,13 +1092,13 @@ const CarDealerForm = () => {
         <Title level={5}>申請條件</Title>
         <p>營業面積：{formData.businessArea}</p>
         <p>營業時間：{formData.businessHours}</p>
-        <p>維修能力：{formData.hasRepairAbility === 'yes' ? '是' : '否'}</p>
+        <p>維修能力：{formData.hasRepairAbility === "yes" ? "是" : "否"}</p>
       </Card>
 
       <Card className="mb-6">
         <Title level={5}>設備清單</Title>
         <p>充電樁數量：{formData.chargerCount}</p>
-        <p>充電樁類型：{formData.chargerTypes?.join(', ')}</p>
+        <p>充電樁類型：{formData.chargerTypes?.join(", ")}</p>
         <p>充電功率：{formData.chargingPower}kW</p>
       </Card>
     </div>
@@ -447,14 +1110,12 @@ const CarDealerForm = () => {
         <div className="flex justify-center my-8">
           <button
             className="bg-[#198DA1] text-white font-bold text-[20px] rounded-full px-3 py-3 md:px-8 md:py-3 hover:bg-gray-600 transition-colors duration-200 shadow-lg mr-4"
-            
             onClick={handlePrev}
           >
             返回上一步
           </button>
           <button
             className="bg-[#E69B06] text-white font-bold text-[20px] rounded-full px-3 py-3 md:px-8 md:py-3 hover:bg-[#d18a05] transition-colors duration-200 shadow-lg"
-            
             onClick={handleSubmit}
           >
             確認提交
@@ -468,7 +1129,6 @@ const CarDealerForm = () => {
         {currentStep > 1 && (
           <button
             className="bg-[#198DA1] text-white font-bold text-base  md:text-[20px] rounded-full px-3 py-3 md:px-8 md:py-3 hover:bg-gray-600 transition-colors duration-200 shadow-lg mr-4"
-           
             onClick={handlePrev}
           >
             回上一步
@@ -476,11 +1136,10 @@ const CarDealerForm = () => {
         )}
         <button
           className="bg-[#E69B06] text-white font-bold  text-base  md:text-[20px] rounded-full px-3 py-3 md:px-8 md:py-3 hover:bg-[#d18a05] transition-colors duration-200 shadow-lg"
-         
           onClick={handleNext}
           loading={loading}
         >
-          {'下一步'}
+          {"下一步"}
         </button>
       </div>
     );
@@ -490,10 +1149,14 @@ const CarDealerForm = () => {
     switch (currentStep) {
       case 1:
         return renderStep1();
+      // return renderStep2();
+
       case 2:
         return renderStep2();
+
       case 3:
         return renderStep3();
+
       case 4:
         return renderStep4();
       default:
@@ -503,7 +1166,7 @@ const CarDealerForm = () => {
 
   return (
     <div className="w-full flex flex-col items-center">
-      {/* {renderStepIndicator()} */}
+      <PageTitle title={title[currentStep]} />
       {renderCurrentStep()}
       {renderButtons()}
     </div>
