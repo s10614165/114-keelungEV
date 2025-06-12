@@ -12,13 +12,16 @@ import {
   Col,
   DatePicker,
   Typography,
-  Steps,
+  Upload,
   Tooltip,
   Divider,
   InputNumber,
 } from "antd";
 import { useStepStore } from "@/pages/RiderStep";
 import { QuestionCircleOutlined } from "@ant-design/icons";
+import TextSample from "@/assets/img/textSample.jpg";
+import useGoogleSheetSuply from "@/hooks/useGoogleSheetSuply";
+
 const { Title } = Typography;
 
 const title = {
@@ -48,6 +51,14 @@ const CarDealerForm = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState({});
   const { nextStep, prevStep } = useStepStore();
+  const {
+    data,
+    loading: googleLoading,
+    error,
+    refetch,
+    status,
+    cleanToinit,
+  } = useGoogleSheetSuply();
 
   const [showAdditional, setShowAdditional] = useState(false);
   const [isOtherAmount, setIsOtherAmount] = useState(false);
@@ -185,19 +196,26 @@ const CarDealerForm = () => {
 
   const handleSubmit = async () => {
     try {
+      setLoading(true);
       const values = await form.validateFields();
-      const finalData = {
+
+      const finalFormData = {
         ...formData,
         ...values,
       };
-      console.log("最終表單數據：", finalData);
-      // 這裡處理最終的表單提交邏輯
+
+      // 使用修改後的 refetch，會自動處理檔案上傳和資料寫入
+      await refetch(finalFormData, "getSubsidy");
+
+      // 成功處理
+      console.log("申請提交成功！");
     } catch (error) {
+      setLoading(false);
       console.error("提交失敗：", error);
     }
   };
 
-  const renderStep1 = (state) => (
+  const renderStep1 = () => (
     <Form
       form={form}
       layout="vertical"
@@ -386,7 +404,7 @@ const CarDealerForm = () => {
     </Form>
   );
 
-  const renderStep2 = (state) => (
+  const renderStep2 = () => (
     <Form
       form={form}
       layout="vertical"
@@ -457,19 +475,19 @@ const CarDealerForm = () => {
             <Space direction="horizontal" size="middle">
               <Radio value="曾申請且核定通過">
                 曾申請且核定通過
-                <Tooltip title="請提供相關證明文件">
+                {/* <Tooltip title="請提供相關證明文件">
                   <QuestionCircleOutlined
                     style={{ marginLeft: "8px", color: "#1890ff" }}
                   />
-                </Tooltip>
+                </Tooltip> */}
               </Radio>
               <Radio value="曾申請但未通過">
                 曾申請但未通過
-                <Tooltip title="曾申請但未通過">
+                {/* <Tooltip title="曾申請但未通過">
                   <QuestionCircleOutlined
                     style={{ marginLeft: "8px", color: "#1890ff" }}
                   />
-                </Tooltip>
+                </Tooltip> */}
               </Radio>
             </Space>
           </Radio.Group>
@@ -725,7 +743,7 @@ const CarDealerForm = () => {
     </Form>
   );
 
-  const renderStep3 = (state) => {
+  const renderStep3 = () => {
     // 計算設備補助總額的函數
     const calculateEquipmentSubsidy = () => {
       const maintenanceTools = form.getFieldValue("maintenanceTools");
@@ -798,59 +816,72 @@ const CarDealerForm = () => {
           申請補助經費概算
         </Title>
 
-        <Row gutter={[16, 0]}>
-          <Col xs={24} md={12}>
-            <div className="text-base mb-2">綠能轉型 申請補助費用</div>
-            <InputNumber
-              className="w-full"
-              addonAfter="元"
-              value={parseInt(form.getFieldValue("greenTransformation")) || 0}
-              disabled
-              formatter={(value) =>
-                `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-              }
-            />
+        <Row gutter={[16, 20]}>
+          <Col xs={24} md={24}>
+            <div className="flex flex-col md:flex-row items-center gap-2">
+              <div className="text-base w-full mb-2 md:mb-0">
+                綠能轉型 申請補助費用
+              </div>
+              <InputNumber
+                className="w-full"
+                addonAfter="元"
+                value={parseInt(form.getFieldValue("greenTransformation")) || 0}
+                disabled
+                formatter={(value) =>
+                  `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                }
+              />
+            </div>
           </Col>
 
-          <Col xs={24} md={12}>
-            <div className="text-base mb-2">留才獎勵 申請補助費用</div>
-            <InputNumber
-              className="w-full"
-              addonAfter="元"
-              value={parseInt(form.getFieldValue("talentRetention")) || 0}
-              disabled
-              formatter={(value) =>
-                `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-              }
-            />
+          <Col xs={24} md={24}>
+            <div className="flex flex-col md:flex-row items-center gap-2">
+              <div className="text-base w-full mb-2 md:mb-0">
+                留才獎勵 申請補助費用
+              </div>
+              <InputNumber
+                className="w-full"
+                addonAfter="元"
+                value={parseInt(form.getFieldValue("talentRetention")) || 0}
+                disabled
+                formatter={(value) =>
+                  `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                }
+              />
+            </div>
           </Col>
-        </Row>
-
-        <Row gutter={[16, 0]}>
-          <Col xs={24} md={12}>
-            <div className="text-base mb-2">設備補助 申請補助費用</div>
-            <InputNumber
-              className="w-full"
-              addonAfter="元"
-              value={calculateEquipmentSubsidy()}
-              disabled
-              formatter={(value) =>
-                `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-              }
-            />
+          <Col xs={24} md={24}>
+            <div className="flex flex-col md:flex-row items-center gap-2">
+              <div className="text-base w-full mb-2 md:mb-0">
+                設備補助 申請補助費用
+              </div>
+              <InputNumber
+                className="w-full"
+                addonAfter="元"
+                value={calculateEquipmentSubsidy()}
+                disabled
+                formatter={(value) =>
+                  `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                }
+              />
+            </div>
           </Col>
 
-          <Col xs={24} md={12}>
-            <div className="text-base mb-2">申請補助總額(系統計算)</div>
-            <InputNumber
-              className="w-full"
-              addonAfter="元"
-              value={calculateTotalSubsidy()}
-              disabled
-              formatter={(value) =>
-                `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-              }
-            />
+          <Col xs={24} md={24}>
+            <div className="flex flex-col md:flex-row items-center gap-2">
+              <div className="text-base w-full mb-2 md:mb-0">
+                申請補助總額(系統計算)
+              </div>
+              <InputNumber
+                className="w-full"
+                addonAfter="元"
+                value={calculateTotalSubsidy()}
+                disabled
+                formatter={(value) =>
+                  `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                }
+              />
+            </div>
           </Col>
         </Row>
 
@@ -862,7 +893,7 @@ const CarDealerForm = () => {
         </div>
 
         <Row gutter={[16, 0]}>
-          <Col xs={24} md={12}>
+          <Col xs={24} md={24}>
             <Form.Item
               label={
                 <span className="text-base">
@@ -883,7 +914,7 @@ const CarDealerForm = () => {
             </Form.Item>
           </Col>
 
-          <Col xs={24} md={12}>
+          <Col xs={24} md={24}>
             <Form.Item
               label={
                 <span className="text-base">
@@ -904,7 +935,7 @@ const CarDealerForm = () => {
         </Row>
 
         <Row gutter={[16, 0]}>
-          <Col xs={24} md={12}>
+          <Col xs={24} md={24}>
             <Form.Item
               label={
                 <span className="text-base">
@@ -923,7 +954,7 @@ const CarDealerForm = () => {
             </Form.Item>
           </Col>
 
-          <Col xs={24} md={12}>
+          <Col xs={24} md={24}>
             <Form.Item
               label={
                 <span className="text-base">
@@ -944,7 +975,7 @@ const CarDealerForm = () => {
         </Row>
 
         <Row gutter={[16, 0]}>
-          <Col xs={24} md={12}>
+          <Col xs={24} md={24}>
             <Form.Item
               label={
                 <span className="text-base">
@@ -963,7 +994,7 @@ const CarDealerForm = () => {
             </Form.Item>
           </Col>
 
-          <Col xs={24} md={12}>
+          <Col xs={24} md={24}>
             <Form.Item
               label={
                 <span className="text-base">
@@ -1004,14 +1035,14 @@ const CarDealerForm = () => {
         <div className="mt-10">
           <Divider />
           <div className="bg-gray-50 p-6 rounded-lg">
-            <h3 className="text-lg font-bold mb-4 text-center">
+            <h3 className="text-2xl font-bold mb-4 text-center">
               申請資格暨責任聲明
             </h3>
             <div className="text-base leading-relaxed mb-4">
               本人已詳閱「114年度基隆市機車產業輔導綠能轉型產業補助計畫」補助規定及申請須知，確認符合申請資格，並了解本網站僅供線上單次申請用途。本人同意並承諾如下事項：
             </div>
 
-            <div className="space-y-3 mb-4">
+            <div className="space-y-3 mb-4 text-base">
               <div>
                 1️⃣ 本補助申請一經送出，不得重複申請，亦不得任意修改申請內容。
               </div>
@@ -1076,31 +1107,84 @@ const CarDealerForm = () => {
 
   const renderStep4 = () => (
     <div className="w-[90%] md:w-[80%] text-[16px]">
-      <Title level={4} className="mb-6">
-        確認資料
-      </Title>
+      <Form
+        form={form}
+        layout="vertical"
+        requiredMark="default"
+        size="large"
+        className="w-[90%] md:w-[80%] text-[16px]"
+      >
+        <Row gutter={[16, 20]}>
+          <Col xs={24} md={24}>
+            <Form.Item
+              label={
+                <div>
+                  <span className="text-base">車行設立登記證明文件</span>
+                  <div className="text-base text-gray-500 mt-1">
+                    請上船主管機關核發之法人設立登記證明文件。如：公司設立登記事項表、法人登記證書、商業登記抄本、特別法（職業設立
+                    法規）有明定其法人資格
+                  </div>
+                </div>
+              }
+              name="companyRegistration"
+              rules={[
+                { required: true, message: "請上傳車行設立登記證明文件" },
+              ]}
+            >
+              <Upload
+                accept=".pdf,.jpg,.jpeg,.png"
+                maxCount={1}
+                beforeUpload={() => false}
+              >
+                <button className="bg-[#E69B06] text-white font-bold text-[18px] rounded-full px-3 py-3 md:px-4 md:py-1 hover:bg-[#d18a05] transition-colors duration-200 shadow-lg">
+                  上傳檔案
+                </button>
+              </Upload>
+            </Form.Item>
+          </Col>
 
-      <Card className="mb-6">
-        <Title level={5}>基本資料</Title>
-        <p>申請單位：{formData.company}</p>
-        <p>統一編號：{formData.taxId}</p>
-        <p>行政區：{formData.district}</p>
-        <p>車行類型：{formData.shop}</p>
-      </Card>
-
-      <Card className="mb-6">
-        <Title level={5}>申請條件</Title>
-        <p>營業面積：{formData.businessArea}</p>
-        <p>營業時間：{formData.businessHours}</p>
-        <p>維修能力：{formData.hasRepairAbility === "yes" ? "是" : "否"}</p>
-      </Card>
-
-      <Card className="mb-6">
-        <Title level={5}>設備清單</Title>
-        <p>充電樁數量：{formData.chargerCount}</p>
-        <p>充電樁類型：{formData.chargerTypes?.join(", ")}</p>
-        <p>充電功率：{formData.chargingPower}kW</p>
-      </Card>
+          <Col xs={24} md={24}>
+            <Form.Item
+              label={
+                <span className="text-base">
+                  稅額申報書
+                  <Tooltip
+                    // styles={{ body: { width: '500px', padding: 0, color: 'white' } }}
+                    title={
+                      <div className="w-full">
+                        <img
+                          src={TextSample}
+                          alt="稅額申報書範例"
+                          style={{ width: "100%", height: "auto" }}
+                        />
+                      </div>
+                    }
+                  >
+                    <QuestionCircleOutlined
+                      style={{ marginLeft: "8px", color: "#1890ff" }}
+                    />
+                  </Tooltip>
+                  <div className="text-base">
+                    請上傳最新一期一般營業人銷售額與稅額申報書（401報表）
+                  </div>
+                </span>
+              }
+              name="businessRegistration"
+              rules={[{ required: true, message: "請上傳商業登記證明文件" }]}
+            >
+              <Upload
+                accept=".pdf,.jpg,.jpeg,.png"
+                maxCount={1}
+                beforeUpload={() => false}
+              >
+                <button className="bg-[#E69B06] text-white font-bold text-[18px] rounded-full px-3 py-3 md:px-4 md:py-1 hover:bg-[#d18a05] transition-colors duration-200 shadow-lg">
+                  上傳檔案
+                </button>
+              </Upload>
+            </Form.Item>
+          </Col>
+        </Row>
+      </Form>
     </div>
   );
 
@@ -1112,13 +1196,13 @@ const CarDealerForm = () => {
             className="bg-[#198DA1] text-white font-bold text-[20px] rounded-full px-3 py-3 md:px-8 md:py-3 hover:bg-gray-600 transition-colors duration-200 shadow-lg mr-4"
             onClick={handlePrev}
           >
-            返回上一步
+            上一步
           </button>
           <button
             className="bg-[#E69B06] text-white font-bold text-[20px] rounded-full px-3 py-3 md:px-8 md:py-3 hover:bg-[#d18a05] transition-colors duration-200 shadow-lg"
             onClick={handleSubmit}
           >
-            確認提交
+            送出申請
           </button>
         </div>
       );
