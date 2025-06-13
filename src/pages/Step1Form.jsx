@@ -203,7 +203,7 @@ const CarDealerForm = () => {
         ...formData,
         ...values,
       };
-
+      console.log("finalFormData", finalFormData);
       // 使用修改後的 refetch，會自動處理檔案上傳和資料寫入
       await refetch(finalFormData, "getSubsidy");
 

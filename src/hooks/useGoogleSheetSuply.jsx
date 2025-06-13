@@ -2,7 +2,7 @@ import { useState, useCallback, useEffect } from "react";
 import axios from "axios";
 
 const GAS_BASE_URL =
-  "https://script.google.com/macros/s/AKfycbzhg9ErAXhMEYDql786fsHnM1UkIOfOYtwdipiOn8Ueu2Afuq0X3aWTTQNdL8yM9yQh_Q/exec";
+  "https://script.google.com/macros/s/AKfycbxNvWiuw3IdVCWnwt_lnvDd8sonoqwLxU0EjFF9bikdjL4Vkj9Zg1R2poWKS4tuncagWA/exec";
 
 const useGoogleSheetQuery = (baseUrl = GAS_BASE_URL) => {
   const [data, setData] = useState(null);
@@ -14,116 +14,129 @@ const useGoogleSheetQuery = (baseUrl = GAS_BASE_URL) => {
     console.log("Data changed:", data);
   }, [data]);
 
-  // 上傳單個檔案到 Google Drive
-  const uploadFile = useCallback(
-    async (file, fileName, fileType) => {
+  /**
+   * 將檔案轉換為 Base64 格式
+   * @param {File} file - 要轉換的檔案
+   * @returns {Promise} 回傳包含檔名、MIME類型、Base64資料的物件
+   */
+  const readFileAsBase64 = useCallback((file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const base64Data = event.target.result.split(',')[1];
+        resolve({
+          fileName: file.name,
+          mimeType: file.type,
+          fileData: base64Data,
+        });
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }, []);
+
+  /**
+   * 處理 Antd Upload 組件的檔案資料並轉換為 Base64
+   * @param {Object} formData - 包含 Antd Upload 檔案的表單資料
+   * @param {Array} fileFields - 需要處理的檔案欄位名稱陣列
+   * @returns {Promise<Array>} 回傳檔案負載陣列
+   */
+  const processAntdUploadFiles = useCallback(async (formData, fileFields = ['companyRegistration', 'businessRegistration']) => {
+    try {
+      const filePayloads = [];
+      
+      for (const fieldName of fileFields) {
+        const uploadData = formData[fieldName];
+        
+        // 檢查是否有檔案資料
+        if (uploadData?.fileList?.[0]?.originFileObj) {
+          const file = uploadData.fileList[0].originFileObj;
+          const payload = await readFileAsBase64(file);
+          
+          filePayloads.push({
+            id: fieldName,
+            fileName: file.name || uploadData.fileList[0].name,
+            mimeType: file.type || uploadData.fileList[0].type,
+            fileData: payload.fileData,
+            // 保留原始檔案資訊
+            originalData: {
+              uid: uploadData.fileList[0].uid,
+              size: uploadData.fileList[0].size,
+              lastModified: uploadData.fileList[0].lastModified
+            }
+          });
+          
+          console.log(`${fieldName} 檔案轉換完成:`, file.name);
+        } else {
+          // 沒有檔案時建立空的負載
+          filePayloads.push({
+            id: fieldName,
+            fileName: null,
+            mimeType: null,
+            fileData: null
+          });
+        }
+      }
+      
+      console.log("Antd Upload 檔案轉換完成:", filePayloads);
+      return filePayloads;
+    } catch (error) {
+      console.error("處理 Antd Upload 檔案失敗:", error);
+      throw new Error("Antd Upload 檔案轉換為 Base64 失敗");
+    }
+  }, [readFileAsBase64]);
+
+  // ==========================================
+  // 🔹 Base64 方式提交表單資料
+  // ==========================================
+
+  /**
+   * 使用 Base64 方式提交表單資料到 Google Sheets (一併發送)
+   * @param {Object} formData - 表單資料
+   * @param {Array} filePayloads - Base64 檔案負載陣列
+   * @param {string} action - 動作類型
+   * @returns {Promise} 提交結果
+   */
+  const submitFormWithBase64Files = useCallback(
+    async (formData, filePayloads, action = "getSubsidy") => {
       try {
-        const formData = new FormData();
-        formData.append("action", "uploadFile");
-        formData.append("file", file);
-        formData.append("fileName", fileName);
-        formData.append("fileType", fileType); // 'companyRegistration' 或 'businessRegistration'
+        console.log("正在使用 Base64 方式提交完整表單資料...");
 
-        console.log(`正在上傳 ${fileType} 檔案:`, fileName);
+        // 將檔案資料直接嵌入表單資料中
+        const finalPayload = {
+          action: action,
+          ...formData,
+          files: filePayloads, // 包含所有檔案的 Base64 資料
+          submitTime: new Date().toISOString(),
+        };
 
-        const response = await axios.post(baseUrl, formData, {
+        console.log("準備提交的完整資料:", finalPayload);
+
+        const response = await axios.post(baseUrl, finalPayload, {
           headers: {
-            "Content-Type": "multipart/form-data",
+            "Content-Type": "application/json",
+            'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods':'POST,PATCH,OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type',
+      'Access-Control-Max-Age': '3600'
           },
         });
 
-        if (response.data.status === "200") {
-          console.log(`${fileType} 檔案上傳成功:`, response.data.fileUrl);
-          return response.data.fileUrl;
-        } else {
-          throw new Error(`檔案上傳失敗: ${response.data.message}`);
-        }
-      } catch (err) {
-        console.error(`上傳 ${fileType} 檔案錯誤:`, err);
-        throw err;
-      }
-    },
-    [baseUrl]
-  );
-
-  // 批量處理檔案上傳
-  const uploadFiles = useCallback(
-    async (files) => {
-      const fileUrls = {};
-
-      // 處理 companyRegistration
-      if (files.companyRegistration?.[0]?.originFileObj) {
-        try {
-          const file = files.companyRegistration[0].originFileObj;
-          const fileName = `公司登記證明檔案_${Date.now()}_${file.name}`;
-          const fileUrl = await uploadFile(
-            file,
-            fileName,
-            "companyRegistration"
-          );
-          fileUrls.companyRegistration = fileUrl;
-        } catch (error) {
-          console.error("companyRegistration 上傳失敗:", error);
-          throw new Error("公司登記證明檔案上傳失敗");
-        }
-      }
-
-      // 處理 businessRegistration
-      if (files.businessRegistration?.[0]?.originFileObj) {
-        try {
-          const file = files.businessRegistration[0].originFileObj;
-          const fileName = `稅額申報書檔案_${Date.now()}_${file.name}`;
-          const fileUrl = await uploadFile(
-            file,
-            fileName,
-            "businessRegistration"
-          );
-          fileUrls.businessRegistration = fileUrl;
-        } catch (error) {
-          console.error("businessRegistration 上傳失敗:", error);
-          throw new Error("稅額申報書檔案上傳失敗");
-        }
-      }
-
-      return fileUrls;
-    },
-    [uploadFile]
-  );
-
-  // 提交表單資料到 Google Sheets
-  const submitFormData = useCallback(
-    async (formData, action = "getSubsidy") => {
-      try {
-        console.log("正在提交表單資料到 Google Sheets...");
-
-        const response = await axios.post(
-          baseUrl,
-          {
-            action: action,
-            ...formData,
-          },
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-
         const result = response.data;
 
-        if (result.status === "200") {
-          setData(result.data);
-          setStatus(result.status);
-          console.log("表單資料提交成功:", result);
+        if (result.status === "200" || result.trim?.().toLowerCase() === 'success') {
+          setData(result.data || result);
+          setStatus("200");
+          console.log("完整表單資料提交成功:", result);
         } else {
           setData([]);
-          setStatus(result.status);
-          console.warn("表單資料提交警告:", result);
+          setStatus(result.status || "error");
+          console.warn("完整表單資料提交警告:", result);
         }
 
         return result;
       } catch (err) {
-        console.error("提交表單資料錯誤:", err);
+        console.error("提交完整表單資料錯誤:", err);
         setError(err);
         setData(null);
         throw err;
@@ -132,7 +145,17 @@ const useGoogleSheetQuery = (baseUrl = GAS_BASE_URL) => {
     [baseUrl]
   );
 
-  // 主要的 refetch 函數 (完整流程)
+ 
+
+  // ==========================================
+  // 🔹 主要提交函數 (支援兩種檔案處理方式)
+  // ==========================================
+
+  // ==========================================
+  // 🔹 主要提交函數
+  // ==========================================
+
+  // 主要的 refetch 函數 (智能檔案處理)
   const refetch = useCallback(
     async (queryParams = {}, actions = "getSubsidy") => {
       setLoading(true);
@@ -140,43 +163,22 @@ const useGoogleSheetQuery = (baseUrl = GAS_BASE_URL) => {
 
       try {
         console.log("開始提交流程...");
+        console.log("接收到的資料:", queryParams);
 
-        // 分離檔案和一般資料
-        const files = {};
-        const formData = {};
-
-        Object.entries(queryParams).forEach(([key, value]) => {
-          if (key === "companyRegistration" || key === "businessRegistration") {
-            if (value?.[0]?.originFileObj) {
-              files[key] = value;
-            }
-          } else {
-            formData[key] = value;
-          }
-        });
-
-        // 步驟 1: 上傳檔案到 Google Drive
-        let fileUrls = {};
-        if (Object.keys(files).length > 0) {
-          console.log("開始上傳檔案，檔案數量:", Object.keys(files).length);
-          fileUrls = await uploadFiles(files);
-          console.log("所有檔案上傳完成:", fileUrls);
-        }
-
-        // 步驟 2: 將檔案連結加入表單資料
-        const finalFormData = {
-          ...formData,
-          ...fileUrls, // 檔案連結會被加入到對應的欄位中
-          suplyDate: new Date().toISOString(),
-        };
-
-        console.log("準備提交的最終資料:", finalFormData);
-
-        // 步驟 3: 提交完整的表單資料到 Google Sheets
-        const result = await submitFormData(finalFormData, actions);
-        console.log("完整流程提交完成:", result);
-
+        // 🔥 直接處理 Antd Upload 檔案 (必定存在 businessRegistration 和 companyRegistration)
+        console.log("處理 businessRegistration 和 companyRegistration 檔案...");
+        
+        // 處理 Antd Upload 檔案
+        const filePayloads = await processAntdUploadFiles(queryParams, ['companyRegistration', 'businessRegistration']);
+        
+        // 🎯 使用解構賦值移除檔案屬性，不修改原物件
+        const { companyRegistration, businessRegistration, ...cleanFormData } = queryParams;
+        
+        // 一併提交表單資料和檔案
+        const result = await submitFormWithBase64Files(cleanFormData, filePayloads, actions);
+        console.log("Base64 一併提交完成:", result);
         return result;
+
       } catch (err) {
         setError(err);
         setData(null);
@@ -186,8 +188,17 @@ const useGoogleSheetQuery = (baseUrl = GAS_BASE_URL) => {
         setLoading(false);
       }
     },
-    [uploadFiles, submitFormData]
+    [processAntdUploadFiles, submitFormWithBase64Files]
   );
+
+  /**
+   * 使用 Base64 方式的完整提交流程
+   * @param {Object} formData - 表單資料
+   * @param {string} fileSelector - 檔案 input 選擇器
+   * @param {string} action - 動作類型
+   * @returns {Promise} 提交結果
+   */
+
 
   // 查詢函數 (保留原有功能)
   const queryData = useCallback(
@@ -242,13 +253,16 @@ const useGoogleSheetQuery = (baseUrl = GAS_BASE_URL) => {
     data,
     loading,
     error,
-    refetch, // 主要提交函數（包含檔案上傳）
-    queryData, // 查詢函數
     status,
     cleanToinit,
-    uploadFile,
-    uploadFiles,
-    submitFormData,
+
+    refetch, // 主要提交函數
+   
+    readFileAsBase64, // 單個檔案轉 Base64
+    processAntdUploadFiles, // 處理 Antd Upload 檔案轉 Base64
+    submitFormWithBase64Files, // Base64 方式提交
+    // 查詢功能
+    queryData, // 查詢函數
   };
 };
 

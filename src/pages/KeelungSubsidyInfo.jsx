@@ -138,7 +138,7 @@ const KeelungSubsidyInfo = () => {
           </div>
         </div>
       </div>
-    
+
       <div className="mt-12">
         <p className="text-gray-800 text-sm md:text-base font-medium mb-4">
           📞 聯絡窗口
@@ -152,10 +152,7 @@ const KeelungSubsidyInfo = () => {
             <span className="font-bold">服務電話</span>
             ｜02-2428-9225 廖小姐
           </p>
-          <p>
-            <span className="font-bold">服務電話</span>
-            ｜02-2428-9225 廖小姐
-          </p>
+
           <p>
             <div className="flex ">
               <span className="font-bold">LINE@&nbsp;&nbsp;&nbsp;</span>
@@ -171,16 +168,16 @@ const KeelungSubsidyInfo = () => {
           </p>
         </div>
         <div className="mt-12">
-        <p className="text-gray-800 text-sm md:text-base font-medium mb-4">
-          ⚠️ 重要提醒
-        </p>
+          <p className="text-gray-800 text-sm md:text-base font-medium mb-4">
+            ⚠️ 重要提醒
+          </p>
 
-        <div className="space-y-2">
-          本網站僅供「線上單次申請」作業，確認申請資格使用。
-          完成線上申請後，須待市府審核通過，後續所有核銷作業（包含文件檢附、現場核銷程序），皆需由申請人親自至市府窗口辦理，線上平台不提供核銷作業功能。
-          請申請人務必知悉並配合相關辦理程序。
+          <div className="space-y-2">
+            本網站僅供「線上單次申請」作業，確認申請資格使用。
+            完成線上申請後，須待市府審核通過，後續所有核銷作業（包含文件檢附、現場核銷程序），皆需由申請人親自至市府窗口辦理，線上平台不提供核銷作業功能。
+            請申請人務必知悉並配合相關辦理程序。
+          </div>
         </div>
-      </div>
 
         <div className="space-y-2">
           <div className="flex justify-center my-8">
