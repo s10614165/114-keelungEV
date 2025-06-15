@@ -44,11 +44,11 @@ const KeelungSubsidyInfo = () => {
               <div>
                 <p className="font-bold mb-2">一、線上申請</p>
                 <ol className="list-decimal pl-6 space-y-2">
-                  <li>本網站僅供線上單次申請作業，確認申請資格使用。</li>
+                  <li>請於申請截止日前，備齊線上應繳附件文件(車行設立登記證明文件、稅額申報書)，完成本網站表單填寫並上傳應繳資料。</li>
                   <li>
-                    完成線上申請後，須待市府審核通過，後續核銷流程須由申請人親自攜帶紙本正本文件至市府窗口辦理現場核銷，線上平台不提供核銷作業功能。
+                  線上申請後，請於平日上班時間電話聯繫市府窗口確認申請進度。
                   </li>
-                  <li>核銷進度請留意市府通知，或可至進度查詢專區追蹤進度。</li>
+                  <li>收件後由專人進行審核，審查通過後通知辦理核銷作業，核銷作業須親自至市府現場辦理。</li>
                 </ol>
               </div>
 
@@ -81,13 +81,13 @@ const KeelungSubsidyInfo = () => {
               <div>
                 <ol className="list-decimal pl-6 space-y-2">
                   <li>
-                    請於申請截止日前，備齊線上應繳附件文件(車行設立登記證明文件、稅額申報書)，完成本網站表單填寫並上傳應繳資料。
+                  本網站僅供線上單次申請作業，確認申請資格使用。
                   </li>
                   <li>
-                    線上申請後，請於平日上班時間電話聯繫市府窗口確認申請進度。
+                  完成線上申請後，須待市府審核通過，後續核銷流程須由申請人親自攜帶紙本正本文件至市府窗口辦理現場核銷，線上平台不提供核銷作業功能。
                   </li>
                   <li>
-                    收件後由專人進行審核，審查通過後通知辦理核銷作業，核銷作業須親自至市府現場辦理。
+                  核銷進度請留意市府通知，或可至進度查詢專區追蹤進度。
                   </li>
                 </ol>
               </div>
@@ -104,7 +104,6 @@ const KeelungSubsidyInfo = () => {
 
         <div className="space-y-2">
           <div className="flex items-start">
-            <span className="text-gray-600 mr-2">🔗</span>
             <div>
               <span className="text-gray-800 text-sm md:text-base">
                 詳細補助辦法：
@@ -121,7 +120,6 @@ const KeelungSubsidyInfo = () => {
           </div>
 
           <div className="flex items-start">
-            <span className="text-gray-600 mr-2">🔗</span>
             <div>
               <span className="text-gray-800 text-sm md:text-base">
                 友善車行名單：
@@ -152,20 +150,17 @@ const KeelungSubsidyInfo = () => {
             <span className="font-bold">服務電話</span>
             ｜02-2428-9225 廖小姐
           </p>
-
           <p>
-            <div className="flex ">
-              <span className="font-bold">LINE@&nbsp;&nbsp;&nbsp;</span>
-              <LinkButton
-                href="https://line.me/R/ti/p/@914kgwbz?oat_content=url&ts=04221721"
-                iconType="sider-line"
-                alt="ig"
-                linkClass="flex gap-4 text-[#1f90a3]"
-              >
-                基隆綠能車行補助通
-              </LinkButton>
-            </div>
+          <span className="font-bold">
+                          LINE@&nbsp;&nbsp;&nbsp;
+                        </span>
+                        ｜
+                        <a href="https://line.me/R/ti/p/@914kgwbz?oat_content=url&ts=04221721">
+                          基隆綠能車行補助通
+                        </a>
           </p>
+
+       
         </div>
         <div className="mt-12">
           <p className="text-gray-800 text-sm md:text-base font-medium mb-4">

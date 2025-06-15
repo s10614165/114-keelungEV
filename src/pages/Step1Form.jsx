@@ -21,6 +21,8 @@ import { useStepStore } from "@/pages/RiderStep";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import TextSample from "@/assets/img/textSample.jpg";
 import useGoogleSheetSuply from "@/hooks/useGoogleSheetSuply";
+import Loading from "@/components/Loading";
+import PageError from "@/components/PageError";
 
 const { Title } = Typography;
 
@@ -202,6 +204,7 @@ const CarDealerForm = () => {
       const finalFormData = {
         ...formData,
         ...values,
+        suplyDate: new Date().toISOString(),
       };
       console.log("finalFormData", finalFormData);
       // 使用修改後的 refetch，會自動處理檔案上傳和資料寫入
@@ -513,20 +516,49 @@ const CarDealerForm = () => {
         />
       </Form.Item>
 
+      <div className="text-base font-semibold mb-4">
+              【產業轉型支援補助】
+            </div>
+
       <Form.Item
         label={
-          <span style={{ fontSize: "16px", fontWeight: 600 }}>綠能轉型</span>
+          <><span style={{ fontSize: "16px", fontWeight: 600 }}>綠能轉型</span><Tooltip
+            title={<div>
+              <p>【補助新臺幣（以下同）100,000元整。輔導傳統車行取得中央認可(經濟部、勞動部、環境部共同頒予之第一階段機車維修技術課程結訓證書)及各車廠電動車機車維修保養之授權認證。(※如無中央認可證書，可先行由此報名網站進行報名: </p>
+              <p>
+                
+             <a href="https://motor-training.cier.edu.tw/first-phase" target="_blank" rel="noopener noreferrer">
+               https://motor-training.cier.edu.tw/first-phase
+             </a>
+             </p>
+      
+              
+            </div>}
+          >
+            <QuestionCircleOutlined
+              style={{ marginLeft: "8px", color: "#1890ff" }} />
+          </Tooltip></>
         }
         name="greenTransformation"
         rules={[{ required: true, message: "請選擇綠能轉型金額" }]}
       >
         <Radio.Group options={greenTransformationOptions} />
+      
       </Form.Item>
 
       <Form.Item
         rules={[{ required: true, message: "請選擇留才獎勵" }]}
         label={
-          <span style={{ fontSize: "16px", fontWeight: 600 }}>留才獎勵</span>
+          <><span style={{ fontSize: "16px", fontWeight: 600 }}>留才獎勵</span><Tooltip
+            title={<div>
+              <p>補助20,000元整。獎勵車行所屬員工取得中央經濟部、勞動部、環境部共同頒予之第一階段機車維修技術課程結訓證書，及各廠牌認證之電動機車維修技術訓練證書。 </p>
+             
+
+            </div>}
+          >
+            <QuestionCircleOutlined
+              style={{ marginLeft: "8px", color: "#1890ff" }} />
+          </Tooltip></>
         }
         name="talentRetention"
       >
@@ -664,7 +696,12 @@ const CarDealerForm = () => {
 
       <div className="flex items-center">
         <Form.Item
-          label="【店面改造及識別標誌】"
+         label={
+          <span style={{ fontSize: "16px", fontWeight: 600 }}>
+            【店面改造及識別標誌】
+          </span>
+        }
+        
           name="storeRenovation"
           rules={[{ required: true, message: "請選擇或輸入金額" }]}
           className="flex items-center"
@@ -707,16 +744,23 @@ const CarDealerForm = () => {
         </Form.Item>
       </div>
 
+      <div className="text-base font-semibold mb-4">
+              【綠能交通產業推廣】
+            </div>
+
       {/* 綠能交通產業推廣 */}
       <Form.Item
-        label={<span>綠能交通產業推廣(名理所需補助項目)</span>}
+       label={
+        <span style={{ fontSize: "16px", fontWeight: 600 }}>綠能交通產業推廣(名理所需補助項目)</span>
+      }
+
         name="greenTransport"
         rules={[{ required: true, message: "請選擇綠能交通產業推廣項目" }]}
       >
         <Radio.Group>
           <Radio value="公益青年機車推廣">
             公益青年機車推廣
-            <Tooltip title="推廣計畫詳情">
+            <Tooltip title="願意參與配合本市環保局「基隆市公益青年就業電動機車補助計畫」，並成為代辦窗口，協助受理民眾申請文件。每一代辦核准案件補助600元整。">
               <QuestionCircleOutlined
                 style={{ marginLeft: "8px", color: "#1890ff" }}
               />
@@ -1033,8 +1077,7 @@ const CarDealerForm = () => {
 
         {/* 申請資格暨責任聲明 */}
         <div className="mt-10">
-          <Divider />
-          <div className="bg-gray-50 p-6 rounded-lg">
+          <div className=" p-6 rounded-lg">
             <h3 className="text-2xl font-bold mb-4 text-center">
               申請資格暨責任聲明
             </h3>
@@ -1047,38 +1090,25 @@ const CarDealerForm = () => {
                 1️⃣ 本補助申請一經送出，不得重複申請，亦不得任意修改申請內容。
               </div>
               <div>
-                2️⃣
-                本次申請項目，所填列之資料及檢附文件均屬實，若有虛偽不實，願承擔相關法律責任，並配合退還補助款項。
+                2️⃣ 本人保證申請資料及附件內容均屬實，並願意配合本計畫撤銷補助規定事項，若有虛報或不符規定之情事，願接受計畫審核單位之處置，並退還補助款項。
               </div>
               <div>
-                3️⃣
-                本人承諾將配合申請作業流程，於核銷作業時繳付以下相關證明文件：
-                <ul className="list-disc ml-6 mt-2 space-y-1">
-                  <li>
-                    中央第一階段技術結訓證書，及各車廠證書，並確保證書期限符合本計畫要求。
-                  </li>
-                  <li>
-                    車行員工之中央第一階段技術結訓證書，及綁定6個月之工作在職證明文件。
-                  </li>
-                  <li>
-                    依本計畫購置之保養維修診斷器材工具、維修系統租賃設備、店面改造及識別標誌之相關核銷文件。
-                  </li>
-                </ul>
+                3️⃣ 本人同意無條件配合貴單位之管理與查核作業（包含不定期臨時性現場稽查、函詢及提供相關資料查核等）
               </div>
               <div>
-                4️⃣
-                本人同意依規定期限完成相關計畫項目，並依市府規定辦理現場核銷。
+                4️⃣ 本人承諾將配合申請作業流程，於核銷作業時繳付各申請補助方案相關佐證文件。
               </div>
               <div>
-                5️⃣
-                本人同意配合市府及主管機關辦理之審核作業流程及結果，並妥善保存相關佐證資料。
+                5️⃣ 本人同意配合市府及主管機關辦理之審核作業流程及結果，並妥善保存相關佐證資料。
               </div>
               <div>
-                6️⃣
-                本補助器材、設備將列為公司財產，並於取得後2年內不得轉讓；留才人員於核准後6個月內不得轉調。
+                6️⃣ 本人保證本計畫補助之器材將其列為本人財產，且於取得後2年內不予轉讓。
               </div>
               <div>
-                7️⃣ 補助項目不得重複申請其他政府補助，不得挪作非本計畫用途。
+                7️⃣ 本人保證本計畫補助留才員工之培訓證書將與申請車行進行綁定，且自核准後6個月內不得轉調其他車行就業。
+              </div>
+              <div>
+                8️⃣ 補助項目不得重複申請其他政府補助，不得挪作非本計畫用途。
               </div>
             </div>
           </div>
@@ -1247,6 +1277,20 @@ const CarDealerForm = () => {
         return null;
     }
   };
+
+  if (googleLoading) {
+    return <Loading bghidden={true} /> ;
+  }
+
+  if (error !== null) {
+    return <PageError />;
+  }
+  if(status === "200"){
+    return <div>
+      <h1>申請成功</h1>
+      <p>請等待審核</p>
+    </div>
+  }
 
   return (
     <div className="w-full flex flex-col items-center">

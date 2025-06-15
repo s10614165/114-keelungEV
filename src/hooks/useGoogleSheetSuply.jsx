@@ -2,7 +2,7 @@ import { useState, useCallback, useEffect } from "react";
 import axios from "axios";
 
 const GAS_BASE_URL =
-  "https://script.google.com/macros/s/AKfycbxNvWiuw3IdVCWnwt_lnvDd8sonoqwLxU0EjFF9bikdjL4Vkj9Zg1R2poWKS4tuncagWA/exec";
+  "https://script.google.com/macros/s/AKfycbwwDcSTm4KvCAX931e-K5TfxKBIdU4cO0OH2Q9OtkthlfvwriHP6GNXQKNbFNDkHiIDFg/exec";
 
 const useGoogleSheetQuery = (baseUrl = GAS_BASE_URL) => {
   const [data, setData] = useState(null);
@@ -114,12 +114,14 @@ const useGoogleSheetQuery = (baseUrl = GAS_BASE_URL) => {
 
         const response = await axios.post(baseUrl, finalPayload, {
           headers: {
-            "Content-Type": "application/json",
-            'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods':'POST,PATCH,OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type',
-      'Access-Control-Max-Age': '3600'
+            // "Content-Type": "application/json",
+            "Content-Type": "text/plain",
+      //       'Access-Control-Allow-Origin': '*',
+      // 'Access-Control-Allow-Methods':'POST,PATCH,OPTIONS',
+      // 'Access-Control-Allow-Headers': 'Content-Type',
+      // 'Access-Control-Max-Age': '3600'
           },
+           mode: "no-cors"
         });
 
         const result = response.data;

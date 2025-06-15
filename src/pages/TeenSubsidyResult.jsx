@@ -50,8 +50,7 @@ const TeenSubsidyResult = ({ onBack, data }) => {
       setSelectedMonth(`${year}年${month}`);
     }
   }, [result]);
-  console.log(result);
- console.log(sortedData)
+
   // 計算核銷期限相關日期
   const year = result?.["年度"];
   const month = parseInt(result?.["月份"]);
@@ -199,7 +198,7 @@ const TeenSubsidyResult = ({ onBack, data }) => {
               </h2>
             </div>
             <div className="flex-1 bg-white px-6 py-4 font-bold text-xs md:text-base md:px-15 md:py-6">
-              {result?.["核准總數"]}
+              {result?.["核准件數"]}
             </div>
           </div>
           <div className="flex">
@@ -230,14 +229,29 @@ const TeenSubsidyResult = ({ onBack, data }) => {
             </div>
             <div className="flex-1 text-xs md:text-base font-extrabold bg-white px-6 py-4 md:px-15 md:py-6">
               <div className="">
-                請於
-                <span className="text-[#198DA1] ">
-                  {year}年{nextMonth1}月、{nextMonth2}月、{nextMonth3}
-                  月之每月1~10日
+                {month < 10 ? (
+                  <>
+                    請於
+                    <span className="text-[#198DA1] ">
+                      {year}年{nextMonth1}月、{nextMonth2}月、{nextMonth3}
+                      月之每月1~10日
+                    </span>
+                    攜帶證明至產發處進行核銷，最晚需於
+                    <span className="text-red-500 ">{nextMonth3}/10</span>
+                    前核銷完畢
+                  </>
+                ) : month === 10 ? (
+                  <span className="text-[#198DA1]">
+
+                    核銷期限為{year}年<span className="text-red-500 ">11、12月 1~10號</span>核銷
+                  </span>
+                ) : (
+                  <span className="text-[#198DA1]">
+
+核銷期限為{year}年<span className="text-red-500 ">12月1~15號</span>核銷
                 </span>
-                攜帶證明至產發處進行核銷，最晚需於
-                <span className="text-red-500 ">{nextMonth3}/10</span>
-                前核銷完畢
+                  
+                )}
               </div>
             </div>
           </div>
