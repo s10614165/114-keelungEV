@@ -52,7 +52,7 @@ const CarDealerForm = () => {
   const [loading, setLoading] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState({});
-  const { nextStep, prevStep } = useStepStore();
+  const { nextStep, prevStep,setStep } = useStepStore();
   const {
     data,
     loading: googleLoading,
@@ -67,6 +67,14 @@ const CarDealerForm = () => {
   const [isOtherRental, setIsOtherRental] = useState(false);
   const [isOtherRenovation, setIsOtherRenovation] = useState(false);
 
+  // 在組件掛載時設置初始值
+  useEffect(() => {
+    if(status === "200"){
+      setCurrentStep(5)
+      nextStep();
+
+    }
+  }, [status]);
   // 在組件掛載時設置初始值
   useEffect(() => {
     form.setFieldsValue({
@@ -1217,6 +1225,73 @@ const CarDealerForm = () => {
       </Form>
     </div>
   );
+  const renderStep5 = () => (
+    <div className="flex flex-col items-center justify-center p-8 ">
+    <h1 className="text-3xl font-bold text-[#1B7183] mb-6">🎉 感謝您的申請🎉</h1>
+    <p className="text-lg mb-8">您的申請資料已成功送出，後續將由專人與您聯繫確認補助事宜。</p>
+
+    <div className=" p-6  max-w-2xl w-full">
+      <h2 className="text-xl font-bold text-[#1B7183] mb-4">📌 請注意後續流程：</h2>
+      
+      <div className="space-y-4 text-left">
+        <div>
+          <h3 className="font-bold">1️⃣ 核銷作業</h3>
+          <p>請攜帶相關正本核銷文件至基隆市政府進行現場核銷作業</p>
+          <p>正本文件可參閱【自我檢核表</p>
+        </div>
+
+        <div>
+          <h3 className="font-bold">2️⃣ 聯繫追蹤</h3>
+          <p>將會有專人主動與您聯繫，若近期內尚未接獲通知，請主動致電或透過 LINE 官方帳號與我們聯繫，以確保申辦進度順利。</p>
+        </div>
+
+        <div>
+          <h3 className="font-bold">3️⃣ 進度查詢</h3>
+          <p>申請結果及審核進度請密切留意【進度查詢專區】。</p>
+        </div>
+      </div>
+
+      <div className="mt-8 flex flex-col justify-start pt-6 ">
+      <p className="text-gray-800 text-sm md:text-base font-medium mb-4">
+      📞 聯絡窗口
+    </p>
+    <div className="space-y-1">
+      <p>
+        <span className="font-bold">主辦單位</span>
+        ｜基隆市政府－產業發展處
+      </p>
+      <p>
+        <span className="font-bold">服務電話</span>
+        ｜02-2428-9225 廖小姐
+      </p>
+      <p>
+      <span className="font-bold">
+                      LINE@&nbsp;&nbsp;&nbsp;
+                    </span>
+                    ｜
+                    <a href="https://line.me/R/ti/p/@914kgwbz?oat_content=url&ts=04221721">
+                      基隆綠能車行補助通
+                    </a>
+      </p>
+
+   
+    </div>
+    <div className="mt-12">
+      <p className="text-gray-800 text-sm md:text-base font-medium mb-4">
+        ⚠️ 重要提醒
+      </p>
+
+      <div className="space-y-2">
+        本網站僅供「線上單次申請」作業，確認申請資格使用。
+        完成線上申請後，須待市府審核通過，後續所有核銷作業（包含文件檢附、現場核銷程序），皆需由申請人親自至市府窗口辦理，線上平台不提供核銷作業功能。
+        請申請人務必知悉並配合相關辦理程序。
+      </div>
+    </div>
+
+      </div>
+    </div>
+  </div>
+  );
 
   const renderButtons = () => {
     if (currentStep === 4) {
@@ -1236,6 +1311,20 @@ const CarDealerForm = () => {
           </button>
         </div>
       );
+    }
+    if(currentStep === 5){
+      return   <button
+      className="bg-[#198DA1] text-white font-bold text-[20px] rounded-full px-3 py-3 md:px-8 md:py-3 hover:bg-gray-600 transition-colors duration-200 shadow-lg mr-4"
+      onClick={()=>{
+        // setStep(1)
+        // setCurrentStep(1)
+        // setFormData({})
+        // cleanToinit();
+      window.location.reload();
+      }}
+    >
+      回到查詢
+    </button>
     }
 
     return (
@@ -1273,6 +1362,8 @@ const CarDealerForm = () => {
 
       case 4:
         return renderStep4();
+      case 5:
+        return renderStep5();
       default:
         return null;
     }
@@ -1285,12 +1376,7 @@ const CarDealerForm = () => {
   if (error !== null) {
     return <PageError />;
   }
-  if(status === "200"){
-    return <div>
-      <h1>申請成功</h1>
-      <p>請等待審核</p>
-    </div>
-  }
+  
 
   return (
     <div className="w-full flex flex-col items-center">
