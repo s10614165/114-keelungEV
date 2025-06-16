@@ -274,7 +274,7 @@ function SubsidyIntro() {
               } flex flex-col justify-center items-center`}
             >
              
-              <div className=" p-6 rounded-lg mb-8 w-[90%] md:w-[60%]  ">
+              <div className="  rounded-lg mb-8 w-[90%] md:w-[60%]  ">
                 <h3 className="text-lg font-bold text-gray-800 mb-4">📌 核銷文件準備提醒</h3>
                 <p className="text-gray-700 leading-relaxed">
                   申請案件經市府審核通過後，須依通知於核銷期限內，攜帶紙本正本文件至市府窗口完成現場核銷程序。請申請人於辦理前，務必先至下載專區下載
