@@ -20,6 +20,7 @@ import {
 import { useStepStore } from "@/pages/RiderStep";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import TextSample from "@/assets/img/textSample.jpg";
+import TexSample1 from "@/assets/img/TexSample1.jpg";
 import useGoogleSheetSuply from "@/hooks/useGoogleSheetSuply";
 import Loading from "@/components/Loading";
 import PageError from "@/components/PageError";
@@ -1220,8 +1221,24 @@ const CarDealerForm = () => {
               label={
                 <div>
                   <span className="text-base">車行設立登記證明文件</span>
+                  <Tooltip
+                    overlayStyle={{ maxWidth: '800px' }}
+                    title={
+                      <div className="w-full">
+                        <img
+                          src={TexSample1}
+                          alt="稅額申報書範例"
+                          className=" w-[90vw] md:w-[800px] h-auto"
+                        />
+                      </div>
+                    }
+                  >
+                    <QuestionCircleOutlined
+                      style={{ marginLeft: "8px", color: "#1890ff" }}
+                    />
+                  </Tooltip>
                   <div className="text-base text-gray-500 mt-1">
-                    請上船主管機關核發之法人設立登記證明文件。如：公司設立登記事項表、法人登記證書、商業登記抄本、特別法（職業設立
+                    請上傳管機關核發之法人設立登記證明文件。如：公司設立登記事項表、法人登記證書、商業登記抄本、特別法（職業設立
                     法規）有明定其法人資格
                   </div>
                 </div>
@@ -1249,13 +1266,14 @@ const CarDealerForm = () => {
                 <span className="text-base">
                   稅額申報書
                   <Tooltip
+                   overlayStyle={{ maxWidth: '800px' }}
                     // styles={{ body: { width: '500px', padding: 0, color: 'white' } }}
                     title={
                       <div className="w-full">
                         <img
                           src={TextSample}
                           alt="稅額申報書範例"
-                          style={{ width: "100%", height: "auto" }}
+                       className=" w-[90vw] md:w-[800px] h-auto"
                         />
                       </div>
                     }
@@ -1414,7 +1432,7 @@ const CarDealerForm = () => {
     switch (currentStep) {
       case 1:
         return renderStep1();
-      // return renderStep2();
+      // return renderStep4();
 
       case 2:
         return renderStep2();
