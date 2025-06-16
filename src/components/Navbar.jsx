@@ -298,7 +298,7 @@ function Navbar({ routes }) {
             <div className="hidden md:flex flex-col leading-tight">
               <span className="text-lg font-bold">基隆友善車行一點通</span>
               <span className="text-[9px] font-semibold text-gray-600 tracking-wide">
-                Keelung E-Friendly Scooter Network V0.0001
+                Keelung E-Friendly Scooter Network V0.0002
               </span>
             </div>
           </Link>
