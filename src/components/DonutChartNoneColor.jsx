@@ -73,18 +73,22 @@ const DonutChart = ({ series }) => {
         allowPointSelect: true,
         cursor: "pointer",
         borderRadius: 8,
-        size: '60%',
+        size: '70%',
         dataLabels: [
           {
             enabled: true,
             distance: 20,
             format:
-              "{point.name}<br><span style=`color:#26CF13; font-size:１５px; font-weight:700`>{point.y}筆</span>",
+              "{point.name}<br><span style=`color:#26CF13; font-size:15px; font-weight:700`>{point.y}筆</span>",
+            allowOverlap:true
+
           },
           {
             enabled: true,
             distance: -15,
             format: "{point.percentage:.0f}%",
+            allowOverlap:true,
+            
             style: {
               fontSize: "0.9em",
             },
