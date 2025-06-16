@@ -7,54 +7,8 @@ const SubsidyResult = ({ onBack, data }) => {
   const [activeTab, setActiveTab] = useState("");
   const [isInitialized, setIsInitialized] = useState(false);
 
-  // 如果沒有傳入 data，使用 mock 資料
-  const mockData = {
-    "綠能補助 - 申請進度": "審核中",
-    "留才獎勵 - 申請進度": "審核中",
-    "設備補助 - 申請進度": "需補件",
-    函文核准日: "2025-06-03T16:00:00.000Z",
-    "核銷期限(綠能轉型、設備補助)": "2025-08-02T16:00:00.000Z",
-    請領日: "",
-    純文字時間: "",
-    "申請時間（送出表單的時間）": "2025-06-03T16:00:00.000Z",
-    "申請單位全名*": "茁斯科技股份有限公司",
-    "營利事業統一編碼*": 46459937,
-    "所屬行政區*": "板橋區",
-    "車行類型*": "油電合一",
-    "車廠品牌*": "yamaha",
-    "車行登記地址*": "新北市板橋區大同街4號9樓",
-    "車行通訊地址*": "新北市板橋區大同街4號9樓",
-    車行設立日期: "2025-06-03T16:00:00.000Z",
-    "負責人姓名*": "曾煥忠",
-    "負責人連絡手機*": "陳芷瑩",
-    "負責人Email*": "sales@zoustec.com",
-    "聯絡人連絡手機*": 989190505,
-    "聯絡人Email*": "betty@zoustec.com ",
-    "相關計畫補助情形*": "",
-    "其他機關補助情形*": "",
-    "優先項目*": "",
-    "申請補助類別*": "",
-    綠能轉型: 100000,
-    留才獎勵: 20000,
-    "設備補助(工具)": 40000,
-    "設備補助(系統)": 10000,
-    "設備補助(店面)": 30000,
-    公益青年: "公益青年機車推廣",
-    品牌車廠輔導: "三陽,山葉",
-    申請補助總經費: 200000,
-    是否同意上述說明: "是",
-    "目前「每月來詢問電動機車維修相關問題」之客人預估為幾位？*": 10,
-    "目前「每月前來維修電動機車」之車輛為幾台？*": 10,
-    "車行內曾受過「電動機車維修技術培訓」員工為幾位？*": 10,
-    "車行內目前會「維修電動機車」之員工為幾位？*": 10,
-    "期望「未來每月前來維修電動機車」之車輛能增加幾台？*": 10,
-    "目前車行內有「維修電動機車之硬體設備」為幾項？*": 10,
-    "目前車行內有「維修電動機車之軟體設備」為幾項？*": 10,
-    登記證明: "",
-    稅額申報: "",
-  };
-
-  const currentData = data || mockData;
+  // 確保 currentData 是有效的陣列，並取得第一個元素
+  const currentData = Array.isArray(data) && data.length > 0 ? data[0] : {};
 
   // Tab 配置
   const tabs = [
@@ -66,13 +20,13 @@ const SubsidyResult = ({ onBack, data }) => {
   // 判斷 Tab 是否禁用
   const isTabDisabled = (tabId) => {
     const tab = tabs.find((t) => t.id === tabId);
-    return currentData[tab.statusKey] === "無申請";
+    return !tab || currentData[tab.statusKey] === "無申請";
   };
 
   // 判斷是否需要補件
   const needsDocument = (tabId) => {
     const tab = tabs.find((t) => t.id === tabId);
-    return currentData[tab.statusKey] === "需補件";
+    return tab && currentData[tab.statusKey] === "需補件";
   };
 
   // 轉換為民國年格式
@@ -85,7 +39,7 @@ const SubsidyResult = ({ onBack, data }) => {
       const month = String(date.getMonth() + 1).padStart(2, "0");
       const day = String(date.getDate()).padStart(2, "0");
       return `${rocYear}/${month}/${day}`;
-    } catch (error) {
+    } catch {
       return "";
     }
   };
@@ -129,7 +83,7 @@ const SubsidyResult = ({ onBack, data }) => {
           return `請在${dateStr}內完成核銷作業`;
         }
       }
-    } catch (error) {
+    } catch {
       return "";
     }
 
@@ -139,7 +93,9 @@ const SubsidyResult = ({ onBack, data }) => {
   // 取得目前狀態
   const getCurrentStatus = (tabId) => {
     const tab = tabs.find((t) => t.id === tabId);
-    return currentData[tab.statusKey];
+    console.log(tabs)
+    console.log(currentData)
+    return tab ? currentData[tab.statusKey] || "" : "";
   };
 
   // 設定初始的 active tab（選擇第一個非禁用的 tab）
@@ -160,6 +116,21 @@ const SubsidyResult = ({ onBack, data }) => {
       }
     }
   }, [currentData, isInitialized, activeTab]);
+
+  // 如果沒有資料，顯示提示訊息
+  if (!Array.isArray(data) || data.length === 0) {
+    return (
+      <div className="w-[90%] md:w-[80%] text-center py-8">
+        <div className="text-gray-500">目前沒有資料</div>
+        <button
+          onClick={onBack}
+          className="bg-teal-600 mt-4 text-white px-8 py-3 rounded-full font-medium hover:bg-teal-700 transition-colors"
+        >
+          回上一頁
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="w-[90%] md:w-[80%]">
@@ -186,15 +157,15 @@ const SubsidyResult = ({ onBack, data }) => {
             </span>
           </div>
           <div className="text-[#198DA1] flex-1 font-bold text-xs md:text-base px-4 py-3 md:px-10 md:py-8 rounded-r-lg shadow-[0_0_10px_rgba(0,0,0,0.1)]">
-            {currentData["營利事業統一編碼*"]} {currentData["申請單位全名*"]}
+            {currentData["營利事業統一編碼*"] || ""} {currentData["申請單位全名*"] || ""}
           </div>
         </div>
       </div>
 
       {/* Tab 區域 */}
       <div className="">
-        <div className="flex   border-gray-300 rounded-t-lg overflow-hidden">
-          {tabs.map((tab, index) => {
+        <div className="flex border-gray-300 rounded-t-lg overflow-hidden">
+          {tabs.map((tab) => {
             const isDisabled = isTabDisabled(tab.id);
             const isActive =
               activeTab === tab.id && !isDisabled && activeTab !== "";
@@ -267,7 +238,7 @@ const SubsidyResult = ({ onBack, data }) => {
                       ? "bg-[#888888]"
                       : getCurrentStatus(activeTab) === "需補件"
                       ? "bg-[#FFA500]"
-                      : "bg-[#14C200]"
+                      : "bg-none"
                   }`}
                 >
                   {getCurrentStatus(activeTab)}

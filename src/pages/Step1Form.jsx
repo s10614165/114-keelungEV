@@ -34,6 +34,60 @@ const title = {
   5: "申請成功",
 };
 
+const uniformNumbers_verification = (uniformNumbers) => {
+  const regex = /^[0-9]{8}$/;
+  const logicMultipliers = [1, 2, 1, 2, 1, 2, 4, 1];
+
+  const sum = (numbers) => {
+    const initialValue = 0;
+    const sumWithInitial = numbers.reduce(
+      (accumulator, currentValue) =>
+        Number(accumulator) + Number(currentValue),
+      initialValue
+    );
+    return sumWithInitial;
+  };
+
+  if (!uniformNumbers) {
+    return "統編未填寫";
+  }
+  if (uniformNumbers.length !== 8 || !regex.test(uniformNumbers)) {
+    return "統編格式不正確";
+  }
+
+  let logicProductArr = [];
+  let logicProduct = 0;
+
+  if (uniformNumbers[6] == "7") {
+    for (let i = 0; i < uniformNumbers.length; i++) {
+      if (i != 6) {
+        logicProductArr.push(
+          parseInt(uniformNumbers[i]) * logicMultipliers[i]
+        );
+      }
+    }
+  } else {
+    for (let i = 0; i < uniformNumbers.length; i++) {
+      logicProductArr.push(parseInt(uniformNumbers[i]) * logicMultipliers[i]);
+    }
+  }
+
+  for (const item of logicProductArr) {
+    logicProduct += sum(item.toString().split(""));
+  }
+
+  if (
+    uniformNumbers[6] === "7" &&
+    (logicProduct % 5 === 0 || (logicProduct + 1) % 5 === 0)
+  ) {
+    return "統編驗證通過";
+  } else if (logicProduct % 5 === 0) {
+    return "統編驗證通過";
+  }
+
+  return "統編驗證失敗";
+};
+
 const PageTitle = ({ title, icon = "", iconClassName = "" }) => {
   return (
     <div className="w-full flex items-center justify-center">
@@ -256,7 +310,15 @@ const CarDealerForm = () => {
             name="taxId"
             rules={[
               { required: true, message: "請輸入營利事業統一編碼" },
-              { pattern: /^\d{8}$/, message: "統一編號格式不正確" },
+              {
+                validator: (_, value) => {
+                  const result = uniformNumbers_verification(value);
+                  if (result === "統編驗證通過") {
+                    return Promise.resolve();
+                  }
+                  return Promise.reject(new Error(result));
+                },
+              },
             ]}
           >
             <Input placeholder="請輸入8位數統一編號" />

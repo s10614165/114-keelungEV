@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import evLogo from "@/assets/img/ev-logo.svg";
 import Close from "@/assets/icon/Close_LG.png";
 import listIcon from "@/assets/img/list.png";
@@ -12,8 +12,9 @@ import LinkButton from "@/components/LinkButton";
 import MapStepSelect from "@/pages/MapStepSelect";
 import RiderStep from "@/pages/RiderStep";
 import SubsidyNavBar from "@/pages/SubsidyNavBar";
+
 // 麵包屑元件
-const Breadcrumb = ({ routes, location, menuItems }) => {
+const Breadcrumb = ({ routes, location, menuItems, onNavigation }) => {
   const currentPath = location.pathname;
   const breadcrumbItems = [
     {
@@ -88,7 +89,13 @@ const Breadcrumb = ({ routes, location, menuItems }) => {
           <span key={`${item.path}-${index}`} className="flex items-center">
             {index < breadcrumbItems.length - 1 ? (
               <>
-                <span className=" transition-colors">{item.name}</span>
+                <Link
+                  to={item.path}
+                  onClick={(e) => onNavigation && onNavigation(item.path, e)}
+                  className="transition-colors hover:text-blue-600"
+                >
+                  {item.name}
+                </Link>
                 <span className="mx-2">{">"}</span>
               </>
             ) : (
@@ -105,6 +112,23 @@ function Navbar({ routes }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [openSubMenus, setOpenSubMenus] = useState({});
   const location = useLocation();
+  const navigate = useNavigate();
+
+  // 自定義的導航處理函數
+  const handleNavigation = (targetPath, e) => {
+    e.preventDefault(); // 阻止預設的 Link 行為
+    
+    if (location.pathname === targetPath) {
+      // 如果是相同路由，重新整理
+      window.location.reload();
+    } else {
+      // 如果是不同路由，正常導航
+      navigate(targetPath);
+    }
+    
+    // 關閉移動版選單
+    closeMenu();
+  };
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -223,6 +247,7 @@ function Navbar({ routes }) {
     const route = routes.find((r) => r.path === currentPath);
     return route ? route.breadcrumbName : "";
   };
+
   // 取得當前頁面標題的函數
   const genCurrentPageSubNav = () => {
     const currentPath = location.pathname;
@@ -266,13 +291,14 @@ function Navbar({ routes }) {
         <div className="max-w-7xl mx-auto px-8 py-3 flex items-center justify-between">
           <Link
             to="/"
+            onClick={(e) => handleNavigation("/", e)}
             className="flex items-center gap-2 text-gray-800 hover:text-blue-600 transition-colors"
           >
             <img src={evLogo} alt="EV Logo" className="h-12 w-auto" />
             <div className="hidden md:flex flex-col leading-tight">
               <span className="text-lg font-bold">基隆友善車行一點通</span>
               <span className="text-[9px] font-semibold text-gray-600 tracking-wide">
-                Keelung E-Friendly Scooter Network
+                Keelung E-Friendly Scooter Network V0.0001
               </span>
             </div>
           </Link>
@@ -281,12 +307,7 @@ function Navbar({ routes }) {
             <ul className="flex gap-10 text-lg ">
               {menuItems.map((item, menuIndex) => (
                 <li key={item.key} className="relative group cursor-pointer">
-                  {/* <Link
-                    to={item.link}
-                    className="text-gray-800 text-base font-medium hover:text-blue-600 transition-colors"
-                  > */}
-                    {item.title}
-                  {/* </Link> */}
+                  {item.title}
                   <ul
                    className={`absolute hidden group-hover:block top-full left-1/2 transform -translate-x-1/2 bg-white w-[200px] py-2 min-w-40 border border-gray-200 shadow-lg z-50 rounded-lg overflow-hidden`}
                   >
@@ -304,6 +325,7 @@ function Navbar({ routes }) {
                         ) : (
                           <Link
                             to={subItem.link}
+                            onClick={(e) => handleNavigation(subItem.link, e)}
                             className="block text-center py-2 w-full text-gray-800 hover:bg-[#AEEFF3]"
                           >
                             {subItem.title}
@@ -337,6 +359,7 @@ function Navbar({ routes }) {
                 routes={routes}
                 location={location}
                 menuItems={menuItems}
+                onNavigation={handleNavigation}
               />
 
               {/* 當前頁面標題 */}
@@ -417,8 +440,8 @@ function Navbar({ routes }) {
                       ) : (
                         <Link
                           to={subItem.link}
+                          onClick={(e) => handleNavigation(subItem.link, e)}
                           className="block py-2  text-gray-700 hover:text-blue-600 transition-colors text-sm font-medium"
-                          onClick={closeMenu}
                         >
                           {subItem.title}
                         </Link>
@@ -432,11 +455,9 @@ function Navbar({ routes }) {
         </ul>
         <div className="flex items-center justify-center  mt-[91px] cursor-pointer px-9   rounded">
           <div className="flex  gap-[24px] justify-end items-center w-full    " >
-
-
-          <LinkButton iconType="sider-fb" alt="Facebook" />
-          <LinkButton iconType="sider-line" alt="line" />
-          <LinkButton iconType="sider-ig" alt="ig" />
+            <LinkButton iconType="sider-fb" alt="Facebook" />
+            <LinkButton iconType="sider-line" alt="line" />
+            <LinkButton iconType="sider-ig" alt="ig" />
           </div>
         </div>
       </div>

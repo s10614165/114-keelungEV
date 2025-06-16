@@ -259,6 +259,7 @@ function SubsidyIntro() {
                 onBack={() => {
                   cleanToinit();
                 }}
+                data={data}
               />
             </div>
 
