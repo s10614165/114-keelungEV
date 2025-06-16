@@ -152,140 +152,142 @@ function Description() {
                 </div>
                 {activeKeys.method && (
                   <div className={contentStyle}>
-                    <h2 className="text-xl font-bold  ">【紙本申請】</h2>
-                    <h3 className="font-bold  mb-2">申請流程：</h3>
+                    <h2 className="text-xl font-bold  ">【一、紙本申請】</h2>
+                    <h3 className="font-bold  mb-2">【📌 申請流程】</h3>
                     <p className="mb-2">
-                      1.申請者應於本計畫公告期間，檢具下列文件1式1份交付本府審核：
+                    1️⃣ 申請者應於本計畫公告期間，檢具下列文件 1 式 1 份，交付本府審核：
                     </p>
                     <div className=" space-y-1">
-                      <p>(1)補助申請表（附件2）。</p>
-                      <p>(2)證明文件審核表（附件3）。</p>
-                      <p>
-                        (3)補助經費概算表(同一補助事項向二個以上機關提出申請補助，應於申請時列明全部經費內容及向各機關申請補助之項目及金額；本府將視各項金額補助該項目）（附件4）。
-                      </p>
-                      <p>(4)切結書（附件5）</p>
-                      <p>
-                        (5)設立登記相關證明文件：公司(商號)設立登記證明文件或工廠登記核准公文影本
-                        (以合夥或設立公司方式創業者，並應另提出合夥契約書、股東名冊或公司組織章程)
-                      </p>
-                      <p>(6)最新一期一般營業人銷售額與稅額申報書。</p>
+                      <p>(1) 補助申請表（附件2）</p>
+                      <p>(2) 證明文件審核表（附件3）</p>
+                      <p>(3) 補助經費概算表（附件4）</p>
+                      <p>(4) 切結書（附件5）</p>
+                      <p>(5) 設立登記相關證明文件（公司／商號登記文件或工廠登記核准公文影本，合夥或公司應另附合夥契約書、股東名冊或公司章程）</p>
+                      <p>(6) 最新一期一般營業人銷售額與稅額申報書</p>
                     </div>
-                    <p className="mb-4">
-                      2.上述文件如為影本，需加蓋申請人（公司、商業）及負責人印鑑章（外國公司請加蓋訴訟及非訴訟代理人印鑑章），並註明「與正本相符」；本計畫核定名額及補助額度以受理先後及優先項目順序為之，如當年度預算用罄時，本府得停止受理補助申請。
+                    <p className="mb-4 mt-4">
+                    2️⃣ 上述文件如為影本，需加蓋申請人（公司、商業）及負責人印鑑章（外國公司請加蓋訴訟及非訴訟代理人印鑑章），並註明「與正本相符」。
                     </p>
-                    <h3 className=" ">【收件資訊】</h3>
+                    <p className="mb-4">
+                    3️⃣本計畫核定名額及補助額度依受理先後及優先項目順序辦理，若當年度預算用罄，將停止受理補助申請。
+                    </p>
+                    <h3 className=" ">【📬 收件資訊】</h3>
                     <ul className="list-disc list-inside">
                       <li className="">
                         <span className="-ml-3">
-                          收件地址：(202)基隆市中正區信二路 299 號 4 樓
+                        收件地址：(202) 基隆市中正區信二路 299 號 4 樓
                         </span>
                       </li>
                       <li className="">
                         <span className="-ml-3">
-                          收件單位：「基隆市政府產業發展處產業服務科」收
+                        收件單位：「基隆市政府產業發展處產業服務科」收
                         </span>
                       </li>
                       <li className="">
                         <span className="-ml-3">
-                          連絡電話：基隆市產業發展處產業服務科 02-2428-9225
+                        連絡電話：02-2428-9225（產業服務科）
                         </span>
                       </li>
                       <li className="">
                         <span className="-ml-3">
-                          備&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;註：信封請註明「申請「114
-                          年度基隆市機車產業輔導綠能轉型產業補助計畫」
+                          備註：信封請註明「申請『114 年度基隆市機車產業輔導綠能轉型產業補助計畫』」
                         </span>
                       </li>
                     </ul>
                     <div className=" ">
-                      【郵寄說明】申請者應於申請期限內完成「寄送紙本文件」(以郵戳為憑)，並請於寄件後於平日上班期間來電確認
+                    ✅郵寄說明：申請期限內寄送紙本文件（以郵戳為憑），寄件後請於平日上班時間來電確認。
                     </div>
                     <div className=" ">
-                      【親送說明】親自送達者以本府收文登錄日期為憑
+                    ✅親送說明：親自送達者以本府收文登錄日期為憑。
                     </div>
 
                     <div>
-                      ※相關文件請至申請單據下載專區下載
+                    🔗 更多詳情請至本府公告網站查詢：
                       <a
-                        href=" /114-keelungEV/#/download"
+                        href="https://www.klcg.gov.tw/tw/economy/2627-296943.html?fbclid=IwZXh0bgNhZW0CMTAAAR1JEc8ywMPEGvuPdLd66P7xBMATbddsetYDbXigWceVrv_O6_x_DKCHsdQ_aem_B73JqS_VMOYJcJtkjBsrXw"
                         className="text-blue-600 hover:underline"
                       >
-                        (點我至申請單據下載專區)
+                       基隆市政府「114年度基隆市機車產業輔導綠能轉型產業補助計畫」公告
                       </a>
                     </div>
 
-                    <h2 className="text-xl mt-5 font-bold  ">【線上申請】</h2>
-                    <h3 className="font-bold  mb-2">申請流程：</h3>
+                    <h2 className="text-xl mt-5 font-bold  ">【二、線上申請】</h2>
+                    <h3 className="font-bold  mb-2">【📌 申請流程】</h3>
                     <div>
-                      <p className="">1.線上填單</p>
+                      <p className="">1️⃣ 本網站僅提供申請作業，後續核銷作業須由申請人親自至市府窗口辦理現場核銷，線上平台不提供核銷及補件功能。</p>
                       <p className="">
-                        申請者應於本計畫公告期間檢具下列文件，上傳至本網站申請補助專區並填寫相關資料進行申請，以利本府審核。
+                      2️⃣ 申請者應於本計畫公告期間，上傳下列文件至本網站【申請補助專區】，填寫相關資料進行申請，供本府審核：
                       </p>
                       <div className="">
-                        <p>(1)切結書（附件5）</p>
+                        <p>(1) 設立登記相關證明文件（公司／商號登記證明文件，或工廠登記核准公文影本，合夥或公司應另附合夥契約書、股東名冊或公司章程）</p>
                         <p>
-                          (2)設立登記相關證明文件：公司(商號)設立登記證明文件或工廠登記核准公文影本
-                          (以合夥或設立公司方式創業者，並應另提出合夥契約書、股東名冊或公司組織章程)
+                        (2) 最新一期一般營業人稅額申報書
+                        ※申請時僅須繳交上述兩項文件，其他補助項目之相關佐證文件（切結書、完訓證書、發票…等）將於核銷作業時補交正本，請申請人依市府通知配合辦理。
                         </p>
-                        <p>(3)最新一期一般營業人銷售額。</p>
-                        <p>(4)稅額申報書。</p>
-                        <p>(5)車行銀行存簿封面</p>
-                        <p>(6)補助項目之相關證明文件（可後補）</p>
+                        <p className="">
+                        3️⃣ 文件若為影本，須加蓋申請人（公司／商業）及負責人印鑑章，並註明「與正本相符」。
+                      </p> <p className="">
+                      4️⃣ 本計畫核定名額及補助額度依受理先後及優先項目順序辦理，若當年度預算用罄，將停止受理補助申請。
+                      </p>
+                        
                       </div>
                       <div
                         className=" 
                 "
                       >
+                    <h3 className="font-bold  mb-2 mt-4">【📄線下核銷作業(線上/線下皆同)】</h3>
+                    <p> 
+                    1️⃣ 市府審核通過後，申請人應依通知攜帶下列文件至市府窗口辦理核銷作業：
+                      </p>
                         <ul className="list-disc list-inside">
                           <li className="">
                             <span className="-ml-3">
-                              「綠能轉型補助」中央完訓證書、車廠授權維修證明
+                            (1)切結書（附件5）
                             </span>
                           </li>
                           <li className="">
                             <span className="-ml-3">
-                              「留才獎勵補助」人員中央完訓證書、維修技術證書、任職就業證明
+                            (2)產業轉型支援補助請領申請表（附件6-1）
                             </span>
                           </li>
-                          <li className="">
-                            <span className="-ml-3">
-                              「設備補助」發票+工具證明照片、廠牌認證維修系統租賃繳費證明
-                            </span>
-                          </li>
+                            <li className="">
+                              <span className="-ml-3">
+                              (3)綠能交通產業推廣請領申請表（附件6-2）
+                              </span>
+                            </li>
+                            <li className="">
+                              <span className="-ml-3">
+                              (4)領據（附件7）
+                              </span>
+                            </li>
+                            <li className="">
+                              <span className="-ml-3">
+                              (5)申請車行為戶名之金融機構指定帳號存簿封面影本。（※首次核銷時須檢附，後續申請可不須再檢附）
+                              </span>
+                            </li>
+                            <li className="">
+                              <span className="-ml-3">
+                              (6)身分證正／反面影本
+                              </span>
+                            </li>
+                              <li className="">
+                                <span className="-ml-3">
+                                (7)其他佐證證明文件（依補助項目別檢附相應證明／發票／系統租賃證明／授權證書等）
+                                </span>
+                              </li>
+                       
                         </ul>
                       </div>
-                      <p className="">
-                        ※上述文件需加蓋申請人（公司、商業）及負責人印鑑章（外國公司請加蓋訴訟及非訴訟代理人印鑑章），並註明「與正本相符」；本計畫核定名額及補助額度以受理先後及優先項目順序為之，如當年度預算用罄時，本府得停止受理補助申請。
-                      </p>
                       <div>
-                        <p className="">2.審核通過後</p>
-                        <p className="">
-                          申請完畢後，請各位業者下載下列檔案並自行填寫簽章，並於市府通知審核通過後，攜帶以下正本文件進行請領核銷作業
-                        </p>
-                        <div className="">
-                          <p>(1)切結書影本(附件5)</p>
-                          <p>(2)請領申請表(附件6-1)</p>
-                          <p>(3)領據(附件7)</p>
-                          <p>(4)車行存簿封面影本</p>
-                          <p>(5)身分證(正/反面)影本</p>
-                        </div>
-                        <div>
-                          <p className="">3.缺件補件</p>
-                          <p className="">
-                            申請者請於申請後於平日上班期間來電確認（基隆市產業發展處產業服務科
-                            02-2428-9225）。如有缺件者，請於期限內至本網站「補件專區」進行補件。重新送件後將會有專人協助進行審查。
-                          </p>
-                        </div>
-                        <div>
-                          ※相關文件請至申請單據下載專區下載
-                          <a
-                            href=" /114-keelungEV/#/download"
-                            className="text-blue-600 hover:underline"
-                          >
-                            (點我至申請單據下載專區)
-                          </a>
-                        </div>
-                      </div>
+                    🔗 更多詳情請至本府公告網站查詢：
+                    <a
+                        href=" /114-keelungEV/#/download"
+                        className="text-blue-600 hover:underline"
+                      >
+                       申請單據下載專區下載
+                      </a>
+                    </div>
+                 
                     </div>
                   </div>
                 )}
@@ -306,55 +308,92 @@ function Description() {
                       1.0」公告起訖日 112 年 09 月 12 日至 114 年 12 月 15
                       日(含)止。
                     </div>
-                    <h2 className="text-xl font-bold  ">
-                      【產業轉型支援補助】
+                    <h2 className="text-xl font-bold">
+                      【🚗 產業轉型支援補助】
                     </h2>
-                    <h3 className="font-bold  ">(1)綠能轉型：</h3>
-                    <p className="">
-                      補助新臺幣（以下同）100,000元整。輔導傳統車行取得中央認可(經濟部、勞動部、環境部共同頒予之第一階段機車維修技術課程結訓證書)及各車廠電動車機車維修保養之授權認證。(※如無中央認可證書，
-                      <a href="https://motor-training.cier.edu.tw/first-phase">
-                        可先行由此報名網站進行報名
-                      </a>
-                      )
+                    <h3 className="font-bold">(1) 綠能轉型補助</h3>
+                    <p className="mb-2">
+                      <span className="font-bold">💰 補助金額：</span>上限100,000元整。
+                    </p>
+                    <p className="mb-2">
+                      <span className="font-bold">📌</span>輔導傳統車行取得中央認可（經濟部、勞動部、環境部共同頒予之第一階段機車維修技術課程結訓證書）及各車廠電動機車維修保養之授權認證。
+                    </p>
+                    <p className="mb-4">
+                      <span className="font-bold">📄 </span>如尚未取得中央認可證書，亦可先行申請，惟須於核銷時檢附符合規定之證書。
+                     
                     </p>
 
-                    <h3 className="font-bold ">(2)留才獎勵：</h3>
-                    <p className="">
-                      補助20,000元整。獎勵車行所屬員工取得中央經濟部、勞動部、環境部共同頒予之第一階段機車維修技術課程結訓證書，及各廠牌認證之電動機車維修技術訓練證書。
+                    <h3 className="font-bold">(2) 留才獎勵補助</h3>
+                    <p className="mb-2">
+                      <span className="font-bold">💰 補助金額：</span>上限20,000元整。
                     </p>
-                    <h3 className="font-bold  ">(3)設備補助：</h3>
-                    <p className="">
-                      補助80,000元整。輔導轉型機車行購置經濟部審查核定公告之保養維修診斷器材、維修系統租賃費，營運空間店面改造費及固定於建物之識別標誌定著物等項目。
+                    <p className="mb-4">
+                      <span className="font-bold">📌</span>獎勵車行所屬員工取得中央認可（經濟部、勞動部、環境部共同頒予之第一階段機車維修技術課程結訓證書）及各車廠認證之電動機車維修技術訓練證書，並應提供該員工於車行就業滿六個月之在職證明文件。
                     </p>
-                    <p>
-                      <a href="https://www.lev.org.tw/shop/files/repairtools">
-                        (※器材清單請參考此網址)
+
+                    <h3 className="font-bold">(3) 設備補助</h3>
+                    <p className="mb-2">
+                      <span className="font-bold">💰 補助金額：</span>上限80,000元整。
+                    </p>
+                    <p className="mb-2">
+                      <span className="font-bold">📌</span>輔導轉型車行購置經濟部審查核定公告之保養維修診斷器材、維修系統租賃費、營運空間店面改造費及固定於建物之識別標誌定著物等項目。
+                    </p>
+                    <p className="mb-4">
+                      <span className="font-bold">🔗 ※ 詳細器材清單請參考：</span>
+                      <a href="https://www.lev.org.tw/shop/files/repairtools" className="text-blue-600 hover:underline">
+                        維修工具清單
                       </a>
                     </p>
 
-                    <h2 className="text-xl mt-2.5 font-bold  ">
-                      【綠能交通產業推廣】
+                    <h2 className="text-xl mt-2.5 font-bold">
+                      【🌿 綠能交通產業推廣】
                     </h2>
-                    <h3 className="font-bold ">(1)公益青年機車推廣：</h3>
+                    <h3 className="font-bold">(1) 公益青年機車推廣</h3>
                     <p className="mb-2">
-                      每一代辦核准案件補助600元整。配合本市環保局「基隆市公益青年就業電動機車補助計畫」代辦窗口，協助受理民眾申請文件。
+                      <span className="font-bold">💰 補助金額：</span>每一代辦核准案件補助新臺幣600元整。
                     </p>
-                    <h3 className="font-bold ">(2)中小企業圓夢貸款推廣：</h3>
                     <p className="mb-2">
-                      每案申請核貸最高以100萬元為上限。需符合本府辦理「基隆市中小企業圓夢貸款」專案相關規定辦理。
-                      <a href="https://reurl.cc/KdLDRM">
-                        (https://reurl.cc/KdLDRM)
+                      <span className="font-bold">📌 內容說明：</span>配合本市環保局「基隆市公益青年就業電動機車補助計畫」，擔任代辦窗口，協助受理民眾申請文件並完成相關作業程序。
+                    </p>
+                    <p className="mb-4">
+                      <span className="font-bold">🔗 詳情請參閱：</span>
+                      <a href="https://www.klepb.klcg.gov.tw/tw/klepb1/3886-296139.html" className="text-blue-600 hover:underline">
+                        114年基隆市公益青年就業電動機車補助計畫
                       </a>
                     </p>
-                    <h3 className="font-bold ">
-                      (3)青年創業貸款利息補貼推廣：
-                    </h3>
+
+                    <h3 className="font-bold">(2) 中小企業圓夢貸款推廣</h3>
                     <p className="mb-2">
-                      通過第二項中小企業圓夢貸款，且年齡在18-45歲之業者，即可申請「基隆市青年創業貸款利息補貼計畫」，貸款200萬元利息額度之補助。需符合本府辦理「基隆市青年創業貸款利息補貼計畫」專案相關規定辦理。
-                      <a href="https://reurl.cc/Q5evv9">
-                        (https://reurl.cc/Q5evv9)
+                      <span className="font-bold">💰 </span>每案申請核貸最高以100萬元為上限。
+                    </p>
+                    <p className="mb-4">
+                      <span className="font-bold">📌</span>需符合本府辦理「基隆市中小企業圓夢貸款」專案相關規定辦理。
+                   
+                    </p>
+                    <p className="mb-4">
+                      <span className="font-bold">🔗 詳情請參閱：</span>
+                      <a href="https://www.keelungyouth.com/%E5%9C%93%E5%A4%A2%E8%B2%B8%E6%AC%BE" className="text-blue-600 hover:underline">
+                      基隆市中小企業圓夢貸款專案
                       </a>
                     </p>
+
+                    <h3 className="font-bold">(3) 青年創業貸款利息補貼推廣</h3>
+                    <p className="mb-2">
+                      <span className="font-bold">💰 </span>通過第二項中小企業圓夢貸款，且年齡在18-45歲之業者，即可申請「基隆市青年創業貸款利息補貼計畫」，貸款200萬元利息額度之補助。
+                    </p>
+                    
+                    <p className="mb-4">
+                      <span className="font-bold">📌</span>需符合本府辦理「基隆市青年創業貸款利息補貼計畫」專案相關規定辦理。
+                     
+                    </p>
+                    <p className="mb-4">
+                      <span className="font-bold">🔗 詳情請參閱：</span>
+                      <a href="https://www.keelungyouth.com/%E8%B2%B8%E6%AC%BE%E5%88%A9%E6%81%AF%E8%A3%9C%E8%B2%BC" className="text-blue-600 hover:underline">
+                      基隆市青年創業貸款利息補貼計畫
+                      </a>
+                    </p>
+
+                    
                   </div>
                 )}
               </div>
@@ -374,25 +413,25 @@ function Description() {
                 {activeKeys.qualification && (
                   <div className={contentStyle}>
                     <div>
-                      <h2 className=" ">補助（合作）對象及資格條件</h2>
+                      {/* <h2 className=" ">補助（合作）對象及資格條件</h2> */}
 
-                      <h3 className="font-bold text-xl mt-4">【必要條件】</h3>
+                      <h3 className="font-bold text-xl mt-4">【📌必要條件】</h3>
                       <div className="space-y-1">
                         <p>
-                          (1)已依公司法或商業登記法完成設立登記，所經營之事業體，營業地址與稅籍應設於基隆市，或前述事業體經由基隆市機車商業同業公會推薦。
+                          (1) 已依公司法或商業登記法完成設立登記，所經營之事業體，營業地址與稅籍應設於基隆市，或前述事業體經由基隆市機車商業同業公會推薦。
                         </p>
                         <p>
-                          (2)限營業項目為機車零售或維修保養之獨資、合夥事業或法人並有稅籍登記者。
+                          (2) 限營業項目為機車零售或維修保養之獨資、合夥事業或法人並有稅籍登記者。
                         </p>
                       </div>
 
-                      <h3 className="font-bold text-xl mt-4">【優先條件】</h3>
+                      <h3 className="font-bold text-xl mt-4">【📌優先條件】</h3>
                       <p className="mb-4">
-                        已通過「經濟部主辦機車行升級轉型輔導－機車維修訓練課程」，並取得經濟部、勞動部、環境部共同頒予之第一階段機車維修技術課程結訓證書。（若無該證書亦可先行申請）
+                      已通過「經濟部主辦機車行升級轉型輔導－機車維修訓練課程」，並取得經濟部、勞動部、環境部共同頒予之第一階段機車維修技術課程結訓證書。（若無該證書亦可先行申請）
                       </p>
 
                       <h3 className="font-bold text-xl">
-                        【有下列情形之一者，視為不符申請資格】
+                        【❌有下列情形之一者，視為不符申請資格    】
                       </h3>
                       <div className="space-y-1">
                         <p>(1)申請人所經營事業之稅籍遷出基隆市。</p>
@@ -412,6 +451,12 @@ function Description() {
                         <p>(9)未依本計畫規定提出申請、核銷或逾期未完成核銷。</p>
                         <p>(10)規避、妨礙或拒絕本府派員查核。</p>
                         <p>(11)其他違反本計畫所訂事項及本府函知應遵守事項。</p>
+                      </div>
+                      <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg">
+                        <p className="text-red-600 font-bold">⚠️ 重要提醒：</p>
+                        <p className="text-red-600">
+                          ※ 不符申請資格、未符合本計畫補助條件，或於申請、核銷過程中有違反本計畫相關規定或提供虛偽資料情事者，將不予核准或取消補助資格，並依法追回相關補助款項，申請人應自負相關法律責任。
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -433,32 +478,54 @@ function Description() {
                 {activeKeys.payment && (
                   <div className={contentStyle}>
                     <p className="mb-2">
-                      申請者應於取得核准之次日起依照申請補助方案限制期限，完成申請改造項目或提升服務，並檢附下列文件及相關核銷文件1式1份交付本府審核：
+                    申請者應於取得核准之次日起，依各項補助方案規定之核銷期限，完成申請改造項目或服務提升，並檢附下列文件及相關核銷文件交付本府審核：
                     </p>
 
+                    <h3 className="font-bold text-xl">
+                        【📌 核銷期限說明：】
+                      </h3>
                     <div className="space-y-1">
-                      <p>(1)證明文件審核表（附件3）。</p>
-                      <p>(2)產業轉型支援補助請領申請表（附件6-1）。</p>
-                      <p>(3)綠能交通產業推廣請領申請表（附件6-2）。</p>
-                      <p>(4)本計畫領據（附件7）。</p>
+                      <h3 className="font-bold text-base mb-2">【產業轉型支援補助】</h3>
+                      <p className="mb-2">1️⃣ 綠能轉型、設備補助：核准日起 60 日內檢附核銷文件提送至市府窗口辦理核銷。</p>
+                      <p className="mb-2">2️⃣ 留才獎勵：請於114年12月1日~15日檢附核銷文件提送至市府窗口辦理核銷。</p>
+                      
+                      <h3 className="font-bold text-base mt-4 mb-2">【綠能交通產業推廣】（公益青年機車推廣）</h3>
+                      <p className="mb-2">1️⃣ 每月月底市府通知後，應於隔月1日至10日內完成核銷。</p>
+                      <p className="mb-2">2️⃣ 應於通知日起3個月內完成核銷，逾期不受理。</p>
+                    </div>
+                    <h3 className="font-bold text-xl">
+                        【📌 撥款核銷應備文件：】
+                      </h3>
+                    <div className="space-y-1">
+                      <p>1️⃣ 證明文件審核表（附件3）</p>
+                      <p>2️⃣ 產業轉型支援補助請領申請表（附件6-1）</p>
+                      <p>3️⃣ 綠能交通產業推廣請領申請表（附件6-2）</p>
+                      <p>4️⃣ 本計畫領據（附件7）</p>
                       <p>
-                        (5)補助函核准影本。（※僅首次核銷時須檢附，後續申請可不須再檢附）
+                        5️⃣ 補助函核准影本（※ 僅首次核銷時須檢附，後續核銷免附）
                       </p>
                       <p>
-                        (6)申請人為戶名之金融機構指定帳號存簿封面影本。（※僅首次核銷時須檢附，後續申請可不須再檢附）
+                        6️⃣ 申請人為戶名之金融機構指定帳號存簿封面影本（※ 僅首次核銷時須檢附，後續核銷免附）
                       </p>
-                      <p>(7)其他佐證證明文件（※請參閱本計畫核定）。</p>
+                      <p>7️⃣ 其他佐證證明文件（依據本計畫核定通知內容及各補助項目相關規範辦理）</p>
                     </div>
 
-                    <div className="mt-4">
-                      ※相關文件請至申請單據下載專區下載
-                      <a
-                        href="/114-keelungEV/#/download"
-                        className="text-blue-600 hover:underline"
-                      >
-                        (點我至申請單據下載專區)
-                      </a>
-                    </div>
+                    <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg">
+                    <p className="text-red-600 font-bold">⚠️  注意事項：</p>
+                     
+                      <p className="text-red-600">
+                        ※ 核銷文件應依規定期限內完成提送，逾期未完成核銷者，視同放棄該項補助，將不予撥款。
+                      </p>
+                      <p className="text-red-600">
+                        ※ 核銷作業須由申請人親自攜帶正本文件至市府窗口辦理現場核銷，線上平台不提供核銷作業功能。
+                      </p>
+                      <p className="text-red-600">
+                      ※ 為避免錯失時程，請申請者應主動至「進度查詢專區」查詢，或主動致電及加入 LINE 官方帳號洽詢，市府將視作業狀況安排通知，惟不保證逐案主動通知。
+                      </p>
+                      <p className="text-red-600">
+                      ※ 為保障申請權益，建議申請人密切留意市府通知及核銷時程，逾期未完成核銷將影響撥款權益。
+                      </p>
+                      </div>
                   </div>
                 )}
               </div>
