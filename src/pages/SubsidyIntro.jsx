@@ -8,7 +8,7 @@ import PageError from "@/components/PageError";
 import Notfound from "@/pages/NotFound";
 import KeelungSubsidyInfo from "@/pages/KeelungSubsidyInfo";
 import { useButtonStore } from "./SubsidyNavBar";
-import LinkButton from "@/components/LinkButton";
+import LineContact from "@/components/LineContact";
 import Step1Form from "@/pages/Step1Form";
 import SubsidyResult from "@/pages/SubsidyResult";
 
@@ -334,16 +334,7 @@ function SubsidyIntro() {
                   <div>請確認輸入資料是否有誤</div>
                   <div>如有問題請洽Line@官方客服諮詢</div>
                 </div>
-                <div className="flex justify-center mt-4">
-                  <LinkButton
-                    href="https://line.me/R/ti/p/@914kgwbz?oat_content=url&ts=04221721"
-                    iconType="sider-line"
-                    alt="ig"
-                    linkClass="flex gap-4 text-[#1f90a3]"
-                  >
-                    基隆綠能車行補助通
-                  </LinkButton>
-                </div>
+                <LineContact />
               </div>
             </div>
           </div>

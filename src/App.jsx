@@ -16,8 +16,6 @@ import Seminar from "./pages/Seminar";
 import Training from "./pages/Training";
 import Lottery from "./pages/Lottery";
 import { BACKGROUND_COLOR } from "./constants/styles";
-
-// 路由與麵包屑設定
 const routes = [
   { path: "/", breadcrumbName: "首頁", element: <Home /> },
   // 友善車行地圖

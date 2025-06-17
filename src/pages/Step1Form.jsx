@@ -24,6 +24,7 @@ import TexSample1 from "@/assets/img/TexSample1.jpg";
 import useGoogleSheetSuply from "@/hooks/useGoogleSheetSuply";
 import Loading from "@/components/Loading";
 import PageError from "@/components/PageError";
+import LineContact from "@/components/LineContact";
 
 const { Title } = Typography;
 
@@ -177,20 +178,22 @@ const CarDealerForm = () => {
   ];
 
   const maintenanceToolsOptions = [
-    { value: "0", label: "不申請" },
-    { value: "40000", label: "4萬" },
+    { value: "0", label:<div className="md:w-full w-[200px] "> 不申請 </div> },
+    { value: "40000", label:<div className="md:w-full w-[200px] "> 4萬 </div>  },
     { value: "other", label: "其他金額(上限4萬)" },
   ];
 
   const maintenanceSystemRentalOptions = [
-    { value: "0", label: "不申請" },
-    { value: "10000", label: "1萬" },
+
+    { value: "0", label:<div className="md:w-full w-[200px] "> 不申請 </div> },
+    { value: "10000", label:<div className="md:w-full w-[200px] "> 1萬 </div>  },
     { value: "other", label: "其他金額(上限1萬)" },
   ];
 
   const storeRenovationOptions = [
-    { value: "0", label: "不申請" },
-    { value: "30000", label: "3萬" },
+    { value: "0", label:<div className="md:w-full w-[200px] "> 不申請 </div> },
+    { value: "30000", label:<div className="md:w-full w-[200px] "> 3萬 </div>  },
+ 
     { value: "other", label: "其他金額(上限3萬)" },
   ];
 
@@ -214,16 +217,15 @@ const CarDealerForm = () => {
 
   // 車廠品牌選項
   const brandOptions = [
-    { value: "SANYANG 三陽", label: "SANYANG 三陽" },
+    { value: "SYM三陽", label: "SYM三陽" },
     { value: "YAMAHA 山葉", label: "YAMAHA 山葉" },
-    { value: "emoving 中華電動二輪車", label: "emoving 中華電動二輪車" },
-    { value: "eReady 台鈴智慧電車", label: "eReady 台鈴智慧電車" },
-    { value: "ionex 光陽", label: "光陽電動車 ionex (光陽)" },
-    { value: "KYMCO 光陽", label: "KYMCO 光陽" },
-    { value: "gogoro", label: "睿能 gogoro" },
+    { value: "eMOVING中華電動二輪", label: "eMOVING中華電動二輪" },
+    { value: "eReady台鈴", label: "eReady台鈴" },
+    { value: "Ionex光陽電動車", label: "Ionex光陽電動車" },
+    { value: "AeonMOTOR宏佳騰", label: "AeonMOTOR宏佳騰" },
+    { value: "Zau泓創綠能", label: "Zau泓創綠能" },
+    { value: "Gogoro睿能", label: "Gogoro睿能" },
     { value: "PGO 摩特動力", label: "PGO 摩特動力" },
-    { value: "宏佳騰", label: "宏佳騰機車" },
-    { value: "Zau 泓創綠能", label: "Zau 泓創綠能" },
   ];
 
   const handleNext = async () => {
@@ -486,8 +488,8 @@ const CarDealerForm = () => {
       size="large"
       className="w-[90%] md:w-[70%] text-[16px] "
     >
-      <div className="mb-6 text-base">
-        <h3 className="text-red-500 mb-4">⚠️ 重要提醒</h3>
+      <div className="mb-6 font-bold leading-relaxed text-sm md:text-base">
+        <div className="text-red-500 mb-4">⚠️ 重要提醒</div>
         <ol className="list-decimal pl-6 space-y-2">
           <li>
             本補助申請系統
@@ -517,7 +519,7 @@ const CarDealerForm = () => {
       </div>
       <Form.Item
         label={
-          <span style={{ fontSize: "16px", fontWeight: 600 }}>
+          <span style={{ fontSize: "16px" }}>
             相關計畫補助情形
           </span>
         }
@@ -539,7 +541,7 @@ const CarDealerForm = () => {
       {showAdditional && (
         <Form.Item
           label={
-            <span style={{ fontSize: "16px", fontWeight: 600 }}>
+            <span style={{ fontSize: "16px" }}>
               承上題 請說明向其他機關提出補助申請情形（曾申請者選填）
             </span>
           }
@@ -570,7 +572,7 @@ const CarDealerForm = () => {
       <Form.Item
         label={
           <div>
-            <span style={{ fontSize: "16px", fontWeight: 600 }}>優先項目</span>
+            <span style={{ fontSize: "16px" }}>優先項目</span>
             <div className="text-gray-600 text-sm mb-5">
               是否通過「經濟部主辦機車行升級轉型輔導—機車維修訓練課程」並檢附經濟部、勞動部、環境部共同頒予之第一階段機車維修技術課程結訓證書
             </div>
@@ -593,7 +595,7 @@ const CarDealerForm = () => {
 
       <Form.Item
         label={
-          <><span style={{ fontSize: "16px", fontWeight: 600 }}>綠能轉型</span><Tooltip
+          <><span style={{ fontSize: "16px" }}>綠能轉型</span><Tooltip
             title={<div>
               <p>【補助新臺幣（以下同）100,000元整。輔導傳統車行取得中央認可(經濟部、勞動部、環境部共同頒予之第一階段機車維修技術課程結訓證書)及各車廠電動車機車維修保養之授權認證。(※如無中央認可證書，可先行由此報名網站進行報名: </p>
               <p>
@@ -620,7 +622,7 @@ const CarDealerForm = () => {
       <Form.Item
         rules={[{ required: true, message: "請選擇留才獎勵" }]}
         label={
-          <><span style={{ fontSize: "16px", fontWeight: 600 }}>留才獎勵</span><Tooltip
+          <><span style={{ fontSize: "16px" }}>留才獎勵</span><Tooltip
             title={<div>
               <p>補助20,000元整。獎勵車行所屬員工取得中央經濟部、勞動部、環境部共同頒予之第一階段機車維修技術課程結訓證書，及各廠牌認證之電動機車維修技術訓練證書。 </p>
              
@@ -636,8 +638,8 @@ const CarDealerForm = () => {
         <Radio.Group options={talentRetentionOptions} />
       </Form.Item>
 
-      <div className="mb-2" style={{ fontSize: "16px", fontWeight: 600 }}>
-        設備項目
+      <div className="mb-2" style={{ fontSize: "16px" }}>
+      設備補助
         <Tooltip
           title={
             <div>
@@ -669,17 +671,20 @@ const CarDealerForm = () => {
         </Tooltip>
       </div>
 
-      <div className="flex items-center">
+      <div className="flex flex-col  items-stretch md:flex-row md:items-center md:gap-0 mb-2">
         <Form.Item
           label={
-            <span style={{ fontSize: "16px", fontWeight: 600 }}>
-              【保養維修診斷器材工具】
+            <span className="w-full " style={{ fontSize: "16px",color:"gray" }}>
+              保養維修診斷器材工具
             </span>
           }
           name="maintenanceTools"
+          className="  md:w-auto "
+          style={{ marginBottom: "0px" }}
           rules={[{ required: true, message: "請選擇或輸入金額" }]}
         >
           <Radio.Group
+         
             options={maintenanceToolsOptions}
             onChange={(e) => {
               setIsOtherAmount(e.target.value === "other");
@@ -695,6 +700,7 @@ const CarDealerForm = () => {
         </Form.Item>
 
         <Form.Item
+
           name="maintenanceToolsOtherAmount"
           rules={[
             { required: isOtherAmount, message: "請輸入金額" },
@@ -705,8 +711,8 @@ const CarDealerForm = () => {
               message: "金額必須在0-40000之間",
             },
           ]}
-          style={{ marginBottom: "0px" }}
-          className="w-[90%] md:w-[40%] mb-0"
+          style={{ marginBottom: "0px", marginTop: "calc(60px - 3rem)" }}
+          className=" mb-0  flex-1 "
         >
           <InputNumber
             style={{ width: "100%" }}
@@ -718,13 +724,15 @@ const CarDealerForm = () => {
         </Form.Item>
       </div>
 
-      <div className="flex items-center">
+      <div className="flex flex-col  items-stretch md:flex-row md:items-center">
         <Form.Item
           label={
-            <span style={{ fontSize: "16px", fontWeight: 600 }}>
-              【維修系統租賃費】
+            <span style={{ fontSize: "16px",color:"gray" }}>
+              維修系統租賃費
             </span>
           }
+          style={{ marginBottom: "0px" }}
+          className="  md:w-auto"
           name="maintenanceSystemRental"
           rules={[{ required: true, message: "請選擇或輸入金額" }]}
         >
@@ -752,8 +760,8 @@ const CarDealerForm = () => {
               message: "金額必須在0-10000之間",
             },
           ]}
-          style={{ marginBottom: "0px" }}
-          className="w-[90%] md:w-[40%] mb-0"
+          style={{ marginBottom: "0px", marginTop: "calc(60px - 3rem)" }}
+          className=" mb-0  flex-1 "
         >
           <InputNumber
             style={{ width: "100%" }}
@@ -765,19 +773,20 @@ const CarDealerForm = () => {
         </Form.Item>
       </div>
 
-      <div className="flex items-center">
+      <div className="flex flex-col  items-stretch md:flex-row md:items-center ">
         <Form.Item
          label={
-          <span style={{ fontSize: "16px", fontWeight: 600 }}>
-            【店面改造及識別標誌】
+          <span style={{ fontSize: "16px",color:"gray" }}>
+            店面改造及識別標誌
           </span>
         }
-        
+          className="mb-0 md:w-auto"
           name="storeRenovation"
+          style={{ marginBottom: "0px" }}
           rules={[{ required: true, message: "請選擇或輸入金額" }]}
-          className="flex items-center"
         >
           <Radio.Group
+           
             options={storeRenovationOptions}
             onChange={(e) => {
               setIsOtherRenovation(e.target.value === "other");
@@ -801,8 +810,8 @@ const CarDealerForm = () => {
               message: "金額必須在0-30000之間",
             },
           ]}
-          style={{ marginBottom: "0px" }}
-          className="w-[90%] md:w-[40%] mb-0"
+          style={{ marginBottom: "0px", marginTop: "calc(60px - 3rem)" }}
+        className=" mb-0  flex-1 "
         >
           <InputNumber
             style={{ width: "100%" }}
@@ -814,15 +823,16 @@ const CarDealerForm = () => {
           />
         </Form.Item>
       </div>
+ 
 
-      <div className="text-base font-semibold mb-4">
+      <div className="  text-base font-semibold mb-4 mt-4">
               【綠能交通產業推廣】
             </div>
 
       {/* 綠能交通產業推廣 */}
       <Form.Item
        label={
-        <span style={{ fontSize: "16px", fontWeight: 600 }}>綠能交通產業推廣(名理所需補助項目)</span>
+        <span style={{ fontSize: "16px" }}>綠能交通產業推廣(名理所需補助項目)</span>
       }
 
         name="greenTransport"
@@ -841,7 +851,7 @@ const CarDealerForm = () => {
       </Form.Item>
       <Form.Item
         label={
-          <span>
+          <span style={{ fontSize: "16px" }}>
             申請品牌車廠類別(可複選)
             {/* <span style={{ color: '#ff4d4f' }}>*</span> */}
           </span>
@@ -1282,7 +1292,7 @@ const CarDealerForm = () => {
                       style={{ marginLeft: "8px", color: "#1890ff" }}
                     />
                   </Tooltip>
-                  <div className="text-base">
+                  <div className="text-base text-gray-500">
                     請上傳最新一期一般營業人銷售額與稅額申報書（401報表）
                   </div>
                 </span>
@@ -1306,18 +1316,18 @@ const CarDealerForm = () => {
     </div>
   );
   const renderStep5 = () => (
-    <div className="flex flex-col items-center justify-center p-8 ">
+    <div className="flex flex-col items-center justify-center w-[90%] md:w-[80%] ">
     <h1 className="text-3xl font-bold text-[#1B7183] mb-6">🎉 感謝您的申請🎉</h1>
     <p className="text-lg mb-8">您的申請資料已成功送出，後續將由專人與您聯繫確認補助事宜。</p>
 
-    <div className=" p-6  max-w-2xl w-full">
+    <div className=" p-6   w-full">
       <h2 className="text-xl font-bold text-[#1B7183] mb-4">📌 請注意後續流程：</h2>
       
       <div className="space-y-4 text-left">
         <div>
           <h3 className="font-bold">1️⃣ 核銷作業</h3>
           <p>請攜帶相關正本核銷文件至基隆市政府進行現場核銷作業</p>
-          <p>正本文件可參閱【自我檢核表</p>
+          <p>正本文件可參閱<a href="https://drive.google.com/file/d/1FCLEASfvG0nvU5mD2IHujIN4kYRRtmsd/view?usp=sharing" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 underline" onClick={() => window.open('https://drive.google.com/file/d/1FCLEASfvG0nvU5mD2IHujIN4kYRRtmsd/view?usp=sharing', '_blank')}>【自我檢核表】</a></p>
         </div>
 
         <div>
@@ -1327,7 +1337,7 @@ const CarDealerForm = () => {
 
         <div>
           <h3 className="font-bold">3️⃣ 進度查詢</h3>
-          <p>申請結果及審核進度請密切留意【進度查詢專區】。</p>
+          <p>申請結果及審核進度請自行至進度查詢專區查詢。</p>
         </div>
       </div>
 
@@ -1344,16 +1354,7 @@ const CarDealerForm = () => {
         <span className="font-bold">服務電話</span>
         ｜02-2428-9225 廖小姐
       </p>
-      <p>
-      <span className="font-bold">
-                      LINE@&nbsp;&nbsp;&nbsp;
-                    </span>
-                    ｜
-                    <a href="https://line.me/R/ti/p/@914kgwbz?oat_content=url&ts=04221721">
-                      基隆綠能車行補助通
-                    </a>
-      </p>
-
+     <LineContact/>
    
     </div>
     <div className="mt-12">
@@ -1432,7 +1433,9 @@ const CarDealerForm = () => {
     switch (currentStep) {
       case 1:
         return renderStep1();
-      // return renderStep4();
+
+        // return renderStep2();
+
 
       case 2:
         return renderStep2();

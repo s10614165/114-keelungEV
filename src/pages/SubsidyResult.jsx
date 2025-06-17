@@ -80,7 +80,11 @@ const SubsidyResult = ({ onBack, data }) => {
           );
         } else {
           // 設備補助
-          return `請在${dateStr}內完成核銷作業`;
+          return (
+            <div>
+              請在<span className="text-red-500">{dateStr}</span>內完成核銷作業
+            </div>
+          );
         }
       }
     } catch {

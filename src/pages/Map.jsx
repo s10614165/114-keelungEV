@@ -12,9 +12,9 @@ import powerPinImg from "@/assets/img/powerpin.png";
 import { useStore } from "@/pages/MapStepSelect";
 import Loading from "../components/Loading";
 import PageError from "../components/PageError";
+
 const apiKey = import.meta.env.VITE_GOOGLE_API_KEY;
 const sheetId = import.meta.env.VITE_MotorcycleShops_GogleSheet__ID;
-import BgGrid from "@/assets/img/grid_map_bg.svg";
 // 自定義聚類渲染器
 const customRenderer = {
   render: ({ count, position, cluster }) => {

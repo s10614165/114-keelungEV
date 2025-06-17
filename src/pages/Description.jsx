@@ -11,6 +11,7 @@ import { useState } from "react";
 import FooterBgcImg from "@/components/FooterBgcImg";
 import { PlusOutlined, MinusOutlined } from "@ant-design/icons";
 import RulesIcon from "@/assets/icon/icon-rules.svg";
+import LineContact from "../components/LineContact";
 
 function Description() {
   const [activeKeys, setActiveKeys] = useState({
@@ -554,15 +555,7 @@ function Description() {
                         <span className="font-bold">服務電話</span>
                         ｜02-2428-9225 廖小姐
                       </p>
-                      <p>
-                        <span className="font-bold">
-                          LINE@&nbsp;&nbsp;&nbsp;
-                        </span>
-                        ｜
-                        <a href="https://line.me/R/ti/p/@914kgwbz?oat_content=url&ts=04221721">
-                          基隆綠能車行補助通
-                        </a>
-                      </p>
+                      <LineContact/>
                     </div>
                   </div>
                 )}

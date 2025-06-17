@@ -1,6 +1,7 @@
 import React from "react";
 import { useButtonStore } from "./SubsidyNavBar";
 import LinkButton from "@/components/LinkButton";
+import LineContact from "../components/LineContact";
 
 const KeelungSubsidyInfo = () => {
   const { setActiveButton } = useButtonStore();
@@ -150,15 +151,7 @@ const KeelungSubsidyInfo = () => {
             <span className="font-bold">服務電話</span>
             ｜02-2428-9225 廖小姐
           </p>
-          <p>
-          <span className="font-bold">
-                          LINE@&nbsp;&nbsp;&nbsp;
-                        </span>
-                        ｜
-                        <a href="https://line.me/R/ti/p/@914kgwbz?oat_content=url&ts=04221721">
-                          基隆綠能車行補助通
-                        </a>
-          </p>
+         <LineContact/>
 
        
         </div>

@@ -59,7 +59,7 @@ const PowerStationInfo = () => {
   // 處理無資料狀態
   if (!data?.values || data.values.length <= 1) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-sky-100 to-sky-200 p-4 md:p-8 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-b from-white to-sky-200 p-4 md:p-8 flex items-center justify-center">
         <div className="text-xl font-medium text-gray-600">沒有可用的資料</div>
       </div>
     );
@@ -73,7 +73,7 @@ const PowerStationInfo = () => {
   }));
 
   return (
-    <div className=" bg-[#e4fbfb] relative">
+    <div className=" bg-[#eefdfd] relative">
       {/* 主要內容區塊 */}
       <div className="flex w-full min-h-screen">
         {/* 左側紅色背景 */}
