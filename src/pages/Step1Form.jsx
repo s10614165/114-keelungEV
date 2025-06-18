@@ -1227,18 +1227,17 @@ const CarDealerForm = () => {
       >
         <Row gutter={[16, 20]}>
           <Col xs={24} md={24}>
-            <Form.Item
-              label={
-                <div>
+          <div className="mb-2">
                   <span className="text-base">車行設立登記證明文件</span>
                   <Tooltip
+                  placement="right"
                     overlayStyle={{ maxWidth: '800px' }}
                     title={
                       <div className="w-full">
                         <img
                           src={TexSample1}
                           alt="稅額申報書範例"
-                          className=" w-[90vw] md:w-[800px] h-auto"
+                          className=" w-[50vw] md:w-[500px] h-auto"
                         />
                       </div>
                     }
@@ -1252,7 +1251,8 @@ const CarDealerForm = () => {
                     法規）有明定其法人資格
                   </div>
                 </div>
-              }
+            <Form.Item
+             
               name="companyRegistration"
               rules={[
                 { required: true, message: "請上傳車行設立登記證明文件" },
@@ -1271,19 +1271,18 @@ const CarDealerForm = () => {
           </Col>
 
           <Col xs={24} md={24}>
-            <Form.Item
-              label={
-                <span className="text-base">
+          <div className="text-base mb-2">
                   稅額申報書
                   <Tooltip
                    overlayStyle={{ maxWidth: '800px' }}
+                   placement="right"
                     // styles={{ body: { width: '500px', padding: 0, color: 'white' } }}
                     title={
                       <div className="w-full">
                         <img
                           src={TextSample}
                           alt="稅額申報書範例"
-                       className=" w-[90vw] md:w-[800px] h-auto"
+                       className=" w-[50vw] md:w-[800px] h-auto"
                         />
                       </div>
                     }
@@ -1295,8 +1294,9 @@ const CarDealerForm = () => {
                   <div className="text-base text-gray-500">
                     請上傳最新一期一般營業人銷售額與稅額申報書（401報表）
                   </div>
-                </span>
-              }
+                </div>
+            <Form.Item
+         
               name="businessRegistration"
               rules={[{ required: true, message: "請上傳商業登記證明文件" }]}
             >

@@ -99,10 +99,10 @@ const KeelungSubsidyInfo = () => {
 
       {/* 更多資訊 */}
       <div className="mt-12">
-        <p className="text-gray-800 text-sm md:text-base font-medium mb-4">
-          🔗 更多詳細申請資訊請參閱官方公告頁面
-        </p>
-
+      <p className="text-[#198DA1] font-bold text-base md:text-[20px] mb-2">
+      🔗 更多詳細申請資訊請參閱官方公告頁面
+          </p>
+   
         <div className="space-y-2">
           <div className="flex items-start">
             <div>
@@ -139,9 +139,10 @@ const KeelungSubsidyInfo = () => {
       </div>
 
       <div className="mt-12">
-        <p className="text-gray-800 text-sm md:text-base font-medium mb-4">
-          📞 聯絡窗口
-        </p>
+      <p className="text-[#198DA1] font-bold text-base md:text-[20px] mb-2">
+      📞 聯絡窗口
+          </p>
+        
         <div className="space-y-1">
           <p>
             <span className="font-bold">主辦單位</span>
@@ -156,9 +157,10 @@ const KeelungSubsidyInfo = () => {
        
         </div>
         <div className="mt-12">
-          <p className="text-gray-800 text-sm md:text-base font-medium mb-4">
-            ⚠️ 重要提醒
+        <p className="text-[#198DA1] font-bold text-base md:text-[20px] mb-2">
+        ⚠️ 重要提醒
           </p>
+         
 
           <div className="space-y-2">
             本網站僅供「線上單次申請」作業，確認申請資格使用。

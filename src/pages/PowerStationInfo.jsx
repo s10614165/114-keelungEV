@@ -9,7 +9,6 @@ import EmovingLogo from "@/assets/MotorLogo/emoving.svg";
 import EReadyLogo from "@/assets/MotorLogo/eReady.svg";
 import GogoroLogo from "@/assets/MotorLogo/gogoro.svg";
 import IonexLogo from "@/assets/MotorLogo/ionex.svg";
-import KYMCOLogo from "@/assets/MotorLogo/KYMCO.svg";
 import PGOLogo from "@/assets/MotorLogo/PGO.svg";
 import SYMLogo from "@/assets/MotorLogo/SYM.svg";
 import YAMAHALogo from "@/assets/MotorLogo/YAMAHA.svg";
@@ -26,7 +25,6 @@ const logoMap = {
   eReady: EReadyLogo,
   Gogoro: GogoroLogo,
   ionex: IonexLogo,
-  KYMCO: KYMCOLogo,
   PGO: PGOLogo,
   SYM: SYMLogo,
   YAMAHA: YAMAHALogo,

@@ -12,6 +12,21 @@ import powerPinImg from "@/assets/img/powerpin.png";
 import { useStore } from "@/pages/MapStepSelect";
 import Loading from "../components/Loading";
 import PageError from "../components/PageError";
+// 摩托車品牌 Logo imports
+import AeonmotorLogo from "@/assets/MotorLogo/Aeonmotor.svg";
+import EmovingLogo from "@/assets/MotorLogo/emoving.svg";
+import EReadyLogo from "@/assets/MotorLogo/eReady.svg";
+import GogoroLogo from "@/assets/MotorLogo/gogoro.svg";
+import IonexLogo from "@/assets/MotorLogo/ionex.svg";
+import PGOLogo from "@/assets/MotorLogo/PGO.svg";
+import SYMLogo from "@/assets/MotorLogo/SYM.svg";
+import YAMAHALogo from "@/assets/MotorLogo/YAMAHA.svg";
+import ZauLogo from "@/assets/MotorLogo/Zau.svg";
+import IconGoto from "@/assets/icon/icon-goto.svg";
+import Iconclock from "@/assets/icon/icon-clock.svg";
+import IconCall from "@/assets/icon/icon-call.svg";
+import IconLocation from "@/assets/icon/icon-location.svg";
+
 
 const apiKey = import.meta.env.VITE_GOOGLE_API_KEY;
 const sheetId = import.meta.env.VITE_MotorcycleShops_GogleSheet__ID;
@@ -65,24 +80,37 @@ const customRenderer = {
   },
 };
 
+  // 車廠品牌選項
+  const brandImg = {
+    "SYM三陽": SYMLogo,
+    "YAMAHA 山葉": YAMAHALogo,
+    "eMOVING中華電動二輪": EmovingLogo,
+    "eReady台鈴": EReadyLogo,
+    "Ionex光陽電動車": IonexLogo,
+    "AeonMOTOR宏佳騰": AeonmotorLogo,
+    "Zau泓創綠能": ZauLogo,
+    "Gogoro睿能": GogoroLogo,
+    "PGO 摩特動力": PGOLogo
+  };
+
 // 解析基隆市機車行資料
 function parseMotorcycleShops(data) {
   const values = data.values;
-
   // 標題行在 values[1]
-  const headers = values[1];
+  const headers = values[0];
   const rowsData = values.slice(2); // 從第3行開始是資料
-
+  console.log(rowsData)
   // 找出各欄位的索引
   const indexes = {
-    shopName: headers.indexOf("店名"),
-    district: headers.indexOf("行政區"),
-    manufacturer: headers.indexOf("車廠"),
+    shopName: headers.indexOf("申請單位全名*(I欄)"),
+    district: headers.indexOf("所屬行政區*(K欄)"),
+    manufacturer: headers.indexOf("車廠品牌*(M欄)"),
     businessHours: headers.indexOf("營業時間"),
-    phone: headers.indexOf("連絡電話"),
-    address: headers.indexOf("地址"),
+    phone: headers.indexOf("負責人連絡手機*(R欄)"),
+    address: headers.indexOf("車行登記地址*(N欄)"),
   };
-
+  console.log(headers)
+  console.log(indexes)
   const shops = [];
   const processedShops = new Set(); // 用來追蹤已處理的店家，避免重複
 
@@ -109,15 +137,16 @@ function parseMotorcycleShops(data) {
     let manufacturers = [];
     if (row[indexes.manufacturer]) {
       const manufacturerStr = row[indexes.manufacturer];
-      if (manufacturerStr.includes("\n")) {
+      if (manufacturerStr.includes(",")) {
         manufacturers = manufacturerStr
-          .split("\n")
+          .split(",")
           .map((m) => m.trim())
           .filter((m) => m);
       } else {
         manufacturers = [manufacturerStr.trim()];
       }
     }
+    console.log(manufacturers)
 
     // 建立唯一識別碼來避免重複（使用店名+地址）
     const uniqueId = `${shopName}_${address}`;
@@ -339,7 +368,7 @@ const MapContent = ({ markers, setSelectedShop }) => {
 
 const KLVMap = () => {
   const { data, loading, error } = useGoogleSheet({
-    range: "★大表(主要版本)勿動!",
+    range: "1.友善車行地圖",
     sheetId,
   });
   const [s_isloading, set_s_isLoading] = useState(false);
@@ -370,7 +399,6 @@ const KLVMap = () => {
       return null;
     }
   }, []);
-
   // 完整的過濾邏輯，處理所有可能的篩選條件組合
   useEffect(() => {
     console.log(
@@ -548,7 +576,7 @@ const KLVMap = () => {
     background: "white",
     overflow: "hidden",
   };
-
+  console.log(selectedShop)
   return (
     <div className="flex justify-center p-4">
       <div style={containerStyle}>
@@ -617,37 +645,61 @@ const KLVMap = () => {
                   pixelOffset={[0, -70]} // 向上偏移 50 像素
                   onCloseClick={() => setSelectedShop(null)}
                 >
-                  <div className="p-3 max-w-xs ">
-                    <h3 className="font-bold text-lg mb-2">
+                  <div className=" py-4  px-4 md:py-8  md:px-12 mt-[-20px] ">
+                    <div>
+                    <p>
+                        
+                        {selectedShop.車廠 && selectedShop.車廠.map((brand, index) => (
+                          <img
+                            key={index}
+                            src={brandImg[brand]}
+                            alt={brand}
+                            className="object-contain w-[40px] h-[40px] inline-block mr-2"
+                          />
+                        ))}
+                      </p>
+                    </div>
+                    <h3 className="font-semibold text-[#4F4F4F] text-lg mb-2 mt-2  border-b border-[#E7E7E7] pb-6">
                       {selectedShop.店名}
                     </h3>
-                    <div className="space-y-1 text-sm">
-                      <p>
-                        <strong>行政區：</strong>
-                        {selectedShop.行政區}
-                      </p>
-                      <p>
-                        <strong>車廠：</strong>
-                        {selectedShop.車廠.join(", ")}
-                      </p>
+                    <div className="space-y-1 text-sm text-[#6D6D6D] mt-6">
+                    
+                    
                       {selectedShop.是否顯示營業時間 && (
-                        <p>
-                          <strong>營業時間：</strong>
+                        <div className="mb-3 text-sm  font-normal text-[#6D6D6D] flex items-center">
+                         <img src={Iconclock} alt="營業時間" className="w-5 h-5 mr-2" />
                           {selectedShop.營業時間}
-                        </p>
+                        </div>
+                      )}
+                       {selectedShop.地址 && (
+                        <div  className="mb-3 text-sm  font-normal text-[#6D6D6D] flex items-center">
+                          <img src={IconLocation} alt="地址" className="w-5 h-5 mr-2" />
+                          {selectedShop.地址}
+                        </div>
                       )}
                       {selectedShop.連絡電話 && (
-                        <p>
-                          <strong>電話：</strong>
+                        <div className="flex text-sm  font-normal text-[#6D6D6D] items-center">
+                          <img src={IconCall} alt="電話" className="w-5 h-5 mr-2" />
                           {selectedShop.連絡電話}
-                        </p>
+                        </div>
                       )}
-                      {selectedShop.地址 && (
-                        <p>
-                          <strong>地址：</strong>
-                          {selectedShop.地址}
-                        </p>
-                      )}
+                    <div className="flex justify-center mt-6">
+                      <a
+                        href={selectedShop?.position
+                          ? `https://www.google.com/maps/dir/?api=1&destination=${selectedShop.position.lat},${selectedShop.position.lng}`
+                          : "#"}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="bg-[#19A4B4] w-full  justify-center text-base hover:bg-[#2be0e6] transition-colors duration-200 text-white font-bold rounded-full px-4 md:px-10 py-2 flex items-center  shadow-md"
+                        style={{
+                          letterSpacing: "0.3em",
+                          fontFamily: "inherit",
+                        }}
+                      >
+                        立即前往
+                        <img src={IconGoto} alt="前往" className="w-3 h-3 ml-2" />
+                      </a>
+                    </div>
                     </div>
                   </div>
                 </InfoWindow>
