@@ -832,7 +832,7 @@ const CarDealerForm = () => {
       {/* 綠能交通產業推廣 */}
       <Form.Item
        label={
-        <span style={{ fontSize: "16px" }}>綠能交通產業推廣(名理所需補助項目)</span>
+        <span style={{ fontSize: "16px" }}>綠能交通產業推廣</span>
       }
 
         name="greenTransport"

@@ -81,48 +81,15 @@ export const useStore = create((set) => ({
 
   // 品牌選擇
   brands: [
-    {
-      value: "SYM",
-      label: "SANYANG三陽",
-    },
-    {
-      value: "YAMAHA",
-      label: "YAMAHA山葉",
-    },
-
-    {
-      value: "emoving",
-      label: "emoving中華電動二輪車",
-    },
-    {
-      value: "eReady",
-      label: "eReady台鈴",
-    },
-    {
-      value: "ionex",
-      label: "Ionex光陽電動車",
-    },
-    {
-      value: "KYMCO",
-      label: "KYMCO光陽",
-    },
-    {
-      value: "Aeonmotor",
-      label: "AeonMOTOR宏佳騰",
-    },
-    {
-      value: "Zau",
-      label: "Zau 泓創綠能",
-    },
-    {
-      value: "Gogoro",
-      label: "睿能gogoro",
-    },
-
-    {
-      value: "PGO",
-      label: "PGO摩特動力",
-    },
+    { value: "SYM三陽", label: "SYM三陽" },
+    { value: "YAMAHA 山葉", label: "YAMAHA 山葉" },
+    { value: "eMOVING中華電動二輪", label: "eMOVING中華電動二輪" },
+    { value: "eReady台鈴", label: "eReady台鈴" },
+    { value: "Ionex光陽電動車", label: "Ionex光陽電動車" },
+    { value: "AeonMOTOR宏佳騰", label: "AeonMOTOR宏佳騰" },
+    { value: "Zau泓創綠能", label: "Zau泓創綠能" },
+    { value: "Gogoro睿能", label: "Gogoro睿能" },
+    { value: "PGO 摩特動力", label: "PGO 摩特動力" },
   ],
 }));
 

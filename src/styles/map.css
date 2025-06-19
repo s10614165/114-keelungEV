@@ -1,0 +1,27 @@
+.gm-style-iw-chr .gm-style-iw-ch{
+    height: 16px !important;
+}
+.gm-style-iw-d{
+    width: 100% !important;
+    margin: 0 auto !important;
+    overflow:hidden !important;
+
+}
+.gm-style-iw-chr .gm-ui-hover-effect{
+    z-index: 1000 !important;
+   
+}
+.gm-style-iw-chr{
+    height: 30px;
+    overflow:hidden;
+ z-index: 999 !important;
+
+}
+.gm-style-iw .gm-style-iw-c{
+   position: relative;
+}
+
+
+.gm-style .gm-style-iw {
+    padding: 0px;
+ }

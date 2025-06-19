@@ -13,20 +13,21 @@ import { useStore } from "@/pages/MapStepSelect";
 import Loading from "../components/Loading";
 import PageError from "../components/PageError";
 // 摩托車品牌 Logo imports
-import AeonmotorLogo from "@/assets/MotorLogo/Aeonmotor.svg";
-import EmovingLogo from "@/assets/MotorLogo/emoving.svg";
-import EReadyLogo from "@/assets/MotorLogo/eReady.svg";
-import GogoroLogo from "@/assets/MotorLogo/gogoro.svg";
-import IonexLogo from "@/assets/MotorLogo/ionex.svg";
-import PGOLogo from "@/assets/MotorLogo/PGO.svg";
-import SYMLogo from "@/assets/MotorLogo/SYM.svg";
-import YAMAHALogo from "@/assets/MotorLogo/YAMAHA.svg";
-import ZauLogo from "@/assets/MotorLogo/Zau.svg";
+
+import AeonmotorLogo from "@/assets/MotorLogo/icon/Aeonmotor.png";
+import EmovingLogo from "@/assets/MotorLogo/icon/emoving.jpg";
+import EReadyLogo from "@/assets/MotorLogo/icon/eReady.jpg";
+import GogoroLogo from "@/assets/MotorLogo/icon/gogoro.png";
+import IonexLogo from "@/assets/MotorLogo/icon/ionex.jpg";
+import PGOLogo from "@/assets/MotorLogo/icon/PGO.jpg";
+import SYMLogo from "@/assets/MotorLogo/icon/SYM.jpg";
+import YAMAHALogo from "@/assets/MotorLogo/icon/YAMAHA.png";
+import ZauLogo from "@/assets/MotorLogo/icon/Zau.png";
 import IconGoto from "@/assets/icon/icon-goto.svg";
 import Iconclock from "@/assets/icon/icon-clock.svg";
 import IconCall from "@/assets/icon/icon-call.svg";
 import IconLocation from "@/assets/icon/icon-location.svg";
-
+import "@/styles/map.css";
 
 const apiKey = import.meta.env.VITE_GOOGLE_API_KEY;
 const sheetId = import.meta.env.VITE_MotorcycleShops_GogleSheet__ID;
@@ -93,6 +94,7 @@ const customRenderer = {
     "PGO 摩特動力": PGOLogo
   };
 
+
 // 解析基隆市機車行資料
 function parseMotorcycleShops(data) {
   const values = data.values;
@@ -106,7 +108,7 @@ function parseMotorcycleShops(data) {
     district: headers.indexOf("所屬行政區*(K欄)"),
     manufacturer: headers.indexOf("車廠品牌*(M欄)"),
     businessHours: headers.indexOf("營業時間"),
-    phone: headers.indexOf("負責人連絡手機*(R欄)"),
+    phone: headers.indexOf("連絡電話"),
     address: headers.indexOf("車行登記地址*(N欄)"),
   };
   console.log(headers)
@@ -644,8 +646,9 @@ const KLVMap = () => {
                   position={selectedShop.position}
                   pixelOffset={[0, -70]} // 向上偏移 50 像素
                   onCloseClick={() => setSelectedShop(null)}
+                  className=" px-4  mb-4 md:px-10   md:pb-4 z-10"
                 >
-                  <div className=" py-4  px-4 md:py-8  md:px-12 mt-[-20px] ">
+                  <div className=" ">
                     <div>
                     <p>
                         
@@ -654,7 +657,7 @@ const KLVMap = () => {
                             key={index}
                             src={brandImg[brand]}
                             alt={brand}
-                            className="object-contain w-[40px] h-[40px] inline-block mr-2"
+                            className="object-contain w-[52px] h-[52px] inline-block mr-2"
                           />
                         ))}
                       </p>
