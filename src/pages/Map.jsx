@@ -383,15 +383,19 @@ const KLVMap = () => {
 
   // 地理編碼函數：將地址轉換為座標
   const geocodeAddress = useCallback(async (address) => {
+    console.log("台灣"+address)
     try {
       const response = await fetch(
         `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
-          address
+          "台灣"+address
         )}&key=${apiKey}`
       );
       const data = await response.json();
+      console.log(address)
+      console.log(data.results[0].geometry.location)
 
       if (data.results && data.results.length > 0) {
+        console.log(data.results[0])
         const { lat, lng } = data.results[0].geometry.location;
         return { lat, lng };
       }

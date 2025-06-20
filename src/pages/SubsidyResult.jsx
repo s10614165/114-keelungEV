@@ -213,7 +213,7 @@ const SubsidyResult = ({ onBack, data }) => {
                 </h2>
               </div>
               <div className="flex-1 bg-white px-6 py-4 font-bold text-xs md:text-base md:px-15 md:py-6">
-              改成產業轉型申請補助-{activeTab}
+            產業轉型申請補助-{activeTab}
               </div>
             </div>
             <div className="flex">
