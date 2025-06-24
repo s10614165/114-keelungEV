@@ -1,4 +1,4 @@
-import { HashRouter as Router, Routes, Route } from "react-router-dom";
+import { HashRouter as Router, Routes, Route,useLocation} from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
@@ -16,6 +16,10 @@ import Seminar from "./pages/Seminar";
 import Training from "./pages/Training";
 import Lottery from "./pages/Lottery";
 import { BACKGROUND_COLOR } from "./constants/styles";
+import ReactGA from 'react-ga';
+import {useEffect} from "react"
+
+ReactGA.initialize('G-F1NCGDVDSF');
 const routes = [
   { path: "/", breadcrumbName: "首頁", element: <Home /> },
   // 友善車行地圖
@@ -59,10 +63,26 @@ const routes = [
   { path: "/dm-download", breadcrumbName: "DM下載", element: <DMDownload /> },
 ];
 
+// GA 初始化
+ReactGA.initialize('您的GA追蹤ID'); // 請替換為您實際的 GA 追蹤 ID
+
+// 用於追蹤路由變更的組件
+function GATracker() {
+  const location = useLocation();
+  useEffect(() => {
+    // 每當路由變更時追蹤頁面瀏覽
+    ReactGA.pageview(location.pathname + location.search);
+  }, [location]);
+
+  return null;
+}
+
+
 function App() {
   return (
     <Router >
       <div className={`${BACKGROUND_COLOR} min-h-screen flex flex-col`}>
+      <GATracker />
         <Navbar routes={routes} />
         <main className="flex-grow bg-[#eefdfd]">
           <Routes>

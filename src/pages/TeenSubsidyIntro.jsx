@@ -75,7 +75,6 @@ export default function TeenSubsidyIntro() {
   };
 
   const onFinish = (values) => {
-    console.log("表單值:", values);
     // 在這裡處理表單提交邏輯
     refetch(values, "find");
   };
@@ -87,7 +86,6 @@ export default function TeenSubsidyIntro() {
   if (error !== null) {
     return <PageError />;
   }
-  console.log(data)
   return (
     <div className="py-[42px] flex justify-center items-center w-full">
       <div className=" w-[100vw] md:w-[80vw] flex justify-center items-center">

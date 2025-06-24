@@ -168,13 +168,11 @@ function SubsidyIntro() {
 
   // 處理進度查詢提交
   const handleProgressSearch = (values) => {
-    console.log("進度查詢表單值:", values);
     refetch(values, "findSubsidy");
   };
 
   // 處理身分驗證提交
   const handleVerifySubmit = (values) => {
-    console.log("身分驗證表單值:", values);
     refetch(values, "findSubsidy");
   };
 

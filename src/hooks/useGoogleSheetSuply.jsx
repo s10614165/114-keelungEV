@@ -10,9 +10,7 @@ const useGoogleSheetQuery = (baseUrl = GAS_BASE_URL) => {
   const [error, setError] = useState(null);
   const [status, setStatus] = useState("");
 
-  useEffect(() => {
-    console.log("Data changed:", data);
-  }, [data]);
+
 
   /**
    * 將檔案轉換為 Base64 格式
@@ -66,7 +64,6 @@ const useGoogleSheetQuery = (baseUrl = GAS_BASE_URL) => {
             }
           });
           
-          console.log(`${fieldName} 檔案轉換完成:`, file.name);
         } else {
           // 沒有檔案時建立空的負載
           filePayloads.push({
@@ -78,7 +75,6 @@ const useGoogleSheetQuery = (baseUrl = GAS_BASE_URL) => {
         }
       }
       
-      console.log("Antd Upload 檔案轉換完成:", filePayloads);
       return filePayloads;
     } catch (error) {
       console.error("處理 Antd Upload 檔案失敗:", error);
@@ -100,7 +96,6 @@ const useGoogleSheetQuery = (baseUrl = GAS_BASE_URL) => {
   const submitFormWithBase64Files = useCallback(
     async (formData, filePayloads, action = "getSubsidy") => {
       try {
-        console.log("正在使用 Base64 方式提交完整表單資料...");
 
         // 將檔案資料直接嵌入表單資料中
         const finalPayload = {
@@ -110,7 +105,6 @@ const useGoogleSheetQuery = (baseUrl = GAS_BASE_URL) => {
           submitTime: new Date().toISOString(),
         };
 
-        console.log("準備提交的完整資料:", finalPayload);
 
         const response = await axios.post(baseUrl, finalPayload, {
           headers: {
@@ -129,7 +123,6 @@ const useGoogleSheetQuery = (baseUrl = GAS_BASE_URL) => {
         if (result.status === "200" || result.trim?.().toLowerCase() === 'success') {
           setData(result.data || result);
           setStatus("200");
-          console.log("完整表單資料提交成功:", result);
         } else {
           setData([]);
           setStatus(result.status || "error");
@@ -164,11 +157,7 @@ const useGoogleSheetQuery = (baseUrl = GAS_BASE_URL) => {
       setError(null);
 
       try {
-        console.log("開始提交流程...");
-        console.log("接收到的資料:", queryParams);
 
-        // 🔥 直接處理 Antd Upload 檔案 (必定存在 businessRegistration 和 companyRegistration)
-        console.log("處理 businessRegistration 和 companyRegistration 檔案...");
         
         // 處理 Antd Upload 檔案
         const filePayloads = await processAntdUploadFiles(queryParams, ['companyRegistration', 'businessRegistration']);
@@ -178,7 +167,6 @@ const useGoogleSheetQuery = (baseUrl = GAS_BASE_URL) => {
         
         // 一併提交表單資料和檔案
         const result = await submitFormWithBase64Files(cleanFormData, filePayloads, actions);
-        console.log("Base64 一併提交完成:", result);
         return result;
 
       } catch (err) {

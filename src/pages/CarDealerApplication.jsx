@@ -26,7 +26,6 @@ const CarDealerApplication = () => {
         ...formData,
         ...values
       };
-      console.log('最終表單數據：', finalData);
       // 這裡處理最終的表單提交邏輯
     } catch (error) {
       console.error('提交失敗：', error);

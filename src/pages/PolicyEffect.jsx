@@ -32,7 +32,6 @@ function processApiData(apiResponse) {
 
     return true;
   });
-  console.log(filteredValues);
   return {
     // 1. 申請進度總覽
     applicationOverview: {

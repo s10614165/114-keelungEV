@@ -101,7 +101,6 @@ function parseMotorcycleShops(data) {
   // 標題行在 values[1]
   const headers = values[0];
   const rowsData = values.slice(2); // 從第3行開始是資料
-  console.log(rowsData)
   // 找出各欄位的索引
   const indexes = {
     shopName: headers.indexOf("申請單位全名*(I欄)"),
@@ -110,8 +109,9 @@ function parseMotorcycleShops(data) {
     businessHours: headers.indexOf("營業時間"),
     phone: headers.indexOf("連絡電話"),
     address: headers.indexOf("車行登記地址*(N欄)"),
+    lat:headers.indexOf("lat"),
+    lng:headers.indexOf("lng"),
   };
-  console.log(headers)
   console.log(indexes)
   const shops = [];
   const processedShops = new Set(); // 用來追蹤已處理的店家，避免重複
@@ -119,12 +119,10 @@ function parseMotorcycleShops(data) {
   for (const row of rowsData) {
     // 跳過空資料或明顯是重複標示的資料
     if (
-      !row[indexes.shopName] ||
-      row[indexes.shopName].includes("重複") ||
-      row[indexes.shopName].includes("與") ||
-      row[indexes.address] === "重複" ||
-      row[indexes.address] === "重覆" ||
-      !row[indexes.businessHours] // 跳過沒有營業時間的資料
+      !row[indexes.shopName] ||// 跳過沒有全名的資料
+      !row[indexes.businessHours] || // 跳過沒有營業時間的資料
+      !row[indexes.lat] || // 跳過沒有lat的資料
+      !row[indexes.lng]  // 跳過沒有lng的資料
     ) {
       continue;
     }
@@ -134,6 +132,8 @@ function parseMotorcycleShops(data) {
     const businessHours = row[indexes.businessHours];
     const phone = row[indexes.phone] || "";
     const address = row[indexes.address] || "";
+    const lat = row[indexes.lat] || "";
+    const lng = row[indexes.lng] || "";
 
     // 製造商處理 - 可能有多個品牌用 \n 分隔
     let manufacturers = [];
@@ -148,7 +148,6 @@ function parseMotorcycleShops(data) {
         manufacturers = [manufacturerStr.trim()];
       }
     }
-    console.log(manufacturers)
 
     // 建立唯一識別碼來避免重複（使用店名+地址）
     const uniqueId = `${shopName}_${address}`;
@@ -162,6 +161,8 @@ function parseMotorcycleShops(data) {
         連絡電話: phone,
         地址: address,
         是否顯示營業時間: businessHours !== "N/A",
+        lat,
+        lng
       });
 
       processedShops.add(uniqueId);
@@ -188,7 +189,6 @@ const MapContent = ({ markers, setSelectedShop }) => {
   useEffect(() => {
     if (!map || !window.google) return;
 
-    console.log("MapContent接收到的標記數量:", markers.length);
 
     // 1. 先移除所有相關元素 (更徹底的清理)
     // 尋找並移除所有標記相關的DOM元素
@@ -264,7 +264,6 @@ const MapContent = ({ markers, setSelectedShop }) => {
         return marker;
       });
 
-      console.log("創建的新標記數量:", newMarkers.length);
       markerRefs.current = newMarkers;
 
       // 創建新的聚類器
@@ -277,11 +276,9 @@ const MapContent = ({ markers, setSelectedShop }) => {
         zoomOnClick: false,
       });
 
-      console.log("聚類器創建完成，包含標記數量:", newMarkers.length);
 
       // 手動處理叢集點擊事件
       clusterer.addListener("click", (cluster) => {
-        console.log("Cluster clicked:", cluster);
 
         const markers = cluster.markers;
         if (!markers || markers.length === 0) return;
@@ -326,7 +323,6 @@ const MapContent = ({ markers, setSelectedShop }) => {
         // 確保縮放級別合適
         setTimeout(() => {
           const currentZoom = map.getZoom();
-          console.log("Current zoom after fitBounds:", currentZoom);
 
           // 如果縮放過度，調整到合適的級別
           if (currentZoom > 17) {
@@ -342,7 +338,6 @@ const MapContent = ({ markers, setSelectedShop }) => {
     }, 100); // 100毫秒延遲確保DOM更新
 
     return () => {
-      console.log("MapContent清理函數執行");
       markerRefs.current.forEach((marker) => {
         if (marker) {
           try {
@@ -381,47 +376,35 @@ const KLVMap = () => {
   // 使用 shallow 比較訂閱 store
   const { selectedDistricts, selectedBrands } = useStore();
 
-  // 地理編碼函數：將地址轉換為座標
-  const geocodeAddress = useCallback(async (address) => {
-    console.log("台灣"+address)
-    try {
-      const response = await fetch(
-        `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
-          "台灣"+address
-        )}&key=${apiKey}`
-      );
-      const data = await response.json();
-      console.log(address)
-      console.log(data.results[0].geometry.location)
-
-      if (data.results && data.results.length > 0) {
-        console.log(data.results[0])
-        const { lat, lng } = data.results[0].geometry.location;
-        return { lat, lng };
-      }
-      return null;
-    } catch (error) {
-      console.error("地理編碼錯誤:", error);
-      return null;
-    }
-  }, []);
   // 完整的過濾邏輯，處理所有可能的篩選條件組合
   useEffect(() => {
-    console.log(
-      "篩選條件變更 - 地區:",
-      selectedDistricts,
-      "品牌:",
-      selectedBrands
-    );
-    console.log(data);
+    if (loading !== false) {
+      return;
+    }
+
+    const shopData = parseMotorcycleShops(data);
+
+    if (shopData && shopData.length > 0) {
+      // 直接用 lat/lng 產生 position
+      const shopsWithPosition = shopData
+        .filter(shop => shop.lat && shop.lng)
+        .map(shop => ({
+          ...shop,
+          position: { lat: parseFloat(shop.lat), lng: parseFloat(shop.lng) }
+        }));
+      setOriginalMarkers(shopsWithPosition);
+      setMarkers(shopsWithPosition);
+    }
+  }, [data, loading]);
+
+  // 完整的過濾邏輯，處理所有可能的篩選條件組合
+  useEffect(() => {
     if (!originalMarkers.length) {
-      console.log("原始標記為空，不執行篩選");
       return;
     }
 
     // 如果沒有選擇任何過濾條件，顯示所有標記
     if (selectedDistricts.length === 0 && selectedBrands.length === 0) {
-      console.log("沒有選擇過濾條件，顯示所有標記");
       setMarkers(originalMarkers);
       return;
     }
@@ -433,7 +416,6 @@ const KLVMap = () => {
         selectedDistricts.length === 0 ||
         selectedDistricts.includes(marker.行政區);
 
-      console.log(selectedBrands);
       // 檢查品牌匹配 (如果標記有車廠屬性且是數組)
       const brandMatch =
         selectedBrands.length === 0 ||
@@ -442,119 +424,11 @@ const KLVMap = () => {
           marker.車廠.some((brand) => selectedBrands.includes(brand)));
 
       // 同時符合地區和品牌條件
-      console.log(brandMatch);
       return districtMatch && brandMatch;
     });
-    console.log(filtered);
-    console.log("篩選前標記數量:", originalMarkers.length);
-    console.log("篩選後標記數量:", filtered.length);
 
     setMarkers(filtered);
   }, [selectedDistricts, selectedBrands, originalMarkers]);
-
-  // 批次處理地理編碼（避免超過 API 限制）
-  const batchGeocode = useCallback(
-    async (shops) => {
-      const geocodedShops = [];
-      const batchSize = 5; // 每批處理5個
-      const delay = 1000; // 每批之間延遲1秒
-
-      for (let i = 0; i < shops.length; i += batchSize) {
-        const batch = shops.slice(i, i + batchSize);
-
-        const promises = batch.map(async (shop) => {
-          if (!shop.地址) return null;
-
-          const coordinates = await geocodeAddress(shop.地址);
-          if (coordinates) {
-            return {
-              ...shop,
-              position: coordinates,
-            };
-          }
-          return null;
-        });
-
-        const results = await Promise.all(promises);
-        geocodedShops.push(...results.filter(Boolean));
-
-        // 如果還有更多批次要處理，延遲一下
-        if (i + batchSize < shops.length) {
-          await new Promise((resolve) => setTimeout(resolve, delay));
-        }
-      }
-
-      return geocodedShops;
-    },
-    [geocodeAddress]
-  );
-
-  // 當數據載入完成時進行地理編碼
-  useEffect(() => {
-    if (loading !== false) {
-      return;
-    }
-
-    const shopData = parseMotorcycleShops(data);
-    console.log("解析後的商店數據數量:", shopData.length);
-
-    if (shopData && shopData.length > 0) {
-      // 可以先從本地儲存載入已編碼的數據
-      const cachedData = localStorage.getItem("keelungMotorcycleShopsGeodata");
-
-      if (cachedData) {
-        const parsedCache = JSON.parse(cachedData);
-        const now = new Date().getTime();
-
-        // 檢查資料是否過期
-        if (now < parsedCache.expiry) {
-          // 資料未過期，使用快取資料
-          console.log("從緩存加載的標記數量:", parsedCache.data.length);
-          setOriginalMarkers(parsedCache.data);
-          setMarkers(parsedCache.data);
-        } else {
-          // 資料已過期，重新獲取地理編碼
-          console.log("快取資料已過期，重新獲取地理編碼");
-          set_s_isLoading(true);
-          batchGeocode(shopData).then((geocodedShops) => {
-            console.log("地理編碼後的標記數量:", geocodedShops.length);
-            setOriginalMarkers(geocodedShops);
-            setMarkers(geocodedShops);
-
-            // 更新快取資料和過期時間
-            const expirationTime = new Date().getTime() + 60 * 60 * 1000; // 1小時後過期
-            localStorage.setItem(
-              "keelungMotorcycleShopsGeodata",
-              JSON.stringify({
-                data: geocodedShops,
-                expiry: expirationTime,
-              })
-            );
-            set_s_isLoading(false);
-          });
-        }
-      } else {
-        // 無快取資料，執行地理編碼
-        set_s_isLoading(true);
-        batchGeocode(shopData).then((geocodedShops) => {
-          console.log("地理編碼後的標記數量:", geocodedShops.length);
-          setOriginalMarkers(geocodedShops);
-          setMarkers(geocodedShops);
-
-          // 儲存到本地以便下次使用
-          const expirationTime = new Date().getTime() + 60 * 60 * 1000; // 1小時後過期
-          localStorage.setItem(
-            "keelungMotorcycleShopsGeodata",
-            JSON.stringify({
-              data: geocodedShops,
-              expiry: expirationTime,
-            })
-          );
-          set_s_isLoading(false);
-        });
-      }
-    }
-  }, [data, batchGeocode, loading, s_isloading]);
 
   if (loading || s_isloading) {
     return <Loading extraText="首次加載，會需要較長時間" />;
@@ -582,7 +456,6 @@ const KLVMap = () => {
     background: "white",
     overflow: "hidden",
   };
-  console.log(selectedShop)
   return (
     <div className="flex justify-center p-4">
       <div style={containerStyle}>

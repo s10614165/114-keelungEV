@@ -17,29 +17,19 @@ const TeenSubsidyResult = ({ onBack, data }) => {
     const [year, month] = selectedMonth.split("年");
     // 移除月份中的"月"字，並確保是數字格式
     const monthNumber = month.replace("月", "");
-    console.log("搜尋條件:", { year, monthNumber });
-    console.log("當前資料:", sortedData);
     
     const foundResult = sortedData.find(item => {
       const itemMonth = item["月份"].replace("月", "");
       const itemYear = item["年度"].toString();
-      console.log("比較:", { 
-        itemYear, 
-        year, 
-        itemMonth, 
-        monthNumber,
-        isMatch: itemYear === year && itemMonth === monthNumber 
-      });
+     
       return itemYear === year && itemMonth === monthNumber;
     });
     
-    console.log("找到的結果:", foundResult);
     return foundResult || sortedData[0] || {};
   };
 
   useEffect(() => {
     const newResult = getResult();
-    console.log("更新 result:", newResult);
     setResult(newResult);
   }, [selectedMonth]);
 

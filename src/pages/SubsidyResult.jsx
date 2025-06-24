@@ -97,8 +97,6 @@ const SubsidyResult = ({ onBack, data }) => {
   // 取得目前狀態
   const getCurrentStatus = (tabId) => {
     const tab = tabs.find((t) => t.id === tabId);
-    console.log(tabs)
-    console.log(currentData)
     return tab ? currentData[tab.statusKey] || "" : "";
   };
 

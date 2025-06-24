@@ -41,7 +41,6 @@ const PowerStationInfo = () => {
     if (loading !== false) {
       return;
     }
-    console.log(data);
   }, [data, loading, error]);
 
   // 處理載入中狀態

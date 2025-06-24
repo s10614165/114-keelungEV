@@ -232,7 +232,6 @@ const CarDealerForm = () => {
     try {
       setLoading(true);
       const values = await form.validateFields();
-      console.log("表單資料:", values);
       setFormData((prev) => ({
         ...prev,
         ...values,
@@ -271,12 +270,10 @@ const CarDealerForm = () => {
         ...values,
         suplyDate: new Date().toISOString(),
       };
-      console.log("finalFormData", finalFormData);
       // 使用修改後的 refetch，會自動處理檔案上傳和資料寫入
       await refetch(finalFormData, "getSubsidy");
 
       // 成功處理
-      console.log("申請提交成功！");
     } catch (error) {
       setLoading(false);
       console.error("提交失敗：", error);

@@ -10,15 +10,11 @@ const useGoogleSheetQuery = (baseUrl = GAS_BASE_URL) => {
   const [error, setError] = useState(null);
   const [status, setStatus] = useState("");
 
-  // 使用 useEffect 監聽 data 的變化
-  useEffect(() => {
-    console.log("Data changed:", data);
-  }, [data]);
+
 
   const refetch = useCallback(async (queryParams = {}, actions = "find") => {
     setLoading(true);
     setError(null);
-    console.log(actions)
     try {
       // 建立查詢參數
       const params = new URLSearchParams();
